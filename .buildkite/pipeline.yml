@@ -13,7 +13,8 @@ steps:
           image-repository: index.docker.io/jordanribera/maru-web
   - wait
   - label: ":eslint: eslint"
-    command: "npx eslint /app/src"
+    # command: "npx eslint /app/src"
+    command: "ls /app"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
