@@ -5,8 +5,10 @@ steps:
           username: jordanribera
       - docker-compose#v3.7.0:
           config: docker-compose.yml
-          push: api:index.docker.io/jordanribera/maru-api:latest
-          push: web:index.docker.io/jordanribera/maru-web:latest
+          push: api:index.docker.io/jordanribera/maru-api:$BUILDKITE_BUILD_NUMBER
+      - docker-compose#v3.7.0:
+          config: docker-compose.yml
+          push: web:index.docker.io/jordanribera/maru-web:$BUILDKITE_BUILD_NUMBER
   - wait
   - label: ":eslint: eslint"
     # command: "npx eslint /app/src"
