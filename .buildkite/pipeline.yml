@@ -5,10 +5,10 @@ steps:
           username: jordanribera
       - docker-compose#v3.7.0:
           config: docker-compose.yml
-          push: api:index.docker.io/jordanribera/maru-api:$BUILDKITE_BUILD_NUMBER
+          push: api:index.docker.io/jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER
       - docker-compose#v3.7.0:
           config: docker-compose.yml
-          push: web:index.docker.io/jordanribera/maru-web:$BUILDKITE_BUILD_NUMBER
+          push: web:index.docker.io/jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER
   - wait
   - label: ":eslint: eslint"
     # command: "npx eslint /app/src"
@@ -17,18 +17,18 @@ steps:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-web"
+          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
   - label: ":nail_care: prettier"
     command: "npx prettier -c /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-web"
+          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
   - label: ":nail_care: flake8"
     command: "flake8 /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-api"
+          image: "jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER"
