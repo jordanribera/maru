@@ -1,0 +1,2 @@
+place media files here for testing.
+change the volume mount point in docker-compose.yml for deployment.
