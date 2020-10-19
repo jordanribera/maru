@@ -1,5 +1,5 @@
 steps:
-  - label: ":docker: prebuild image"
+  - label: ":docker: prebuild images"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
@@ -7,10 +7,12 @@ steps:
           build: api
           config: docker-compose.yml
           image-repository: index.docker.io/jordanribera/maru-api
+          push: api:maru-api:latest
       - docker-compose#v3.7.0:
           build: web
           config: docker-compose.yml
           image-repository: index.docker.io/jordanribera/maru-web
+          push: api:maru-web:latest
   - wait
   - label: ":eslint: eslint"
     # command: "npx eslint /app/src"
