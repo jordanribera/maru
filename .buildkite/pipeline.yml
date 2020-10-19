@@ -1,35 +1,33 @@
 steps:
-  - label: ":docker: prebuild image"
+  - label: ":docker: prebuild images"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker-compose#v3.7.0:
-          build: api
           config: docker-compose.yml
-          image-repository: index.docker.io/jordanribera/maru-api
+          push: api:index.docker.io/jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER
       - docker-compose#v3.7.0:
-          build: web
           config: docker-compose.yml
-          image-repository: index.docker.io/jordanribera/maru-web
+          push: web:index.docker.io/jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER
   - wait
   - label: ":eslint: eslint"
     command: "npx eslint /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
   - label: ":nail_care: prettier"
     command: "npx prettier -c /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
   - label: ":nail_care: flake8"
     command: "flake8 /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER"
