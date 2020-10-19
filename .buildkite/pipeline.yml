@@ -11,8 +11,7 @@ steps:
           push: web:index.docker.io/jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER
   - wait
   - label: ":eslint: eslint"
-    # command: "npx eslint /app/src"
-    command: "ls /app"
+    command: "npx eslint /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
