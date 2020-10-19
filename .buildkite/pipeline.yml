@@ -1,0 +1,35 @@
+steps:
+  - label: ":docker: prebuild image"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
+      - docker-compose#v3.7.0:
+          build: api
+          config: docker-compose.yml
+          image-repository: index.docker.io/jordanribera/maru-api
+      - docker-compose#v3.7.0:
+          build: web
+          config: docker-compose.yml
+          image-repository: index.docker.io/jordanribera/maru-web
+  - wait
+  - label: ":eslint: eslint"
+    command: "npx eslint /app/src"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
+      - docker-compose#v3.7.0:
+          run: web
+  - label: ":nail_care: prettier"
+    command: "npx prettier -c /app/src"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
+      - docker-compose#v3.7.0:
+          run: web
+  - label: ":nail_care: flake8"
+    command: "flake8 /app/src"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
+      - docker-compose#v3.7.0:
+          run: web

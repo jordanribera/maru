@@ -1,19 +1,27 @@
 version: '3'
 
 services:
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    volumes:
+      - /app/node_modules
+      - ./web:/app
   api:
     build: ./api
     command: gunicorn maruapi.wsgi:application --bind 0.0.0.0:8000
     entrypoint: /app/bin/entrypoint.sh
     env_file:
       - .env
-    volumes:
-      - ./api:/app
-      - ./media:/media
     ports:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - ./api:/app
+      - ./media:/media
   db:
     image: postgres
     env_file:
