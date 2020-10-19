@@ -18,19 +18,19 @@ steps:
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-web"
   - label: ":nail_care: prettier"
     command: "npx prettier -c /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-web"
   - label: ":nail_care: flake8"
     command: "flake8 /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-      - docker-compose#v3.7.0:
-          run: web
+      - docker#v3.7.0:
+          image: "jordanribera/maru-api"
