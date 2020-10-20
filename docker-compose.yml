@@ -11,7 +11,7 @@ services:
       - ./web:/app
   api:
     build: ./api
-    command: gunicorn maruapi.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     entrypoint: /app/bin/entrypoint.sh
     env_file:
       - .env
@@ -22,10 +22,23 @@ services:
     volumes:
       - ./api:/app
       - ./media:/media
+      - ./static:/static
+  celery:
+    build: ./api
+    command: celery -A core worker
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/app
+      - ./media:/media
   db:
     image: postgres
     env_file:
       - .env
+  redis:
+    image: redis:alpine
   nginx:
     image: nginx:latest
     ports:
