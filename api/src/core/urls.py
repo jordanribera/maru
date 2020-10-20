@@ -22,5 +22,5 @@ v1_urls = [
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('v1/', include(v1_urls)),
+    path('api/v1/', include(v1_urls)),
 ]
