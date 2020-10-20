@@ -6,6 +6,8 @@ services:
     ports:
       - "3000:3000"
     stdin_open: true
+    environment:
+      - PUBLIC_URL=/public
     volumes:
       - /app/node_modules
       - ./web:/app
@@ -22,7 +24,7 @@ services:
     volumes:
       - ./api:/app
       - ./media:/media
-      - ./static:/static
+      - ./api/static:/static
   celery:
     build: ./api
     command: celery -A core worker
@@ -42,8 +44,13 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "9001:9001"
+      - "8080:8080"
+    depends_on:
+      - api
+      - web
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
       - ./media:/media
+      - ./api/static:/static
+      - ./web/public:/public
 
