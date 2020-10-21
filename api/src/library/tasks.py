@@ -1,4 +1,5 @@
 import hashlib
+import mimetypes
 from celery import shared_task
 
 from library.models import MediaFile
@@ -24,4 +25,5 @@ def import_file(file_path):
         path=file_path,
         md5hash=md5.hexdigest(),
         sha1hash=sha1.hexdigest(),
+        content_type=mimetypes.guess_type(file_path)[0],
     )

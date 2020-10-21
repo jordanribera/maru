@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.urls import include
 from django.urls import path
+from django.urls import re_path
+
+from core.views import FileMaskView
 
 v1_urls = [
     path('library/', include('library.urls')),
@@ -22,5 +25,10 @@ v1_urls = [
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+    re_path(
+        r'media/(?P<hash>\b[0-9a-f]{5,40}\b)$',
+        FileMaskView.as_view(),
+        name="file_mask"
+    ),
     path('api/v1/', include(v1_urls)),
 ]
