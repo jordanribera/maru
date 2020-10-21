@@ -25,6 +25,10 @@ v1_urls = [
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    re_path(r'media/(?P<hash>\b[0-9a-f]{5,40}\b)$', FileMaskView.as_view(), name="file_mask"),
+    re_path(
+        r'media/(?P<hash>\b[0-9a-f]{5,40}\b)$',
+        FileMaskView.as_view(),
+        name="file_mask"
+    ),
     path('api/v1/', include(v1_urls)),
 ]
