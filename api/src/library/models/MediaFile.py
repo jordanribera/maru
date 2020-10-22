@@ -20,13 +20,13 @@ class MediaFile(BaseModel):
         if not self._tags:
             self._tags = {
                 key: value
-                for (key, value,) in mutagen.File(self.path).tags
+                for (key, value,) in mutagen.File(self.path).tags.items()
             }
         return self._tags
 
     @property
     def extension(self):
-        return os.path.splitext(self.path)
+        return os.path.splitext(self.path)[1]
 
     @property
     def url(self):
@@ -34,12 +34,37 @@ class MediaFile(BaseModel):
 
     @property
     def artist(self):
-        return self.tags.get('artist', '<unknown>')
+        artist_keys = ['artist', 'ARTIST', 'TPE1']
+        for key in artist_keys:
+            if key in self.tags.keys():
+                return str(self.tags[key][0])
+        return None
 
     @property
     def album(self):
-        return self.tags.get('album', '<unknown>')
+        album_keys = ['album', 'ALBUM', 'TALB']
+        for key in album_keys:
+            if key in self.tags.keys():
+                return str(self.tags[key][0])
+        return None
 
     @property
     def title(self):
-        return self.tags.get('title', '<unknown>')
+        title_keys = ['title', 'TITLE', 'TIT2']
+        for key in title_keys:
+            if key in self.tags.keys():
+                return str(self.tags[key][0])
+        return None
+
+    @property
+    def problems(self):
+        possible_problems = {
+            'missing_artist': self.artist is None,
+            'missing_album': self.album is None,
+            'missing_title': self.title is None,
+        }
+        return [
+            problem
+            for problem, active in possible_problems.items()
+            if active
+        ]

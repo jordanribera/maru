@@ -10,6 +10,7 @@ class TrackDocument(Document):
     artist = fields.TextField(attr='artist')
     album = fields.TextField(attr='album')
     title = fields.TextField(attr='title')
+    # problems = fields.ListField(attr='problems')
 
     class Index:
         name = 'tracks'

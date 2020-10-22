@@ -22,10 +22,16 @@ class Command(BaseCommand):
         self.stdout.write('scanning media folder {}'.format(MEDIA_PATH))
         self.stdout.write('= = = = = = = = = = = = = = = =')
 
-        media_files = sorted([
+        flac_files = [
             y for x in os.walk(MEDIA_PATH)
             for y in glob(os.path.join(x[0], '*.flac'))
-        ])
+        ]
+        mp3_files = [
+            y for x in os.walk(MEDIA_PATH)
+            for y in glob(os.path.join(x[0], '*.mp3'))
+        ]
+
+        media_files = flac_files + mp3_files
 
         for media_file in media_files:
             import_file.delay(media_file)
