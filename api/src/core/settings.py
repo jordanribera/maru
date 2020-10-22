@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_elasticsearch_dsl',
     'rest_framework',
     'library',
 ]
@@ -123,6 +124,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'elasticsearch:9200',
+    },
+}
 
 # celery stuff
 CELERY_BROKER_URL = "redis://redis:6379"

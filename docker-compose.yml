@@ -41,6 +41,10 @@ services:
       - .env
   redis:
     image: redis:alpine
+  elasticsearch:
+    image: elasticsearch:7.9.2
+    env_file:
+      - ./config/elasticsearch.env
   nginx:
     image: nginx:latest
     ports:
