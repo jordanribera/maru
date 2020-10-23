@@ -21,6 +21,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - elasticsearch
     volumes:
       - ./api:/app
       - ./media:/media
@@ -41,6 +42,10 @@ services:
       - .env
   redis:
     image: redis:alpine
+  elasticsearch:
+    image: elasticsearch:7.9.2
+    env_file:
+      - ./config/elasticsearch.env
   nginx:
     image: nginx:latest
     ports:

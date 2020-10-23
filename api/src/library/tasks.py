@@ -21,9 +21,11 @@ def import_file(file_path):
             sha1.update(data)
             md5.update(data)
 
-    MediaFile.objects.create(
-        path=file_path,
-        md5hash=md5.hexdigest(),
+    MediaFile.objects.update_or_create(
         sha1hash=sha1.hexdigest(),
-        content_type=mimetypes.guess_type(file_path)[0],
+        defaults={
+            'path': file_path,
+            'md5hash': md5.hexdigest(),
+            'content_type': mimetypes.guess_type(file_path)[0],
+        }
     )

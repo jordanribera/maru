@@ -12,7 +12,10 @@ CHUNK_SIZE = 8192
 class FileMaskView(View):
     def get(self, request, *args, **kwargs):
         media_file = MediaFile.objects.get(sha1hash=kwargs['hash'])
-        mask = '{}.flac'.format(kwargs['hash'])  # don't assume extension
+        mask = '{file_hash}{extension}'.format(
+            file_hash=kwargs['hash'],
+            extension=media_file.extension,
+        )
 
         output = StreamingHttpResponse(
             FileWrapper(open(media_file.path, 'rb'), CHUNK_SIZE),
