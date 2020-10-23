@@ -72,6 +72,13 @@ class MediaFile(BaseModel):
         return value
 
     @property
+    def track(self):
+        return {
+            'number': self.tracknumber,
+            'total': self.tracktotal,
+        }
+
+    @property
     def discnumber(self):
         value = self.waterfall(['discnumber', 'TPOS'])
         if value and '/' in value:

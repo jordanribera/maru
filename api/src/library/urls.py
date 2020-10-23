@@ -6,8 +6,16 @@ from library.views import TrackDocumentView
 from rest_framework.routers import DefaultRouter
 
 search_router = DefaultRouter()
-tracks = search_router.register(r'tracks', TrackDocumentView, basename='tracks')
-files = search_router.register(r'files', MediaFileView, basename='files')
+tracks = search_router.register(
+    r'tracks',
+    TrackDocumentView,
+    basename='tracks',
+)
+files = search_router.register(
+    r'files',
+    MediaFileView,
+    basename='files',
+)
 
 
 urlpatterns = [

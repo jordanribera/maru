@@ -5,10 +5,12 @@ from library.serializers import TrackSerializer
 
 from rest_framework.viewsets import ModelViewSet
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
-from django_elasticsearch_dsl_drf.filter_backends import FilteringFilterBackend
-from django_elasticsearch_dsl_drf.filter_backends import OrderingFilterBackend
-from django_elasticsearch_dsl_drf.filter_backends import DefaultOrderingFilterBackend
-from django_elasticsearch_dsl_drf.filter_backends import SearchFilterBackend
+from django_elasticsearch_dsl_drf.filter_backends import (
+    DefaultOrderingFilterBackend,
+    FilteringFilterBackend,
+    OrderingFilterBackend,
+    SearchFilterBackend,
+)
 
 
 class MediaFileView(ModelViewSet):

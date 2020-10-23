@@ -12,6 +12,9 @@ class MediaFileSerializer(serializers.ModelSerializer):
 
 
 class TrackSerializer(DocumentSerializer):
+    track = serializers.SerializerMethodField()
+    disc = serializers.SerializerMethodField()
+
     class Meta:
         document = TrackDocument
         fields = (
@@ -21,8 +24,16 @@ class TrackSerializer(DocumentSerializer):
             'artist',
             'album',
             'title',
-            'tracknumber',
-            'tracktotal',
-            'discnumber',
-            'disctotal',
         )
+
+    def get_track(self, obj):
+        return {
+            'number': obj.tracknumber,
+            'total': obj.tracktotal,
+        }
+
+    def get_disc(self, obj):
+        return {
+            'number': obj.discnumber,
+            'total': obj.disctotal,
+        }
