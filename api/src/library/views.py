@@ -7,6 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from django_elasticsearch_dsl_drf.filter_backends import FilteringFilterBackend
 from django_elasticsearch_dsl_drf.filter_backends import OrderingFilterBackend
+from django_elasticsearch_dsl_drf.filter_backends import DefaultOrderingFilterBackend
 from django_elasticsearch_dsl_drf.filter_backends import SearchFilterBackend
 
 
@@ -22,7 +23,7 @@ class TrackDocumentView(DocumentViewSet):
     filter_backends = [
         FilteringFilterBackend,
         OrderingFilterBackend,
-        # DefaultOrderingFilterBackend,  # this was in the example
+        DefaultOrderingFilterBackend,  # this was in the example
         SearchFilterBackend,
     ]
 
@@ -33,16 +34,14 @@ class TrackDocumentView(DocumentViewSet):
     )
 
     filter_fields = {
-        'sha1hash': None,
-        'artist': 'artist.raw',
-        'album': 'album.raw',
-        'title': 'title.raw',
+        'artist': 'artist',
+        'album': 'album',
     }
 
     ordering_fields = {
-        'artist': None,
-        'album': None,
-        'title': None,
+        'artist': 'artist',
+        'album': 'album',
+        'title': 'title',
     }
 
-    ordering = ('artist', 'album', 'title',)  # sort by disc,track
+    ordering = ('artist', 'album', 'discnumber', 'tracknumber')

@@ -14,4 +14,15 @@ class MediaFileSerializer(serializers.ModelSerializer):
 class TrackSerializer(DocumentSerializer):
     class Meta:
         document = TrackDocument
-        fields = ('sha1hash', 'url', 'artist', 'album', 'title',)
+        fields = (
+            'sha1hash',
+            'url',
+            'content_type',
+            'artist',
+            'album',
+            'title',
+            'tracknumber',
+            'tracktotal',
+            'discnumber',
+            'disctotal',
+        )

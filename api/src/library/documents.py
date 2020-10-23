@@ -7,9 +7,13 @@ from library.models import MediaFile
 @registry.register_document
 class TrackDocument(Document):
     url = fields.TextField(attr='url')
-    artist = fields.TextField(attr='artist')
-    album = fields.TextField(attr='album')
-    title = fields.TextField(attr='title')
+    artist = fields.KeywordField(attr='artist')
+    album = fields.KeywordField(attr='album')
+    title = fields.KeywordField(attr='title')
+    tracknumber = fields.IntegerField(attr='tracknumber')
+    tracktotal = fields.IntegerField(attr='tracktotal')
+    discnumber = fields.IntegerField(attr='discnumber')
+    disctotal = fields.IntegerField(attr='disctotal')
     # problems = fields.ListField(attr='problems')
 
     class Index:
