@@ -5,6 +5,7 @@ import MaruClient from "./MaruClient";
 import store from "./client/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
+import "fontsource-roboto";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -2,15 +2,14 @@ import React from "react";
 
 import Box from "@material-ui/core/Box";
 
+import Player from "./components/Player";
+import Library from "./components/Library";
+
 const styles = {
   root: {
     backgroundColor: "orange",
-  },
-  player: {
-    backgroundColor: "blue",
-  },
-  library: {
-    backgroundColor: "green",
+    height: "100vh",
+    display: "flex",
   },
 }
 
@@ -23,12 +22,8 @@ class MaruClient extends React.Component {
   render(dispatch) {
     return (
       <Box style={styles.root}>
-        <Box style={styles.player}>
-          Player
-        </Box>
-        <Box style={styles.library}>
-          Library
-        </Box>
+        <Player />
+        <Library />
       </Box>
     );
   }
