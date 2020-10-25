@@ -1,18 +1,29 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  queue: [],
-}
+  primary: [],
+};
 
 const queueReducer = createReducer(initialState, {
   ADD_ITEMS: (state, action) => {
     /* do something */
-    state.queue = action.items;
+    state.primary = action.items;
     return state;
   },
   REMOVE_ITEMS: (state, action) => {
     /* do something */
-    state.queue = [];
+    state.primary = [];
+    return state;
+  },
+
+  ADVANCE_QUEUE: (state, action) => {
+    let moving = state.primary.shift();
+    state.primary.push(moving);
+    return state;
+  },
+  REVERSE_QUEUE: (state, action) => {
+    let moving = state.primary.pop();
+    state.primary.unshift(moving);
     return state;
   },
 });

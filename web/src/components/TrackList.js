@@ -10,7 +10,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-
 const styles = {
   root: {
     backgroundColor: "orange",
@@ -41,14 +40,14 @@ const styles = {
     title: {
       backgroundColor: "white",
     },
-  }
-}
+  },
+};
 
 class TrackList extends React.Component {
-  listHeader () {
+  listHeader() {
     const showColumns = this.props.showColumns;
     if (showColumns) {
-      return(
+      return (
         <TableHead>
           <TableRow>
             <TableCell>Art</TableCell>
@@ -58,23 +57,16 @@ class TrackList extends React.Component {
         </TableHead>
       );
     }
-
   }
 
   listItem(item) {
-    return(
+    return (
       <TableRow style={styles.item.root}>
         <TableCell style={styles.item.art}>Art</TableCell>
         <TableCell style={styles.item.grip}>#</TableCell>
         <TableCell style={styles.item.title}>{item.title}</TableCell>
       </TableRow>
-    )
-  }
-
-  listItems(tracks) {
-    tracks.forEach({
-
-    });
+    );
   }
 
   render() {
@@ -84,18 +76,15 @@ class TrackList extends React.Component {
     return (
       <TableContainer style={styles.root} component={Paper}>
         <Table>
-          { this.listHeader() }
+          {this.listHeader()}
           <TableBody>
-            {
-              tracks.map((value, index) => {
-                return this.listItem(value)
-              })
-            }
+            {tracks.map((value, index) => {
+              return this.listItem(value);
+            })}
           </TableBody>
         </Table>
-
       </TableContainer>
-    )
+    );
   }
 }
 

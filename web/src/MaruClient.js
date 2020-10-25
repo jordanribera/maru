@@ -11,7 +11,7 @@ const styles = {
     height: "100vh",
     display: "flex",
   },
-}
+};
 
 class MaruClient extends React.Component {
   constructor(props) {

@@ -8,15 +8,11 @@ const styles = {
     height: "100%",
     flexGrow: "1",
   },
-}
+};
 
 class Library extends React.Component {
   render() {
-    return (
-        <Box style={styles.root}>
-            Library things go here.
-        </Box>
-    )
+    return <Box style={styles.root}>Library things go here.</Box>;
   }
 }
 
