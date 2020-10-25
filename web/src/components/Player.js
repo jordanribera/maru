@@ -22,8 +22,17 @@ const styles = {
 };
 
 class Player extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentTime: 0,
+      duration: 0,
+      seeking: false,
+    };
+  }
+
   componentDidMount() {
-    let tracks = getTracks({ album: "Warp Riders" }, (result) => {
+    let tracks = getTracks({ artist: "Radiohead" }, (result) => {
       this.props.dispatch(addItems(result));
     });
   }
@@ -49,6 +58,30 @@ class Player extends React.Component {
       onEnded: () => {
         this.props.dispatch(advanceQueue());
       },
+      timeUpdate: () => {
+        if (!this.state.seeking) {
+          let tempState = this.state;
+          tempState.currentTime = this.player().currentTime;
+          this.setState(tempState);
+        }
+      },
+      durationChange: () => {
+        let tempState = this.state;
+        tempState.duration = this.player().duration;
+        this.setState(tempState);
+      },
+      seeking: (event, value) => {
+        let tempState = this.state;
+        tempState.seeking = true;
+        this.setState(tempState);
+      },
+      seek: (event, value) => {
+        console.log(`seeking to ${value}`);
+        this.player().currentTime = value;
+        let tempState = this.state;
+        tempState.seeking = false;
+        this.setState(tempState);
+      },
     };
   }
 
@@ -58,20 +91,22 @@ class Player extends React.Component {
     if (activeTrack) {
       activeUrl = `http://localhost:8080${activeTrack.url}`;
     }
-    console.log(activeTrack);
 
     return (
       <Box style={styles.root}>
         <audio
           id="ThePlayer"
-          ref="audio_tag"
           src={activeUrl}
           onEnded={this.controlCallbacks().onEnded}
+          onTimeUpdate={this.controlCallbacks().timeUpdate}
+          onDurationChange={this.controlCallbacks().durationChange}
           autoPlay
         />
         <TrackControls
           track={activeTrack}
           callbacks={this.controlCallbacks()}
+          currentTime={this.state.currentTime}
+          duration={this.state.duration}
         />
         <Box style={styles.queue}>
           <TrackList tracks={this.props.queue.slice(1)} showColumns={false} />

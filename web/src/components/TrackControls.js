@@ -7,6 +7,7 @@ import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
+import Slider from "@material-ui/core/Slider";
 import Box from "@material-ui/core/Box";
 
 import { advanceQueue } from "../actions/queue";
@@ -16,6 +17,7 @@ const styles = {
     backgroundColor: "green",
     display: "flex",
     flexDirection: "row",
+    height: "96px",
   },
   art: {
     height: "96px",
@@ -28,7 +30,11 @@ const styles = {
   controls: {
     backgroundColor: "silver",
   },
+  seekBar: {
+    marginTop: "-16px",
+  },
   title: {
+    marginTop: "-20px",
     padding: "16px",
   },
 };
@@ -55,6 +61,14 @@ class TrackControls extends React.Component {
               <SkipNextIcon />
             </IconButton>
           </Box>
+          <Slider
+            style={styles.seekBar}
+            value={this.props.currentTime}
+            min={0}
+            max={this.props.duration}
+            onChange={this.props.callbacks.seeking}
+            onChangeCommitted={this.props.callbacks.seek}
+          />
           <Box style={styles.title}>{track.title}</Box>
         </Box>
       </Box>

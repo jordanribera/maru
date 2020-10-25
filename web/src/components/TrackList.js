@@ -59,9 +59,9 @@ class TrackList extends React.Component {
     }
   }
 
-  listItem(item) {
+  listItem(item, key) {
     return (
-      <TableRow style={styles.item.root}>
+      <TableRow key={key} style={styles.item.root}>
         <TableCell style={styles.item.art}>Art</TableCell>
         <TableCell style={styles.item.grip}>#</TableCell>
         <TableCell style={styles.item.title}>{item.title}</TableCell>
@@ -79,7 +79,7 @@ class TrackList extends React.Component {
           {this.listHeader()}
           <TableBody>
             {tracks.map((value, index) => {
-              return this.listItem(value);
+              return this.listItem(value, index);
             })}
           </TableBody>
         </Table>
