@@ -9,7 +9,7 @@ from library.serializers import ArtistSerializer
 from library.serializers import AlbumSerializer
 from library.serializers import TrackSerializer
 
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from django_elasticsearch_dsl_drf.filter_backends import (
     DefaultOrderingFilterBackend,
@@ -19,17 +19,17 @@ from django_elasticsearch_dsl_drf.filter_backends import (
 )
 
 
-class MediaFileView(ModelViewSet):
+class MediaFileView(ReadOnlyModelViewSet):
     serializer_class = MediaFileSerializer
     queryset = MediaFile.objects.all()
 
 
-class ArtistView(ModelViewSet):
+class ArtistView(ReadOnlyModelViewSet):
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 
 
-class AlbumView(ModelViewSet):
+class AlbumView(ReadOnlyModelViewSet):
     serializer_class = AlbumSerializer
 
     def get_queryset(self):
@@ -42,7 +42,7 @@ class AlbumView(ModelViewSet):
         return queryset
 
 
-class TrackView(ModelViewSet):
+class TrackView(ReadOnlyModelViewSet):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
