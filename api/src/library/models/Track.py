@@ -26,7 +26,12 @@ class Track(BaseModel):
     disctotal = models.IntegerField(default=1)
 
     class Meta:
-        ordering = ('artist__name', 'album__name', 'discnumber', 'tracknumber',)
+        ordering = (
+            'artist__name',
+            'album__name',  # album__year
+            'discnumber',
+            'tracknumber',
+        )
 
     def __str__(self):
         return self.title

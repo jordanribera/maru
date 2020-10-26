@@ -64,3 +64,6 @@ def new_import_file(file_path):
         discnumber=f.discnumber,
         disctotal=f.disctotal,
     )
+
+    f.track = track
+    f.save()

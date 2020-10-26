@@ -15,9 +15,15 @@ class MediaFileSerializer(serializers.ModelSerializer):
 
 
 class ArtistSerializer(serializers.ModelSerializer):
+    albums = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name',
+    )
+
     class Meta:
         model = Artist
-        fields = ('name',)
+        fields = ('name', 'albums',)
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -36,10 +42,38 @@ class AlbumSerializer(serializers.ModelSerializer):
 class TrackSerializer(serializers.ModelSerializer):
     artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
     album = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    track = serializers.SerializerMethodField()
+    disc = serializers.SerializerMethodField()
+
+    # revamp this to support multiple file sources per track
+    sha1hash = serializers.CharField(source='media_file.sha1hash')
+    url = serializers.CharField(source='media_file.url')
+    content_type = serializers.CharField(source='media_file.content_type')
 
     class Meta:
         model = Track
-        fields = ('artist', 'album', 'title',)
+        fields = (
+            'artist',
+            'album',
+            'title',
+            'track',
+            'disc',
+            'sha1hash',
+            'url',
+            'content_type',
+        )
+
+    def get_track(self, obj):
+        return {
+            'number': obj.tracknumber,
+            'total': obj.tracktotal,
+        }
+
+    def get_disc(self, obj):
+        return {
+            'number': obj.discnumber,
+            'total': obj.disctotal,
+        }
 
 
 class TrackDocumentSerializer(DocumentSerializer):

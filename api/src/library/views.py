@@ -31,12 +31,32 @@ class ArtistView(ModelViewSet):
 
 class AlbumView(ModelViewSet):
     serializer_class = AlbumSerializer
-    queryset = Album.objects.all()
+
+    def get_queryset(self):
+        queryset = Album.objects.all()
+
+        artist = self.request.query_params.get('artist', None)
+        if artist is not None:
+            queryset = queryset.filter(artist__name__iexact=artist)
+
+        return queryset
 
 
 class TrackView(ModelViewSet):
     serializer_class = TrackSerializer
-    queryset = Track.objects.all()
+
+    def get_queryset(self):
+        queryset = Track.objects.all()
+
+        artist = self.request.query_params.get('artist', None)
+        if artist is not None:
+            queryset = queryset.filter(artist__name__iexact=artist)
+
+        album = self.request.query_params.get('album', None)
+        if album is not None:
+            queryset = queryset.filter(album__name__iexact=album)
+
+        return queryset
 
 
 class TrackDocumentView(DocumentViewSet):

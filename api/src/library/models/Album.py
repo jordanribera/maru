@@ -11,6 +11,10 @@ class Album(BaseModel):
         on_delete=models.CASCADE
     )
     # artwork = ?
+    # year = models.IntegerField()
+
+    class Meta:
+        ordering = ('artist__name', 'name',)  # year
 
     def __str__(self):
         return '{} - {}'.format(self.artist.name, self.name)

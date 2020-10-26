@@ -10,6 +10,14 @@ class MediaFile(BaseModel):
     sha1hash = models.CharField(max_length=40, unique=True)
     content_type = models.CharField(max_length=32)
 
+    # upgrade this to ForeignKey to support multiple file sources per track
+    track = models.OneToOneField(
+        'Track',
+        related_name='media_file',
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
     def __init__(self, *args, **kwargs):
         super(MediaFile, self).__init__(*args, **kwargs)
         self._tags = {}
