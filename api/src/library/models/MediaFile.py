@@ -98,6 +98,10 @@ class MediaFile(BaseModel):
         return value or 1
 
     @property
+    def genre(self):
+        return self.waterfall(['genre', 'GENRE', 'TCON'])
+
+    @property
     def problems(self):
         possible_problems = {
             'missing_artist': self.artist is None,

@@ -46,6 +46,7 @@ def import_file(file_path):
         tracktotal=f.tracktotal,
         discnumber=f.discnumber,
         disctotal=f.disctotal,
+        genre=f.genre,
     )
 
     f.track = track

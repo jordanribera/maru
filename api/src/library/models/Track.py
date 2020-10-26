@@ -24,6 +24,7 @@ class Track(BaseModel):
     tracktotal = models.IntegerField()
     discnumber = models.IntegerField(default=1)
     disctotal = models.IntegerField(default=1)
+    genre = models.CharField(max_length=128, null=True)
 
     class Meta:
         ordering = (

@@ -57,6 +57,7 @@ class TrackSerializer(serializers.ModelSerializer):
             'year',
             'track',
             'disc',
+            'genre',
             'sha1hash',
             'url',
             'content_type',
