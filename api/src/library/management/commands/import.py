@@ -31,7 +31,7 @@ class Command(BaseCommand):
             for y in glob(os.path.join(x[0], '*.mp3'))
         ]
 
-        media_files = flac_files + mp3_files
+        media_files = sorted(flac_files + mp3_files)
 
         for media_file in media_files:
             import_file.delay(media_file)

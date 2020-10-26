@@ -17,18 +17,24 @@ const styles = {
     backgroundColor: "green",
     display: "flex",
     flexDirection: "row",
-    height: "96px",
+    height: "128px",
   },
   art: {
-    height: "96px",
-    width: "96px",
+    height: "128px",
+    width: "128px",
     backgroundColor: "lightBlue",
   },
   body: {
     flexGrow: "1",
   },
   controls: {
+    height: "50%",
     backgroundColor: "silver",
+    textAlign: "center",
+  },
+  button: {
+    height: "100%",
+    width: "64px",
   },
   seekBar: {
     marginTop: "-16px",
@@ -48,16 +54,32 @@ class TrackControls extends React.Component {
         <Box style={styles.art}>ART</Box>
         <Box style={styles.body}>
           <Box style={styles.controls}>
-            <IconButton color="primary" onClick={this.props.callbacks.previous}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.previous}
+            >
               <SkipPreviousIcon />
             </IconButton>
-            <IconButton color="primary" onClick={this.props.callbacks.play}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.play}
+            >
               <PlayArrowIcon />
             </IconButton>
-            <IconButton color="primary" onClick={this.props.callbacks.pause}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.pause}
+            >
               <PauseIcon />
             </IconButton>
-            <IconButton color="primary" onClick={this.props.callbacks.next}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.next}
+            >
               <SkipNextIcon />
             </IconButton>
           </Box>

@@ -10,6 +10,14 @@ class MediaFile(BaseModel):
     sha1hash = models.CharField(max_length=40, unique=True)
     content_type = models.CharField(max_length=32)
 
+    # upgrade this to ForeignKey to support multiple file sources per track
+    track = models.OneToOneField(
+        'Track',
+        related_name='media_file',
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
     def __init__(self, *args, **kwargs):
         super(MediaFile, self).__init__(*args, **kwargs)
         self._tags = {}
@@ -71,25 +79,18 @@ class MediaFile(BaseModel):
         return value
 
     @property
-    def track(self):
-        return {
-            'number': self.tracknumber,
-            'total': self.tracktotal,
-        }
-
-    @property
     def discnumber(self):
         value = self.waterfall(['discnumber', 'TPOS'])
         if value and '/' in value:
             return value.split('/')[0]
-        return value
+        return value or 1
 
     @property
     def disctotal(self):
         value = self.waterfall(['disctotal', 'TPOS', 'discnumber'])
         if value and '/' in value:
             return value.split('/')[1]
-        return value
+        return value or 1
 
     @property
     def problems(self):
