@@ -28,7 +28,8 @@ class Track(BaseModel):
     class Meta:
         ordering = (
             'artist__name',
-            'album__name',  # album__year
+            'album__year',
+            'album__name',
             'discnumber',
             'tracknumber',
         )

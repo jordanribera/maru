@@ -5,15 +5,9 @@ from library.views import ArtistView
 from library.views import AlbumView
 from library.views import TrackView
 from library.views import MediaFileView
-from library.views import TrackDocumentView
 from rest_framework.routers import DefaultRouter
 
 search_router = DefaultRouter()
-search = search_router.register(
-    r'search',
-    TrackDocumentView,
-    basename='search',
-)
 files = search_router.register(
     r'files',
     MediaFileView,

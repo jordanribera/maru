@@ -19,33 +19,28 @@ services:
       - .env
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-      - elasticsearch
+    # depends_on: # uncomment for postgres
+    #   - db
     volumes:
       - ./api:/app
       - ./media:/media
       - ./api/static:/static
-  celery:
-    build: ./api
-    command: celery -A core worker
-    env_file:
-      - .env
-    depends_on:
-      - redis
-    volumes:
-      - ./api:/app
-      - ./media:/media
-  db:
-    image: postgres
-    env_file:
-      - .env
-  redis:
-    image: redis:alpine
-  elasticsearch:
-    image: elasticsearch:7.9.2
-    env_file:
-      - ./config/elasticsearch.env
+  # celery:
+  #   build: ./api
+  #   command: celery -A core worker
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - redis
+  #   volumes:
+  #     - ./api:/app
+  #     - ./media:/media
+  # db:
+  #   image: postgres
+  #   env_file:
+  #     - .env
+  # redis:
+  #   image: redis:alpine
   nginx:
     image: nginx:latest
     ports:

@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf',
     'rest_framework',
     'library',
 ]
@@ -79,19 +77,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+SQLITE_DATABASE = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': BASE_DIR / 'db.sqlite3',
+}
+
+POSTGRES_DATABASE = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+    'PORT': os.environ.get('POSTGRES_PORT', 5432),
+    'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+    'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+    'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+}
+
+MARU_DATABASE = os.environ.get('MARU_DATABASE', 'sqlite')
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-    #     'PORT': os.environ.get('POSTGRES_PORT', 5432),
-    #     'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
-    #     'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-    #     'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-    # },
+    'default': POSTGRES_DATABASE if MARU_DATABASE is 'postgres' else SQLITE_DATABASE,
 }
 
 

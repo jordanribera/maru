@@ -3,9 +3,6 @@ from library.models import MediaFile
 from library.models import Artist
 from library.models import Album
 from library.models import Track
-from library.documents import TrackDocument
-
-from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
 
 
 class MediaFileSerializer(serializers.ModelSerializer):
@@ -36,12 +33,13 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Album
-        fields = ('name', 'artist', 'tracks',)
+        fields = ('name', 'artist', 'year', 'tracks',)
 
 
 class TrackSerializer(serializers.ModelSerializer):
     artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
     album = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    year = serializers.IntegerField(source='album.year')
     track = serializers.SerializerMethodField()
     disc = serializers.SerializerMethodField()
 
@@ -56,39 +54,12 @@ class TrackSerializer(serializers.ModelSerializer):
             'artist',
             'album',
             'title',
+            'year',
             'track',
             'disc',
             'sha1hash',
             'url',
             'content_type',
-        )
-
-    def get_track(self, obj):
-        return {
-            'number': obj.tracknumber,
-            'total': obj.tracktotal,
-        }
-
-    def get_disc(self, obj):
-        return {
-            'number': obj.discnumber,
-            'total': obj.disctotal,
-        }
-
-
-class TrackDocumentSerializer(DocumentSerializer):
-    track = serializers.SerializerMethodField()
-    disc = serializers.SerializerMethodField()
-
-    class Meta:
-        document = TrackDocument
-        fields = (
-            'sha1hash',
-            'url',
-            'content_type',
-            'artist',
-            'album',
-            'title',
         )
 
     def get_track(self, obj):

@@ -10,11 +10,11 @@ class Album(BaseModel):
         related_name='albums',
         on_delete=models.CASCADE
     )
+    year = models.IntegerField()
     # artwork = ?
-    # year = models.IntegerField()
 
     class Meta:
-        ordering = ('artist__name', 'name',)  # year
+        ordering = ('artist__name', 'year', 'name',)
 
     def __str__(self):
         return '{} - {}'.format(self.artist.name, self.name)
