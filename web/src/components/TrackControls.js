@@ -54,16 +54,32 @@ class TrackControls extends React.Component {
         <Box style={styles.art}>ART</Box>
         <Box style={styles.body}>
           <Box style={styles.controls}>
-            <IconButton style={styles.button} color="primary" onClick={this.props.callbacks.previous}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.previous}
+            >
               <SkipPreviousIcon />
             </IconButton>
-            <IconButton style={styles.button} color="primary" onClick={this.props.callbacks.play}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.play}
+            >
               <PlayArrowIcon />
             </IconButton>
-            <IconButton style={styles.button} color="primary" onClick={this.props.callbacks.pause}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.pause}
+            >
               <PauseIcon />
             </IconButton>
-            <IconButton style={styles.button} color="primary" onClick={this.props.callbacks.next}>
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.next}
+            >
               <SkipNextIcon />
             </IconButton>
           </Box>
