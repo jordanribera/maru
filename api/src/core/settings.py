@@ -150,3 +150,4 @@ REST_FRAMEWORK = {
 # celery stuff
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_ALWAYS_EAGER = True

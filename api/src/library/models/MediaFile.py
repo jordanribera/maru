@@ -71,25 +71,18 @@ class MediaFile(BaseModel):
         return value
 
     @property
-    def track(self):
-        return {
-            'number': self.tracknumber,
-            'total': self.tracktotal,
-        }
-
-    @property
     def discnumber(self):
         value = self.waterfall(['discnumber', 'TPOS'])
         if value and '/' in value:
             return value.split('/')[0]
-        return value
+        return value or 1
 
     @property
     def disctotal(self):
         value = self.waterfall(['disctotal', 'TPOS', 'discnumber'])
         if value and '/' in value:
             return value.split('/')[1]
-        return value
+        return value or 1
 
     @property
     def problems(self):
