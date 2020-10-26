@@ -65,6 +65,11 @@ class MediaFile(BaseModel):
         return self.waterfall(title_keys) or self.filename
 
     @property
+    def year(self):
+        year_keys = ['date', 'DATE', 'TDRC']
+        return self.waterfall(year_keys)
+
+    @property
     def tracknumber(self):
         value = self.waterfall(['tracknumber', 'TRCK'])
         if value and '/' in value:
@@ -91,6 +96,10 @@ class MediaFile(BaseModel):
         if value and '/' in value:
             return value.split('/')[1]
         return value or 1
+
+    @property
+    def genre(self):
+        return self.waterfall(['genre', 'GENRE', 'TCON'])
 
     @property
     def problems(self):

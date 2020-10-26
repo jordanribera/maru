@@ -24,11 +24,13 @@ class Track(BaseModel):
     tracktotal = models.IntegerField()
     discnumber = models.IntegerField(default=1)
     disctotal = models.IntegerField(default=1)
+    genre = models.CharField(max_length=128, null=True)
 
     class Meta:
         ordering = (
             'artist__name',
-            'album__name',  # album__year
+            'album__year',
+            'album__name',
             'discnumber',
             'tracknumber',
         )

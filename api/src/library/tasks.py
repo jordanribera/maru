@@ -32,7 +32,11 @@ def import_file(file_path):
     )
 
     artist, new_artist = Artist.objects.get_or_create(name=f.artist)
-    album, new_album = Album.objects.get_or_create(name=f.album, artist=artist)
+    album, new_album = Album.objects.get_or_create(
+        name=f.album,
+        artist=artist,
+        year=f.year,
+    )
 
     track, new_track = Track.objects.get_or_create(
         artist=artist,
@@ -42,6 +46,7 @@ def import_file(file_path):
         tracktotal=f.tracktotal,
         discnumber=f.discnumber,
         disctotal=f.disctotal,
+        genre=f.genre,
     )
 
     f.track = track
