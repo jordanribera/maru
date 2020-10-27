@@ -48,10 +48,14 @@ const styles = {
 class TrackControls extends React.Component {
   render() {
     const track = this.props.track || {};
+    const art_style = {
+      backgroundImage: `url(${track.artwork_url})`,
+      backgroundSize: "100%",
+    };
 
     return (
       <Box style={styles.root}>
-        <Box style={styles.art}>ART</Box>
+        <Box style={{ ...styles.art, ...art_style }}>&nbsp;</Box>
         <Box style={styles.body}>
           <Box style={styles.controls}>
             <IconButton

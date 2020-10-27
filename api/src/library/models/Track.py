@@ -18,7 +18,6 @@ class Track(BaseModel):
     title = models.CharField(max_length=255)
     # album_artist = models.CharField(max_length=128)
     # composer = models.CharField(max_length=128)
-    # genre = models.CharField(max_length=128)
 
     tracknumber = models.IntegerField()
     tracktotal = models.IntegerField()

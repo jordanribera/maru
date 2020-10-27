@@ -32,7 +32,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let tracks = getTracks({ artist: "the sword" }, (result) => {
+    let tracks = getTracks({}, (result) => {
       this.props.dispatch(addItems(result));
     });
   }
