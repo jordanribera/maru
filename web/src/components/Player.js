@@ -17,7 +17,6 @@ const styles = {
   },
   queue: {
     backgroundColor: "silver",
-    flexGrow: "1",
   },
 };
 
@@ -108,9 +107,7 @@ class Player extends React.Component {
           currentTime={this.state.currentTime}
           duration={this.state.duration}
         />
-        <Box style={styles.queue}>
-          <TrackList tracks={this.props.queue.slice(1)} showColumns={false} />
-        </Box>
+        <TrackList tracks={this.props.queue} showColumns={false} />
       </Box>
     );
   }

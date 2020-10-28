@@ -31,6 +31,7 @@ def import_artwork(file_path):
         }
     )
 
+    # find the album this image goes with
     album = Track.objects.filter(
         media_file__path__startswith=a.dirname
     ).first().album

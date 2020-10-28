@@ -13,8 +13,6 @@ import Paper from "@material-ui/core/Paper";
 const styles = {
   root: {
     backgroundColor: "orange",
-    minHeight: "100%",
-    maxHeight: "calc(100vh - 96px)",
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -66,9 +64,7 @@ class TrackList extends React.Component {
     };
     return (
       <TableRow key={key} style={styles.item.root}>
-        <TableCell style={{ ...styles.item.art, ...art_style }}>
-          &nbsp;
-        </TableCell>
+        <TableCell style={{ ...styles.item.art, ...art_style }} />
         <TableCell style={styles.item.grip}>#</TableCell>
         <TableCell style={styles.item.title}>{item.title}</TableCell>
       </TableRow>
