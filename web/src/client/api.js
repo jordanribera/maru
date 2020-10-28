@@ -1,4 +1,6 @@
-const apiRoot = "http://localhost:8080/api/v1";
+export const apiServer = "localhost:8080"; /* TODO: read from env */
+/* const apiRoot = `http://${apiServer}/api/v1`; */
+const apiRoot = "/api/v1";
 const artistsEndpoint = `${apiRoot}/library/artists/`;
 const albumsEndpoint = `${apiRoot}/library/albums/`;
 const tracksEndpoint = `${apiRoot}/library/tracks/`;
