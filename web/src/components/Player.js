@@ -36,7 +36,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let tracks = getTracks({}, (result) => {
+    let tracks = getTracks({ artist: "the sword" }, (result) => {
       this.props.dispatch(addItems(result));
     });
   }

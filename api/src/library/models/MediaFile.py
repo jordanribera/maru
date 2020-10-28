@@ -70,6 +70,10 @@ class MediaFile(BaseModel):
         return self.waterfall(year_keys)
 
     @property
+    def length(self):
+        return mutagen.File(self.path).info.length
+
+    @property
     def tracknumber(self):
         value = self.waterfall(['tracknumber', 'TRCK'])
         if value and '/' in value:

@@ -94,6 +94,7 @@ class Library extends React.Component {
             onChange={handleTabChange}
             indicatorColor="primary"
             textColor="primary"
+            TabIndicatorProps={{ style: { left: "0px" } }}
           >
             <Tab
               style={styles.tab}
