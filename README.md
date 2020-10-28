@@ -20,7 +20,8 @@ You will need to modify `docker-compose.yml` to give the api container access
 to your music library.
 
 Under the `api` service find the `/media` volume and change it to `<path to
-your library>:/media`.
+your library>:/media`. If you're just testing things out you can paste a few
+albums into the existing `./media` folder.
 
 
 **Docker**

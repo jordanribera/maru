@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import TrackList from "./TrackList";
 import TrackControls from "./TrackControls";
-import { getTracks } from "../client/api";
+import { apiServer, getTracks } from "../client/api";
 import { addItems, advanceQueue, reverseQueue } from "../actions/queue";
 
 import { darkTheme, lightTheme } from "../client/theme";
@@ -94,10 +94,11 @@ class Player extends React.Component {
   }
 
   render() {
+    console.log(`server: ${apiServer}`);
     const activeTrack = this.props.queue[0];
     let activeUrl = "";
     if (activeTrack) {
-      activeUrl = `http://localhost:8080${activeTrack.url}`;
+      activeUrl = `http://${apiServer}${activeTrack.url}`;
     }
 
     const styles = themeStyles(this.activeTheme());
