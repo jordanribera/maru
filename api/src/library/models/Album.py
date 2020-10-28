@@ -11,7 +11,12 @@ class Album(BaseModel):
         on_delete=models.CASCADE
     )
     year = models.IntegerField()
-    # artwork = ?
+    artwork = models.OneToOneField(
+        'Artwork',
+        related_name='album',
+        on_delete=models.CASCADE,
+        null=True,
+    )
 
     class Meta:
         ordering = ('artist__name', 'year', 'name',)

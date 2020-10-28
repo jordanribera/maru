@@ -46,6 +46,7 @@ class TrackSerializer(serializers.ModelSerializer):
     # revamp this to support multiple file sources per track
     sha1hash = serializers.CharField(source='media_file.sha1hash')
     url = serializers.CharField(source='media_file.url')
+    artwork_url = serializers.SerializerMethodField()
     content_type = serializers.CharField(source='media_file.content_type')
 
     class Meta:
@@ -60,6 +61,7 @@ class TrackSerializer(serializers.ModelSerializer):
             'genre',
             'sha1hash',
             'url',
+            'artwork_url',
             'content_type',
         )
 
@@ -74,3 +76,7 @@ class TrackSerializer(serializers.ModelSerializer):
             'number': obj.discnumber,
             'total': obj.disctotal,
         }
+
+    def get_artwork_url(self, obj):
+        if obj.album.artwork:
+            return obj.album.artwork.url

@@ -14,28 +14,21 @@ import { advanceQueue } from "../actions/queue";
 
 const styles = {
   root: {
-    backgroundColor: "green",
-    display: "flex",
-    flexDirection: "row",
-    height: "128px",
+    backgroundColor: "white",
   },
   art: {
-    height: "128px",
-    width: "128px",
+    height: "512px",
+    width: "100%",
     backgroundColor: "lightBlue",
   },
   body: {
     flexGrow: "1",
   },
   controls: {
-    height: "50%",
-    backgroundColor: "silver",
     textAlign: "center",
+    marginTop: "-48px",
   },
-  button: {
-    height: "100%",
-    width: "64px",
-  },
+  button: {},
   seekBar: {
     marginTop: "-16px",
   },
@@ -48,51 +41,53 @@ const styles = {
 class TrackControls extends React.Component {
   render() {
     const track = this.props.track || {};
+    const art_style = {
+      backgroundImage: `url(${track.artwork_url})`,
+      backgroundSize: "100%",
+    };
 
     return (
       <Box style={styles.root}>
-        <Box style={styles.art}>ART</Box>
-        <Box style={styles.body}>
-          <Box style={styles.controls}>
-            <IconButton
-              style={styles.button}
-              color="primary"
-              onClick={this.props.callbacks.previous}
-            >
-              <SkipPreviousIcon />
-            </IconButton>
-            <IconButton
-              style={styles.button}
-              color="primary"
-              onClick={this.props.callbacks.play}
-            >
-              <PlayArrowIcon />
-            </IconButton>
-            <IconButton
-              style={styles.button}
-              color="primary"
-              onClick={this.props.callbacks.pause}
-            >
-              <PauseIcon />
-            </IconButton>
-            <IconButton
-              style={styles.button}
-              color="primary"
-              onClick={this.props.callbacks.next}
-            >
-              <SkipNextIcon />
-            </IconButton>
-          </Box>
-          <Slider
-            style={styles.seekBar}
-            value={this.props.currentTime}
-            min={0}
-            max={this.props.duration}
-            onChange={this.props.callbacks.seeking}
-            onChangeCommitted={this.props.callbacks.seek}
-          />
-          <Box style={styles.title}>{track.title}</Box>
+        <Box style={{ ...styles.art, ...art_style }} />
+        <Box style={styles.controls}>
+          <IconButton
+            style={styles.button}
+            color="primary"
+            onClick={this.props.callbacks.previous}
+          >
+            <SkipPreviousIcon />
+          </IconButton>
+          <IconButton
+            style={styles.button}
+            color="primary"
+            onClick={this.props.callbacks.play}
+          >
+            <PlayArrowIcon />
+          </IconButton>
+          <IconButton
+            style={styles.button}
+            color="primary"
+            onClick={this.props.callbacks.pause}
+          >
+            <PauseIcon />
+          </IconButton>
+          <IconButton
+            style={styles.button}
+            color="primary"
+            onClick={this.props.callbacks.next}
+          >
+            <SkipNextIcon />
+          </IconButton>
         </Box>
+        <Slider
+          style={styles.seekBar}
+          value={this.props.currentTime}
+          min={0}
+          max={this.props.duration}
+          onChange={this.props.callbacks.seeking}
+          onChangeCommitted={this.props.callbacks.seek}
+        />
+        <Box style={styles.title}>{track.title}</Box>
       </Box>
     );
   }

@@ -102,6 +102,23 @@ class MediaFile(BaseModel):
         return self.waterfall(['genre', 'GENRE', 'TCON'])
 
     @property
+    def artwork(self):
+        mfile = mutagen.File(self.path)
+        picture = None
+        if hasattr(mfile, 'pictures') and len(mfile.pictures) > 0:
+            picture = mfile.pictures[0]
+        else:
+            picture = mfile.get('APIC') or mfile.get('APIC:')
+
+        if not picture:
+            return None
+
+        return {
+            'mime': picture.mime,
+            'data': picture.data,
+        }
+
+    @property
     def problems(self):
         possible_problems = {
             'missing_artist': self.artist is None,

@@ -17,6 +17,8 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 
+from library.models import Artwork
+
 from core.views import FileMaskView
 
 v1_urls = [
@@ -25,6 +27,11 @@ v1_urls = [
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+    re_path(
+        r'artwork/(?P<hash>\b[0-9a-f]{5,40}\b)$',
+        FileMaskView.as_view(file_model=Artwork),
+        name="art_mask"
+    ),
     re_path(
         r'media/(?P<hash>\b[0-9a-f]{5,40}\b)$',
         FileMaskView.as_view(),
