@@ -2,22 +2,27 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import TrackList from "./TrackList";
 import TrackControls from "./TrackControls";
 import { getTracks } from "../client/api";
 import { addItems, advanceQueue, reverseQueue } from "../actions/queue";
 
-const styles = {
-  root: {
-    backgroundColor: "red",
-    height: "100vh",
-    width: "512px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  queue: {
-    backgroundColor: "silver",
-  },
+import { darkTheme, lightTheme } from "../client/theme";
+
+const themeStyles = (theme = darkTheme) => {
+  return {
+    root: {
+      height: "100vh",
+      width: "512px",
+      display: "flex",
+      flexDirection: "column",
+      borderRight: `1px solid ${theme.palette.divider}`,
+    },
+    queue: {
+      backgroundColor: "silver",
+    },
+  };
 };
 
 class Player extends React.Component {
@@ -31,9 +36,13 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let tracks = getTracks({}, (result) => {
+    let tracks = getTracks({ artist: "the sword" }, (result) => {
       this.props.dispatch(addItems(result));
     });
+  }
+
+  activeTheme() {
+    return this.props.darkMode ? darkTheme : lightTheme;
   }
 
   player() {
@@ -91,8 +100,10 @@ class Player extends React.Component {
       activeUrl = `http://localhost:8080${activeTrack.url}`;
     }
 
+    const styles = themeStyles(this.activeTheme());
+
     return (
-      <Box style={styles.root}>
+      <Box component={Paper} style={styles.root}>
         <audio
           id="ThePlayer"
           src={activeUrl}
@@ -116,6 +127,7 @@ class Player extends React.Component {
 const mapStateToProps = (state) => {
   return {
     queue: state.queue.primary,
+    darkMode: state.shell.darkMode,
   };
 };
 

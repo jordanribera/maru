@@ -10,36 +10,30 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-const styles = {
-  root: {
-    backgroundColor: "orange",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-  },
-  item: {
+import { darkTheme, lightTheme } from "../client/theme";
+
+const themeStyles = (theme = darkTheme) => {
+  return {
     root: {
-      backgroundColor: "orange",
       width: "100%",
+      display: "flex",
+      flexDirection: "column",
     },
-    art: {
-      backgroundColor: "yellow",
-      height: "64px",
-      width: "64px",
-      padding: "0px",
-      textAlign: "center",
+    item: {
+      root: {
+        width: "100%",
+      },
+      art: {
+        height: "64px",
+        width: "64px",
+        padding: "0px",
+        textAlign: "center",
+      },
     },
-    grip: {
-      backgroundColor: "silver",
-      width: "32px",
-      padding: "0px",
-      textAlign: "center",
-    },
-    title: {
-      backgroundColor: "white",
-    },
-  },
+  };
 };
+
+const styles = themeStyles();
 
 class TrackList extends React.Component {
   listHeader() {
@@ -49,7 +43,6 @@ class TrackList extends React.Component {
         <TableHead>
           <TableRow>
             <TableCell>Art</TableCell>
-            <TableCell>#</TableCell>
             <TableCell>Title</TableCell>
           </TableRow>
         </TableHead>
@@ -62,10 +55,10 @@ class TrackList extends React.Component {
       backgroundImage: `url(${item.artwork_url})`,
       backgroundSize: "100%",
     };
+
     return (
       <TableRow key={key} style={styles.item.root}>
         <TableCell style={{ ...styles.item.art, ...art_style }} />
-        <TableCell style={styles.item.grip}>#</TableCell>
         <TableCell style={styles.item.title}>{item.title}</TableCell>
       </TableRow>
     );

@@ -30,16 +30,22 @@ class AlbumSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='title',
     )
+    artwork_url = serializers.CharField(source='artwork.url')
 
     class Meta:
         model = Album
-        fields = ('name', 'artist', 'year', 'tracks',)
+        fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)
 
 
 class TrackSerializer(serializers.ModelSerializer):
     artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
     album = serializers.SlugRelatedField(slug_field='name', read_only=True)
     year = serializers.IntegerField(source='album.year')
+    length = serializers.DecimalField(
+        source='media_file.length',
+        max_digits=5,
+        decimal_places=2,
+    )
     track = serializers.SerializerMethodField()
     disc = serializers.SerializerMethodField()
 
@@ -56,6 +62,7 @@ class TrackSerializer(serializers.ModelSerializer):
             'album',
             'title',
             'year',
+            'length',
             'track',
             'disc',
             'genre',
