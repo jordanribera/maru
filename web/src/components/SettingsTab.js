@@ -18,6 +18,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 
+import Brightness3Icon from "@material-ui/icons/Brightness3";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import HelpIcon from "@material-ui/icons/Help";
 import InfoIcon from "@material-ui/icons/Info";
@@ -28,9 +30,10 @@ import SelectAllIcon from "@material-ui/icons/SelectAll";
 import SortIcon from "@material-ui/icons/Sort";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 
+import ColorSelector from "./ColorSelector";
 import LabeledSetting from "./LabeledSetting";
 
-import { setDarkMode } from "../actions/shell";
+import { setDarkMode, setThemeColor } from "../actions/shell";
 
 const styles = {
   root: {
@@ -62,6 +65,10 @@ class SettingsTab extends React.Component {
       this.props.dispatch(setDarkMode(!this.props.darkMode));
     };
 
+    const handleColorChange = (colorKey) => {
+      this.props.dispatch(setThemeColor(colorKey));
+    };
+
     const setPostDragSelection = (e) => {
       console.log(e);
     };
@@ -73,30 +80,36 @@ class SettingsTab extends React.Component {
             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Paper style={styles.page}>
                 <Box style={styles.pageHeading}>
-                  <InfoIcon color="primary" style={styles.icon} />
-                  <Typography variant="h4" style={styles.pageTitle}>
+                  <Typography
+                    variant="h4"
+                    color="primary"
+                    style={styles.pageTitle}
+                  >
                     Information
                   </Typography>
                 </Box>
                 <LabeledSetting
                   label="GitHub"
                   description="Link to GitHub..."
-                  icon={<GitHubIcon style={{height: "42px", width: "42px"}}/>}
-                >
-                </LabeledSetting>
+                  icon={
+                    <GitHubIcon style={{ height: "42px", width: "42px" }} />
+                  }
+                ></LabeledSetting>
                 <LabeledSetting
                   label="Oh no"
                   description="None of these do anything yet..."
-                  icon={<HelpIcon style={styles.icon}/>}
-                >
-                </LabeledSetting>
+                  icon={<HelpIcon style={styles.icon} />}
+                ></LabeledSetting>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Paper style={styles.page}>
                 <Box style={styles.pageHeading}>
-                  <QueueMusicIcon color="primary" style={styles.icon} />
-                  <Typography variant="h4" style={styles.pageTitle}>
+                  <Typography
+                    variant="h4"
+                    color="primary"
+                    style={styles.pageTitle}
+                  >
                     Queue
                   </Typography>
                 </Box>
@@ -123,8 +136,11 @@ class SettingsTab extends React.Component {
             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Paper style={styles.page}>
                 <Box style={styles.pageHeading}>
-                  <InfoIcon color="primary" style={styles.icon} />
-                  <Typography variant="h4" style={styles.pageTitle}>
+                  <Typography
+                    variant="h4"
+                    color="primary"
+                    style={styles.pageTitle}
+                  >
                     Library
                   </Typography>
                 </Box>
@@ -132,8 +148,7 @@ class SettingsTab extends React.Component {
                   label="Sort"
                   description="Choose default sort behavior..."
                   icon={<SortIcon style={styles.icon} />}
-                >
-                </LabeledSetting>
+                ></LabeledSetting>
                 <LabeledSetting
                   label="Columns"
                   description="Choose columns to display in list views..."
@@ -154,8 +169,11 @@ class SettingsTab extends React.Component {
             <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Paper style={styles.page}>
                 <Box style={styles.pageHeading}>
-                  <InfoIcon color="primary" style={styles.icon} />
-                  <Typography variant="h4" style={styles.pageTitle}>
+                  <Typography
+                    variant="h4"
+                    color="primary"
+                    style={styles.pageTitle}
+                  >
                     Interface
                   </Typography>
                 </Box>
@@ -164,17 +182,31 @@ class SettingsTab extends React.Component {
                   description="Change the player theme..."
                   icon={<InvertColorsIcon style={styles.icon} />}
                 >
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={this.props.darkMode}
-                          onChange={toggleDarkMode}
-                        />
-                      }
-                      label="Dark mode"
-                    />
-                  </FormGroup>
+                  <ColorSelector
+                    style={{ marginTop: "16px" }}
+                    activeColor={this.props.themeColor}
+                    onChange={handleColorChange}
+                  />
+                  <Grid
+                    component="label"
+                    container
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <Grid item>
+                      <Brightness7Icon color="action" />
+                    </Grid>
+                    <Grid item>
+                      <Switch
+                        checked={this.props.darkMode}
+                        color="primary"
+                        onChange={toggleDarkMode}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Brightness3Icon color="action" />
+                    </Grid>
+                  </Grid>
                 </LabeledSetting>
                 <LabeledSetting
                   label="Post-drag selection"
@@ -219,6 +251,7 @@ class SettingsTab extends React.Component {
 const mapStateToProps = (state) => {
   return {
     darkMode: state.shell.darkMode,
+    themeColor: state.shell.themeColor,
   };
 };
 

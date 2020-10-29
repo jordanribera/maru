@@ -4,6 +4,7 @@ const initialState = {
   activeTab: 0,
   showLabels: false,
   darkMode: true,
+  themeColor: "blue",
   expandArt: true,
 };
 
@@ -14,6 +15,10 @@ const shellReducer = createReducer(initialState, {
 
   SET_DARKMODE: (state, action) => {
     state.darkMode = action.value;
+  },
+
+  SET_THEMECOLOR: (state, action) => {
+    state.themeColor = action.value;
   },
 });
 

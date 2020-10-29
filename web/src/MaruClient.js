@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Player from "./components/Player";
 import Library from "./components/Library";
-import { darkTheme, lightTheme } from "./client/theme";
+import { activeTheme } from "./client/theme";
 
 const styles = {
   root: {
@@ -23,13 +23,9 @@ class MaruClient extends React.Component {
     this.state = {};
   }
 
-  activeTheme() {
-    return this.props.darkMode ? darkTheme : lightTheme;
-  }
-
   render(dispatch) {
     return (
-      <ThemeProvider theme={this.activeTheme()}>
+      <ThemeProvider theme={activeTheme()}>
         <CssBaseline />
         <Box style={styles.root}>
           <Player />
@@ -43,6 +39,7 @@ class MaruClient extends React.Component {
 const mapStateToProps = (state) => {
   return {
     darkMode: state.shell.darkMode,
+    themeColor: state.shell.themeColor,
   };
 };
 
