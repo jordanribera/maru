@@ -21,7 +21,6 @@ class ArtistsTab extends React.Component {
 
   componentDidMount() {
     let artists = getArtists({}, (result) => {
-      console.log(result);
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
@@ -32,8 +31,8 @@ class ArtistsTab extends React.Component {
     return (
       <Box style={styles.root}>
         <Grid container spacing={2} justify="flex-start">
-          {this.state.results.map((item) => (
-            <Grid item xs={2}>
+          {this.state.results.map((item, index) => (
+            <Grid item xs={2} key={index}>
               <ArtistCard artist={item} />
             </Grid>
           ))}

@@ -1,7 +1,8 @@
 # Maru [![Build status](https://badge.buildkite.com/93665fc87856b435a73715c4f49a9af1f59eee1836a4c66f46.svg)](https://buildkite.com/spiralpower/maru)
 Maru is a host-it-yourself music streaming platform. Simply mount your music
 library as a docker volume and it will index and present the metadata in a
-searchable API. Your library remains untouched.
+searchable API. Your library remains untouched*. (*: Album artwork is currently
+extracted into the library)
 
 Along with this API, a web client (and soon Android) is provided for streaming
 the indexed content.

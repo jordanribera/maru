@@ -19,8 +19,8 @@ const themeStyles = (theme = darkTheme) => {
   return {
     root: {},
     art: {
-      height: "512px",
       width: "100%",
+      paddingBottom: "100%",
       backgroundColor: "lightBlue",
     },
     body: {

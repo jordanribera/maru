@@ -94,11 +94,10 @@ class Player extends React.Component {
   }
 
   render() {
-    console.log(`server: ${apiServer}`);
     const activeTrack = this.props.queue[0];
     let activeUrl = "";
     if (activeTrack) {
-      activeUrl = `http://${apiServer}${activeTrack.url}`;
+      activeUrl = activeTrack.url;
     }
 
     const styles = themeStyles(this.activeTheme());
