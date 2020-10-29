@@ -44,6 +44,10 @@ const themeStyles = (theme = darkTheme) => {
     tab: {
       minWidth: "0px",
     },
+    icon: {
+      height: "48px",
+      width: "48px",
+    },
     settings: {
       position: "absolute",
       bottom: 0,
@@ -98,27 +102,27 @@ class Library extends React.Component {
           >
             <Tab
               style={styles.tab}
-              icon={<PeopleIcon />}
+              icon={<PeopleIcon style={styles.icon} />}
               label={this.tabLabel("Artists")}
             />
             <Tab
               style={styles.tab}
-              icon={<AlbumIcon />}
+              icon={<AlbumIcon style={styles.icon} />}
               label={this.tabLabel("Albums")}
             />
             <Tab
               style={styles.tab}
-              icon={<MusicNoteIcon />}
+              icon={<MusicNoteIcon style={styles.icon} />}
               label={this.tabLabel("Songs")}
             />
             <Tab
               style={styles.tab}
-              icon={<PlaylistPlayIcon />}
+              icon={<PlaylistPlayIcon style={styles.icon} />}
               label={this.tabLabel("Playlists")}
             />
             <Tab
               style={{ ...styles.tab, ...styles.settings }}
-              icon={<SettingsIcon />}
+              icon={<SettingsIcon style={styles.icon} />}
               label={this.tabLabel("Settings")}
             />
           </Tabs>
