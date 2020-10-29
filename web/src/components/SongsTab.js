@@ -43,7 +43,6 @@ class SongsTab extends React.Component {
 
   componentDidMount() {
     let artists = getTracks({}, (result) => {
-      console.log(result);
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);

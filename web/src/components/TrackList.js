@@ -66,7 +66,6 @@ class TrackList extends React.Component {
 
   render() {
     const tracks = this.props.tracks || [];
-    // console.log(tracks);
 
     return (
       <TableContainer style={styles.root} component={Paper}>
