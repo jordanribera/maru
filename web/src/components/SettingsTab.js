@@ -208,6 +208,7 @@ class SettingsTab extends React.Component {
                     </Grid>
                   </Grid>
                 </LabeledSetting>
+                {/*}
                 <LabeledSetting
                   label="Post-drag selection"
                   description="Change the click&drag behavior..."
@@ -239,6 +240,7 @@ class SettingsTab extends React.Component {
                     />
                   </RadioGroup>
                 </LabeledSetting>
+                {*/}
               </Paper>
             </Grid>
           </Grid>

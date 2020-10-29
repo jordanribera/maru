@@ -11,6 +11,7 @@ const styles = {
     marginTop: "32px",
     display: "flex",
     flexDirection: "column",
+    userSelect: "none",
   },
   heading: {
     display: "flex",
