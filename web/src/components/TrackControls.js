@@ -11,33 +11,29 @@ import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import Slider from "@material-ui/core/Slider";
 import Box from "@material-ui/core/Box";
 
-import { darkTheme, lightTheme } from "../client/theme";
 import { advanceQueue } from "../actions/queue";
 import { setExpandArt } from "../actions/shell";
 
-const themeStyles = (theme = darkTheme) => {
-  return {
-    root: {},
-    art: {
-      width: "100%",
-      paddingBottom: "100%",
-      backgroundColor: "lightBlue",
-    },
-    body: {
-      flexGrow: "1",
-    },
-    controls: {
-      textAlign: "center",
-    },
-    button: {},
-    seekBar: {
-      marginTop: "-16px",
-    },
-    title: {
-      marginTop: "-20px",
-      padding: "16px",
-    },
-  };
+const styles = {
+  root: {},
+  art: {
+    width: "100%",
+    paddingBottom: "100%",
+  },
+  body: {
+    flexGrow: "1",
+  },
+  controls: {
+    textAlign: "center",
+  },
+  button: {},
+  seekBar: {
+    marginTop: "-16px",
+  },
+  title: {
+    marginTop: "-20px",
+    padding: "16px",
+  },
 };
 
 class TrackControls extends React.Component {
@@ -46,10 +42,6 @@ class TrackControls extends React.Component {
     this.state = {
       expandArt: true,
     };
-  }
-
-  activeTheme() {
-    return this.props.darkMode ? darkTheme : lightTheme;
   }
 
   render() {
@@ -64,8 +56,6 @@ class TrackControls extends React.Component {
       tempState.expandArt = !this.state.expandArt;
       this.setState(tempState);
     };
-
-    const styles = themeStyles(this.activeTheme());
 
     return (
       <Box style={styles.root}>
