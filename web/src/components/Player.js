@@ -8,21 +8,19 @@ import TrackControls from "./TrackControls";
 import { apiServer, getTracks } from "../client/api";
 import { addItems, advanceQueue, reverseQueue } from "../actions/queue";
 
-import { darkTheme, lightTheme } from "../client/theme";
+import { activeTheme } from "../client/theme";
 
-const themeStyles = (theme = darkTheme) => {
-  return {
-    root: {
-      height: "100vh",
-      width: "512px",
-      display: "flex",
-      flexDirection: "column",
-      borderRight: `1px solid ${theme.palette.divider}`,
-    },
-    queue: {
-      backgroundColor: "silver",
-    },
-  };
+const styles = {
+  root: {
+    height: "100vh",
+    width: "512px",
+    display: "flex",
+    flexDirection: "column",
+    borderRight: `1px solid ${activeTheme().palette.divider}`,
+  },
+  queue: {
+    backgroundColor: "silver",
+  },
 };
 
 class Player extends React.Component {
@@ -36,13 +34,9 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let tracks = getTracks({ artist: "the sword" }, (result) => {
+    let tracks = getTracks({ artist: "radiohead" }, (result) => {
       this.props.dispatch(addItems(result));
     });
-  }
-
-  activeTheme() {
-    return this.props.darkMode ? darkTheme : lightTheme;
   }
 
   player() {
@@ -99,8 +93,6 @@ class Player extends React.Component {
     if (activeTrack) {
       activeUrl = activeTrack.url;
     }
-
-    const styles = themeStyles(this.activeTheme());
 
     return (
       <Box component={Paper} style={styles.root}>

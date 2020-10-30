@@ -10,30 +10,24 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-import { darkTheme, lightTheme } from "../client/theme";
-
-const themeStyles = (theme = darkTheme) => {
-  return {
+const styles = {
+  root: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  item: {
     root: {
       width: "100%",
-      display: "flex",
-      flexDirection: "column",
     },
-    item: {
-      root: {
-        width: "100%",
-      },
-      art: {
-        height: "64px",
-        width: "64px",
-        padding: "0px",
-        textAlign: "center",
-      },
+    art: {
+      height: "64px",
+      width: "64px",
+      padding: "0px",
+      textAlign: "center",
     },
-  };
+  },
 };
-
-const styles = themeStyles();
 
 class TrackList extends React.Component {
   listHeader() {

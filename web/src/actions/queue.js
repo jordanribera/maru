@@ -1,6 +1,7 @@
-export const addItems = (items) => ({
+export const addItems = (items, target = null) => ({
   type: "ADD_ITEMS",
   items,
+  target,
 });
 
 export const removeItems = (items) => ({

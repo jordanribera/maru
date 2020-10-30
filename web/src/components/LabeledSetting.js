@@ -62,7 +62,7 @@ class LabeledSetting extends React.Component {
 LabeledSetting.propTypes = {
   label: PropTypes.string,
   description: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.node,
 };
 
 export default LabeledSetting;

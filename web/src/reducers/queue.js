@@ -7,7 +7,13 @@ const initialState = {
 const queueReducer = createReducer(initialState, {
   ADD_ITEMS: (state, action) => {
     /* do something */
-    state.primary = action.items;
+    if (action.target == null) {
+      /* add to the end of the queue */
+      state.primary = [...state.primary, ...action.items];
+    } else {
+      state.primary.splice(action.target, 0, ...action.items);
+    }
+
     return state;
   },
   REMOVE_ITEMS: (state, action) => {

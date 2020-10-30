@@ -23,20 +23,6 @@ class ArtistSerializer(serializers.ModelSerializer):
         fields = ('name', 'albums',)
 
 
-class AlbumSerializer(serializers.ModelSerializer):
-    artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    tracks = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
-        slug_field='title',
-    )
-    artwork_url = serializers.CharField(source='artwork.url')
-
-    class Meta:
-        model = Album
-        fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)
-
-
 class TrackSerializer(serializers.ModelSerializer):
     artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
     album = serializers.SlugRelatedField(slug_field='name', read_only=True)
@@ -87,3 +73,17 @@ class TrackSerializer(serializers.ModelSerializer):
     def get_artwork_url(self, obj):
         if obj.album.artwork:
             return obj.album.artwork.url
+
+
+class AlbumSerializer(serializers.ModelSerializer):
+    artist = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    # TODO: when playlist hash set loading works, replace tracks with hashes
+    tracks = TrackSerializer(
+        many=True,
+        read_only=True,
+    )
+    artwork_url = serializers.CharField(source='artwork.url')
+
+    class Meta:
+        model = Album
+        fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)

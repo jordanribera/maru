@@ -16,11 +16,11 @@ import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 import { activateTab } from "../actions/shell";
-import { darkTheme, lightTheme } from "../client/theme";
+import { activeTheme } from "../client/theme";
 
 import TabPanel from "./TabPanel";
 
-const themeStyles = (theme = darkTheme) => {
+const themeStyles = (theme) => {
   return {
     root: {
       backgroundColor: "purple",
@@ -60,16 +60,12 @@ class Library extends React.Component {
     if (this.props.showLabels) return label;
   }
 
-  activeTheme() {
-    return this.props.darkMode ? darkTheme : lightTheme;
-  }
-
   render() {
     const handleTabChange = (event, newValue) => {
       this.props.dispatch(activateTab(newValue));
     };
 
-    const styles = themeStyles(this.activeTheme());
+    const styles = themeStyles(activeTheme());
 
     return (
       <Box style={styles.root}>
