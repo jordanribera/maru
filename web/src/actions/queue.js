@@ -4,9 +4,9 @@ export const addItems = (items, target = null) => ({
   target,
 });
 
-export const removeItems = (items) => ({
+export const removeItems = (targets = []) => ({
   type: "REMOVE_ITEMS",
-  items,
+  targets,
 });
 
 export const advanceQueue = () => ({

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
-import TrackList from "./TrackList";
+import Queue from "./Queue";
 import TrackControls from "./TrackControls";
 import { apiServer, getTracks } from "../client/api";
 import { addItems, advanceQueue, reverseQueue } from "../actions/queue";
@@ -35,7 +35,7 @@ class Player extends React.Component {
 
   componentDidMount() {
     let tracks = getTracks({ artist: "radiohead" }, (result) => {
-      this.props.dispatch(addItems(result));
+      // this.props.dispatch(addItems(result));
     });
   }
 
@@ -95,7 +95,7 @@ class Player extends React.Component {
     }
 
     return (
-      <Box component={Paper} style={styles.root}>
+      <Paper square style={styles.root}>
         <audio
           id="ThePlayer"
           src={activeUrl}
@@ -110,8 +110,8 @@ class Player extends React.Component {
           currentTime={this.state.currentTime}
           duration={this.state.duration}
         />
-        <TrackList tracks={this.props.queue} showColumns={false} />
-      </Box>
+        <Queue />
+      </Paper>
     );
   }
 }

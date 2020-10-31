@@ -1,24 +1,30 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
+  pointer: 0, // need one for each queue, add it to an object below
   primary: [],
 };
 
 const queueReducer = createReducer(initialState, {
   ADD_ITEMS: (state, action) => {
-    /* do something */
     if (action.target == null) {
       /* add to the end of the queue */
       state.primary = [...state.primary, ...action.items];
     } else {
       state.primary.splice(action.target, 0, ...action.items);
     }
-
     return state;
   },
   REMOVE_ITEMS: (state, action) => {
-    /* do something */
-    state.primary = [];
+    const targets = action.targets.sort().reverse(); // from the top down
+    if (targets.length < 1) {
+      /* no targets, clear the queue */
+      state.primary = [];
+    } else {
+      targets.map((t) => {
+        state.primary.splice(t, 1);
+      });
+    }
     return state;
   },
 
@@ -32,6 +38,8 @@ const queueReducer = createReducer(initialState, {
     state.primary.unshift(moving);
     return state;
   },
+  // ADVANCE_POINTER
+  // REVERSE_POINTER
 });
 
 export default queueReducer;
