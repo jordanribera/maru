@@ -13,12 +13,14 @@ import Box from "@material-ui/core/Box";
 
 import { advanceQueue } from "../actions/queue";
 import { setExpandArt } from "../actions/shell";
+import { activeTheme } from "../client/theme";
 
 const styles = {
   root: {},
   art: {
     width: "100%",
     paddingBottom: "100%",
+    backgroundColor: activeTheme().palette.background.default,
   },
   body: {
     flexGrow: "1",

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
+import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Menu from "@material-ui/core/Menu";
@@ -11,21 +12,22 @@ import Typography from "@material-ui/core/Typography";
 
 import LowPriorityIcon from "@material-ui/icons/LowPriority";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import QueueMusicIcon from "@material-ui/icons/QueueMusic";
 
-import { addItems } from "../actions/queue";
+import { addItems, removeItems } from "../actions/queue";
 
 const styles = {
   root: {
-    marginTop: "-16px",
-    marginBottom: "-16px",
+    margin: "-16px",
   },
   button: {},
 };
 
 const ITEM_HEIGHT = 48;
 
-class SongsContextMenu extends React.Component {
+class LibraryContextMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { anchorEl: null };
@@ -42,6 +44,12 @@ class SongsContextMenu extends React.Component {
       this.setState({ anchorEl: null });
     };
 
+    const handlePlay = () => {
+      this.props.dispatch(removeItems());
+      this.props.dispatch(addItems(this.props.songs));
+      handleClose();
+    };
+
     const handlePlayNext = () => {
       this.props.dispatch(addItems(this.props.songs, 1));
       handleClose();
@@ -49,6 +57,12 @@ class SongsContextMenu extends React.Component {
 
     const handleAddQueue = () => {
       this.props.dispatch(addItems(this.props.songs));
+      handleClose();
+    };
+
+    const handleAddPlaylist = () => {
+      console.log("add to playlist!");
+      console.log(this.props.songs);
       handleClose();
     };
 
@@ -73,6 +87,15 @@ class SongsContextMenu extends React.Component {
             },
           }}
         >
+          <MenuItem key="play" onClick={handlePlay}>
+            <ListItemIcon>
+              <PlayArrowIcon />
+            </ListItemIcon>
+            <Typography>Play</Typography>
+          </MenuItem>
+
+          <Divider />
+
           <MenuItem key="playNext" onClick={handlePlayNext}>
             <ListItemIcon>
               <QueueMusicIcon />
@@ -85,13 +108,22 @@ class SongsContextMenu extends React.Component {
             </ListItemIcon>
             <Typography>Add to queue</Typography>
           </MenuItem>
+
+          <Divider />
+
+          <MenuItem key="addPlaylist" onClick={handleAddPlaylist}>
+            <ListItemIcon>
+              <PlaylistAddIcon />
+            </ListItemIcon>
+            <Typography>Add to playlist</Typography>
+          </MenuItem>
         </Menu>
       </Box>
     );
   }
 }
 
-SongsContextMenu.propTypes = {
+LibraryContextMenu.propTypes = {
   label: PropTypes.string,
   description: PropTypes.string,
   icon: PropTypes.node,
@@ -103,4 +135,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SongsContextMenu);
+export default connect(mapStateToProps)(LibraryContextMenu);

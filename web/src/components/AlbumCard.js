@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 
-import SongsContextMenu from "./SongsContextMenu";
+import LibraryContextMenu from "./LibraryContextMenu";
 
 import { getArtists, getAlbums, getTracks } from "../client/api";
 
@@ -29,8 +29,8 @@ const styles = {
     textOverflow: "ellipsis",
   },
   control: {
-    width: "48px",
-    height: "48px",
+    width: "32px",
+    height: "32px",
     position: "absolute",
     top: 0,
     right: 0,
@@ -40,16 +40,16 @@ const styles = {
 
 class AlbumCard extends React.Component {
   render() {
-    const art_style = {
+    const artStyle = {
       backgroundImage: `url(${this.props.album.artwork_url})`,
       backgroundSize: "100%",
     };
 
     return (
       <Card style={styles.root} raised={true}>
-        <Box style={{ ...styles.art, ...art_style }}>
+        <Box style={{ ...styles.art, ...artStyle }}>
           <Box style={styles.control}>
-            <SongsContextMenu songs={this.props.album.tracks} />
+            <LibraryContextMenu songs={this.props.album.tracks} />
           </Box>
         </Box>
         <Box style={styles.tab}>

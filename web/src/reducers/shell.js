@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeTab: 0,
+  activeTab: 1,
   showLabels: false,
   darkMode: true,
   themeColor: "blue",

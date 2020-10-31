@@ -11,9 +11,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import Typography from "@material-ui/core/Typography";
+
 import ArtistCard from "./ArtistCard";
 import SongRow from "./SongRow";
-import SongsContextMenu from "./SongsContextMenu";
+import LibraryContextMenu from "./LibraryContextMenu";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -31,6 +33,17 @@ const styles = {
   tableHead: {
     fontWeight: "bold",
   },
+  title: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  multiCheck: {
+    margin: "-12px",
+  },
+  columns: {
+    art: { width: "48px" },
+  },
 };
 
 class SongsTab extends React.Component {
@@ -43,6 +56,8 @@ class SongsTab extends React.Component {
   }
 
   componentDidMount() {
+    /* TODO: need to use filters, update results on filter change */
+    /* TODO: need to load more pages when we scroll down */
     let artists = getTracks({}, (result) => {
       let tempState = this.state;
       tempState.results = result;
@@ -62,15 +77,17 @@ class SongsTab extends React.Component {
     console.log(this.state);
   }
 
-  handleSelectionChange(hash, selected) {
+  handleSelect(hash, multi = false) {
     let tempState = this.state;
-    tempState.selected = tempState.selected.filter((value) => value != hash);
-    if (selected) {
-      tempState.selected = [...tempState.selected, hash];
+    let baseline = [];
+    if (multi) baseline = tempState.selected.filter((v) => v != hash);
+
+    if (tempState.selected.includes(hash)) {
+      tempState.selected = baseline;
+    } else {
+      tempState.selected = [...baseline, hash];
     }
     this.setState(tempState);
-
-    console.log(this.selectedSongs());
   }
 
   selectedSongs() {
@@ -93,17 +110,20 @@ class SongsTab extends React.Component {
           <Table stickyHeader>
             <TableHead style={styles.tableHead}>
               <TableRow>
-                <TableCell>
+                <TableCell style={styles.columns.art}>
                   <Checkbox
                     color="primary"
-                    onChange={(e) => {
-                      this.handleMassSelect(e);
-                    }}
+                    style={styles.multiCheck}
+                    onChange={(e) => this.handleMassSelect(e)}
                   />
                 </TableCell>
-                <TableCell>{this.selectionTitle()}</TableCell>
                 <TableCell>
-                  <SongsContextMenu songs={this.selectedSongs()} />
+                  <Typography style={styles.title}>
+                    {this.selectionTitle()}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <LibraryContextMenu songs={this.selectedSongs()} />
                 </TableCell>
                 <TableCell>Artist</TableCell>
                 <TableCell>Album</TableCell>
@@ -118,8 +138,8 @@ class SongsTab extends React.Component {
                     key={index}
                     track={track}
                     selected={this.state.selected.includes(track.sha1hash)}
-                    onSelectionChange={(hash, selected) => {
-                      this.handleSelectionChange(hash, selected);
+                    onSelect={(hash, multi) => {
+                      this.handleSelect(hash, multi);
                     }}
                   />
                 );

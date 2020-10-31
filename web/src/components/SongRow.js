@@ -2,16 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import SongsContextMenu from "./SongsContextMenu";
+import Typography from "@material-ui/core/Typography";
+import LibraryContextMenu from "./LibraryContextMenu";
 
-const styles = {};
+import { activeTheme } from "../client/theme";
+import { formatTime } from "../client/util";
 
-const formatTime = (seconds) => {
-  return new Date(seconds * 1000).toISOString().substr(11, 8);
-};
+const ROW_HEIGHT = "48px";
 
 class SongRow extends React.Component {
   constructor(props) {
@@ -19,33 +20,86 @@ class SongRow extends React.Component {
     this.state = { hover: false };
   }
 
+  rowStatus() {
+    if (this.props.selected) return "selected";
+    if (this.state.hover) return "hover";
+    return "normal";
+  }
+
   render() {
     const track = this.props.track;
-    const toggleSelect = (event) => {
-      this.props.onSelectionChange(track.sha1hash, event.target.checked);
+    const styles = {
+      row: {
+        normal: {},
+        hover: { backgroundColor: activeTheme().palette.action.hover },
+        selected: { backgroundColor: activeTheme().palette.action.selected },
+      },
+      column: {
+        title: { position: "relative", width: "100%" },
+      },
+      art: {
+        height: ROW_HEIGHT,
+        width: ROW_HEIGHT,
+      },
+      title: {
+        display: "block",
+        position: "absolute",
+        lineHeight: ROW_HEIGHT /* TODO: this is a hack */,
+        top: 0,
+        bottom: 0,
+        left: "12px",
+        right: 0,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
+      textCell: {
+        whiteSpace: "nowrap",
+        paddingRight: "12px",
+      },
+    };
+
+    const artStyle = {
+      backgroundImage: `url(${track.artwork_url})`,
+      backgroundSize: "100%",
+    };
+
+    const handleSelect = (event) => {
+      const multi = window.event.ctrlKey || window.event.shiftKey;
+      this.props.onSelect(track.sha1hash, multi);
     };
 
     return (
       <TableRow
         key={track.title}
+        style={styles.row[this.rowStatus()]}
         onMouseEnter={() => this.setState({ hover: true })}
         onMouseLeave={() => this.setState({ hover: false })}
+        onClick={handleSelect}
       >
-        <TableCell>
-          <Checkbox
-            color="primary"
-            checked={this.props.selected}
-            onChange={toggleSelect}
-          />
+        <TableCell padding="none">
+          <Box style={{ ...artStyle, ...styles.art }} />
         </TableCell>
-        <TableCell>{track.title}</TableCell>
-        <TableCell>
-          {this.state.hover && <SongsContextMenu songs={[track]} />}
+        <TableCell padding="none" style={styles.column.title}>
+          <Typography role="text" style={styles.title} ariaLabel={track.title}>
+            {track.title}
+          </Typography>
         </TableCell>
-        <TableCell>{track.artist}</TableCell>
-        <TableCell>{track.album}</TableCell>
-        <TableCell>{track.year}</TableCell>
-        <TableCell>{formatTime(track.length)}</TableCell>
+        <TableCell>
+          {this.state.hover && <LibraryContextMenu songs={[track]} />}
+        </TableCell>
+        <TableCell padding="none" style={styles.textCell}>
+          <Typography>{track.artist}</Typography>
+        </TableCell>
+        <TableCell padding="none" style={styles.textCell}>
+          <Typography>{track.album}</Typography>
+        </TableCell>
+        <TableCell padding="none" style={styles.textCell}>
+          <Typography>{track.year}</Typography>
+        </TableCell>
+        <TableCell padding="none" align="right" style={styles.textCell}>
+          <Typography>{formatTime(track.length)}</Typography>
+        </TableCell>
       </TableRow>
     );
   }
@@ -55,7 +109,7 @@ SongRow.propTypes = {
   key: PropTypes.number,
   track: PropTypes.object,
   selected: PropTypes.bool,
-  onSelectionChange: PropTypes.func,
+  onSelect: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
