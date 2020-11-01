@@ -77,7 +77,7 @@ class SongRow extends React.Component {
           <Box style={{ ...artStyle, ...styles.art }} />
         </TableCell>
         <TableCell padding="none" style={styles.column.title}>
-          <Typography role="text" style={styles.title}>
+          <Typography role="text" style={styles.title} title={track.title}>
             {track.title}
           </Typography>
         </TableCell>

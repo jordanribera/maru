@@ -132,11 +132,3 @@ FilterMenu.propTypes = {
 };
 
 export default FilterMenu;
-
-export const TEST_OPTIONS = [
-  { key: "atoms-for-peace", label: "Atoms for Peace" },
-  { key: "opeth", label: "Opeth" },
-  { key: "radiohead", label: "Radiohead" },
-  { key: "sufjan-stevens", label: "Sufjan Stevens" },
-  { key: "the-sword", label: "The Sword" },
-];

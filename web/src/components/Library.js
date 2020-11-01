@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Paper from "@material-ui/core/Paper";
 import ArtistsTab from "./ArtistsTab";
 import AlbumsTab from "./AlbumsTab";
 import SongsTab from "./SongsTab";
@@ -103,7 +104,7 @@ class Library extends React.Component {
             <SettingsTab />
           </TabPanel>
         </Box>
-        <Box style={styles.tabWrapper}>
+        <Paper square style={styles.tabWrapper}>
           <Tabs
             style={styles.tabs}
             orientation="vertical"
@@ -139,7 +140,7 @@ class Library extends React.Component {
               label={this.tabLabel("Settings")}
             />
           </Tabs>
-        </Box>
+        </Paper>
       </Box>
     );
   }

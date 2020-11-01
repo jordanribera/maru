@@ -17,18 +17,18 @@ import AvTimerIcon from "@material-ui/icons/AvTimer";
 import SongRow from "./SongRow";
 import LibraryContextMenu from "./LibraryContextMenu";
 import FilterMenu from "./FilterMenu";
-import { TEST_OPTIONS } from "./FilterMenu";
 
 import { getTracks } from "../client/api";
 
 const styles = {
   root: {
-    padding: "16px",
     height: "100vh",
-    overflow: "auto",
+    position: "relative",
   },
   container: {
-    maxHeight: "100%",
+    height: "100%",
+    paddingLeft: "8px",
+    overflowY: "scroll",
   },
   tableHead: {
     fontWeight: "bold",
@@ -37,12 +37,13 @@ const styles = {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-  },
-  multiCheck: {
-    margin: "-12px",
+    minWidth: "100%",
   },
   columns: {
-    art: { width: "48px" },
+    art: {
+      width: "48px",
+      marginLeft: "16px",
+    },
   },
   headerCell: {
     whiteSpace: "nowrap",
@@ -133,6 +134,13 @@ class SongsTab extends React.Component {
     }
   }
 
+  handleScroll(e) {
+    const t = e.currentTarget;
+    if (t.scrollHeight - t.scrollTop < 1.25 * t.clientHeight) {
+      console.log("less than 2x left, load some.");
+    }
+  }
+
   render() {
     const artistFilterOptions = this.props.filterOptions["artist"] || [];
     const albumFilterOptions = this.props.filterOptions["album"] || [];
@@ -143,11 +151,15 @@ class SongsTab extends React.Component {
 
     return (
       <Box style={styles.root}>
-        <TableContainer style={styles.container} component={Paper}>
+        <TableContainer
+          style={styles.container}
+          component={Paper}
+          onScroll={(e) => this.handleScroll(e)}
+        >
           <Table stickyHeader>
             <TableHead style={styles.tableHead}>
               <TableRow>
-                <TableCell style={styles.columns.art}>
+                <TableCell padding="checkbox" style={styles.columns.art}>
                   <Checkbox
                     color="primary"
                     style={styles.multiCheck}

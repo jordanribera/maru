@@ -1,8 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { read } from "../client/localStorage";
 
 const initialState = {
-  pointer: 0, // need one for each queue, add it to an object below
-  primary: [],
+  ...{
+    pointer: 0, // need one for each queue, add it to an object below
+    primary: [],
+  },
+  ...read("queue"),
 };
 
 const queueReducer = createReducer(initialState, {

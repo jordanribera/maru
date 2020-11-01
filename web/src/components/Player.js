@@ -110,7 +110,7 @@ class Player extends React.Component {
           currentTime={this.state.currentTime}
           duration={this.state.duration}
         />
-        <Queue showEnd={true} />
+        <Queue showEnd={false} />
       </Paper>
     );
   }

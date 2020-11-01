@@ -98,7 +98,10 @@ class QueueItem extends React.Component {
           </Box>
         </TableCell>
         <TableCell style={styles.column.title} align="left">
-          <Typography style={{ ...styles.title, ...activeStyle }}>
+          <Typography
+            style={{ ...styles.title, ...activeStyle }}
+            title={this.props.song.title}
+          >
             {this.props.song.title}
           </Typography>
         </TableCell>

@@ -1,11 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { read } from "../client/localStorage";
 
 const initialState = {
-  activeTab: 1,
-  showLabels: false,
-  darkMode: true,
-  themeColor: "blue",
-  expandArt: true,
+  ...{
+    activeTab: 1,
+    showLabels: false,
+    darkMode: true,
+    themeColor: "blue",
+    expandArt: true,
+  },
+  ...read("shell"),
 };
 
 const shellReducer = createReducer(initialState, {

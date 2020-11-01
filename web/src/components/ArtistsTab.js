@@ -20,7 +20,7 @@ class ArtistsTab extends React.Component {
   }
 
   componentDidMount() {
-    getArtists({}, (result) => {
+    getArtists([], (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
