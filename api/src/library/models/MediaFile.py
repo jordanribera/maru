@@ -1,5 +1,6 @@
 import mutagen
 import os.path
+import dateutil.parser as date_parser
 from django.db import models
 
 from core.models import BaseModel
@@ -17,6 +18,9 @@ class MediaFile(BaseModel):
         on_delete=models.CASCADE,
         null=True,
     )
+
+    def __str__(self):
+        return self.filename
 
     def __init__(self, *args, **kwargs):
         super(MediaFile, self).__init__(*args, **kwargs)
@@ -67,7 +71,8 @@ class MediaFile(BaseModel):
     @property
     def year(self):
         year_keys = ['date', 'DATE', 'TDRC']
-        return self.waterfall(year_keys)
+        raw = self.waterfall(year_keys)
+        return date_parser.parse(raw).year
 
     @property
     def length(self):

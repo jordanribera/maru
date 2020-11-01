@@ -1,19 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Queue from "./Queue";
 import TrackControls from "./TrackControls";
-import { apiServer, getTracks } from "../client/api";
-import { addItems, advanceQueue, reverseQueue } from "../actions/queue";
+import { getTracks } from "../client/api";
+import { advanceQueue, reverseQueue } from "../actions/queue";
 
 import { activeTheme } from "../client/theme";
 
 const styles = {
   root: {
     height: "100vh",
-    width: "512px",
+    minWidth: "512px",
     display: "flex",
     flexDirection: "column",
     borderRight: `1px solid ${activeTheme().palette.divider}`,
@@ -34,7 +33,7 @@ class Player extends React.Component {
   }
 
   componentDidMount() {
-    let tracks = getTracks({ artist: "radiohead" }, (result) => {
+    getTracks({ artist: "radiohead" }, (result) => {
       // this.props.dispatch(addItems(result));
     });
   }

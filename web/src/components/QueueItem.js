@@ -1,9 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
@@ -73,10 +71,13 @@ class QueueItem extends React.Component {
       },
     };
 
-    let artStyle = {
+    const artStyle = {
       backgroundImage: `url(${this.props.song.artwork_url})`,
       backgroundSize: "100%",
     };
+
+    const activeStyle =
+      this.props.queuePosition === 0 ? { fontWeight: "bold" } : {};
 
     return (
       <TableRow
@@ -88,7 +89,7 @@ class QueueItem extends React.Component {
       >
         <TableCell style={styles.column.art}>
           <Box style={{ ...styles.art, ...artStyle }}>
-            {this.props.queuePosition == 0 && (
+            {this.props.queuePosition === 0 && (
               <PlayArrowIcon
                 htmlColor={activeTheme().palette.text.main}
                 style={styles.activeArrow}
@@ -97,10 +98,12 @@ class QueueItem extends React.Component {
           </Box>
         </TableCell>
         <TableCell style={styles.column.title} align="left">
-          <Typography style={styles.title}>{this.props.song.title}</Typography>
+          <Typography style={{ ...styles.title, ...activeStyle }}>
+            {this.props.song.title}
+          </Typography>
         </TableCell>
         <TableCell align="right" style={styles.column.time}>
-          <Typography variant="caption">
+          <Typography variant="caption" style={activeStyle}>
             {formatTime(this.props.song.length)}
           </Typography>
         </TableCell>

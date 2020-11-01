@@ -14,7 +14,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
-import QueueMusicIcon from "@material-ui/icons/QueueMusic";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import VerticalAlignTopIcon from "@material-ui/icons/VerticalAlignTop";
 import VerticalAlignBottomIcon from "@material-ui/icons/VerticalAlignBottom";

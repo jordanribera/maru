@@ -1,11 +1,15 @@
+from django.db.models import Prefetch
+
 from library.serializers import MediaFileSerializer
 from library.models import MediaFile
 from library.models import Artist
 from library.models import Album
 from library.models import Track
+from library.models import Playlist
 from library.serializers import ArtistSerializer
 from library.serializers import AlbumSerializer
 from library.serializers import TrackSerializer
+from library.serializers import PlaylistSerializer
 
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
@@ -39,12 +43,25 @@ class TrackView(ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = Track.objects.all()
 
-        artist = self.request.query_params.get('artist', None)
-        if artist is not None:
-            queryset = queryset.filter(artist__name__iexact=artist)
+        artists = self.request.query_params.getlist('artist')
+        if len(artists) > 0:
+            queryset = queryset.filter(artist__slug__in=artists)
 
-        album = self.request.query_params.get('album', None)
-        if album is not None:
-            queryset = queryset.filter(album__name__iexact=album)
+        albums = self.request.query_params.getlist('album')
+        if len(albums) > 0:
+            queryset = queryset.filter(album__slug__in=albums)
 
+        return queryset
+
+
+class PlaylistView(ReadOnlyModelViewSet):
+    serializer_class = PlaylistSerializer
+
+    def get_queryset(self):
+        queryset = Playlist.objects.prefetch_related(
+            Prefetch(
+                'items',
+                Track.objects.order_by('playlists__position'),
+            )
+        )
         return queryset

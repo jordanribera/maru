@@ -3,8 +3,6 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
@@ -13,13 +11,12 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 
-import ArtistCard from "./ArtistCard";
+import AvTimerIcon from "@material-ui/icons/AvTimer";
+
 import SongRow from "./SongRow";
 import LibraryContextMenu from "./LibraryContextMenu";
 
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-
-import { getArtists, getAlbums, getTracks } from "../client/api";
+import { getTracks } from "../client/api";
 
 const styles = {
   root: {
@@ -44,6 +41,13 @@ const styles = {
   columns: {
     art: { width: "48px" },
   },
+  headerCell: {
+    whiteSpace: "nowrap",
+    paddingRight: "12px",
+  },
+  headerText: {
+    fontWeight: "bold",
+  },
 };
 
 class SongsTab extends React.Component {
@@ -58,7 +62,7 @@ class SongsTab extends React.Component {
   componentDidMount() {
     /* TODO: need to use filters, update results on filter change */
     /* TODO: need to load more pages when we scroll down */
-    let artists = getTracks({}, (result) => {
+    getTracks({}, (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
@@ -80,7 +84,7 @@ class SongsTab extends React.Component {
   handleSelect(hash, multi = false) {
     let tempState = this.state;
     let baseline = [];
-    if (multi) baseline = tempState.selected.filter((v) => v != hash);
+    if (multi) baseline = tempState.selected.filter((v) => v !== hash);
 
     if (tempState.selected.includes(hash)) {
       tempState.selected = baseline;
@@ -117,18 +121,26 @@ class SongsTab extends React.Component {
                     onChange={(e) => this.handleMassSelect(e)}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell padding="none">
                   <Typography style={styles.title}>
                     {this.selectionTitle()}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell padding="none">
                   <LibraryContextMenu songs={this.selectedSongs()} />
                 </TableCell>
-                <TableCell>Artist</TableCell>
-                <TableCell>Album</TableCell>
-                <TableCell>Year</TableCell>
-                <TableCell>Time</TableCell>
+                <TableCell padding="none" style={styles.headerCell}>
+                  <Typography style={styles.headerText}>Artist</Typography>
+                </TableCell>
+                <TableCell padding="none" style={styles.headerCell}>
+                  <Typography style={styles.headerText}>Album</Typography>
+                </TableCell>
+                <TableCell padding="none" style={styles.headerCell}>
+                  <Typography style={styles.headerText}>Year</Typography>
+                </TableCell>
+                <TableCell style={styles.headerCell}>
+                  <AvTimerIcon />
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -4,6 +4,7 @@ from django.conf.urls import include
 from library.views import ArtistView
 from library.views import AlbumView
 from library.views import TrackView
+from library.views import PlaylistView
 from library.views import MediaFileView
 from rest_framework.routers import DefaultRouter
 
@@ -29,6 +30,11 @@ tracks = search_router.register(
     r'tracks',
     TrackView,
     basename='tracks',
+)
+playlists = search_router.register(
+    r'playlists',
+    PlaylistView,
+    basename='playlists',
 )
 
 
