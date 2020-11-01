@@ -4,7 +4,6 @@ body {
 }
 
 body ::-webkit-scrollbar {
-  width: 0.5em;
 }
 
 body ::-webkit-scrollbar-thumb {

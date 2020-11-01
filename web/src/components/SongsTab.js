@@ -19,6 +19,7 @@ import LibraryContextMenu from "./LibraryContextMenu";
 import FilterMenu from "./FilterMenu";
 
 import { getTracks } from "../client/api";
+import { activeTheme } from "../client/theme";
 
 const styles = {
   root: {
@@ -27,16 +28,12 @@ const styles = {
   },
   container: {
     height: "100%",
-    paddingLeft: "8px",
     overflowY: "scroll",
+    backgroundColor: activeTheme().palette.background.default,
   },
-  tableHead: {
-    fontWeight: "bold",
-  },
+  tableHead: {},
   title: {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
+    width: "100%",
     minWidth: "100%",
   },
   columns: {
@@ -48,6 +45,8 @@ const styles = {
   headerCell: {
     whiteSpace: "nowrap",
     paddingRight: "12px",
+    fontWeight: "bold",
+    backgroundColor: activeTheme().palette.background.paper,
   },
   headerText: {
     fontWeight: "bold",
@@ -154,24 +153,28 @@ class SongsTab extends React.Component {
         <TableContainer
           style={styles.container}
           component={Paper}
+          square
           onScroll={(e) => this.handleScroll(e)}
         >
           <Table stickyHeader>
-            <TableHead style={styles.tableHead}>
-              <TableRow>
-                <TableCell padding="checkbox" style={styles.columns.art}>
+            <TableHead>
+              <TableRow style={styles.tableHead}>
+                <TableCell
+                  padding="checkbox"
+                  style={{ ...styles.columns.art, ...styles.headerCell }}
+                >
                   <Checkbox
                     color="primary"
                     style={styles.multiCheck}
                     onChange={(e) => this.handleMassSelect(e)}
                   />
                 </TableCell>
-                <TableCell padding="none">
+                <TableCell padding="none" style={styles.headerCell}>
                   <Typography style={styles.title}>
                     {this.selectionTitle()}
                   </Typography>
                 </TableCell>
-                <TableCell padding="none">
+                <TableCell padding="none" style={styles.headerCell}>
                   <LibraryContextMenu songs={this.selectedSongs()} />
                 </TableCell>
                 <TableCell padding="none" style={styles.headerCell}>

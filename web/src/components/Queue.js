@@ -89,13 +89,15 @@ class Queue extends React.Component {
         backgroundColor: activeTheme().palette.background.default,
       },
       emptyState: {
-        padding: "32px",
+        height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        background: "none",
       },
       container: {
         flexGrow: "1",
+        overflowY: "scroll",
       },
       end: {
         padding: "4px",
@@ -133,7 +135,7 @@ class Queue extends React.Component {
         },
       },
       tableBody: {
-        backgroundColor: activeTheme().palette.background.paper,
+        position: "relative",
       },
     };
 
@@ -147,36 +149,38 @@ class Queue extends React.Component {
     return (
       <Box style={styles.root}>
         <Divider />
-        {this.targetQueue().length === 0 && (
-          <Typography color="textSecondary" style={styles.emptyState}>
-            the queue is empty
-          </Typography>
-        )}
         <TableContainer style={styles.container}>
-          <Table>
-            <TableBody style={styles.tableBody}>
-              {this.targetQueue().map((song, index) => {
-                return (
-                  <QueueItem
-                    song={song}
-                    key={index}
-                    queuePosition={index}
-                    selected={this.state.selected.includes(index)}
-                    onSelect={(index, multi) => {
-                      this.handleSelect(index, multi);
-                    }}
-                  />
-                );
-              })}
-              {this.props.showEnd && (
-                <TableRow>
-                  <TableCell padding="none" colSpan={3} style={styles.end}>
-                    <Divider />
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          {this.targetQueue().length === 0 && (
+            <Typography color="textSecondary" style={styles.emptyState}>
+              the queue is empty
+            </Typography>
+          )}
+          {this.targetQueue().length > 0 && (
+            <Table>
+              <TableBody style={styles.tableBody}>
+                {this.targetQueue().map((song, index) => {
+                  return (
+                    <QueueItem
+                      song={song}
+                      key={index}
+                      queuePosition={index}
+                      selected={this.state.selected.includes(index)}
+                      onSelect={(index, multi) => {
+                        this.handleSelect(index, multi);
+                      }}
+                    />
+                  );
+                })}
+                {this.props.showEnd && (
+                  <TableRow>
+                    <TableCell padding="none" colSpan={3} style={styles.end}>
+                      <Divider />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          )}
         </TableContainer>
         <Divider />
         <Box style={styles.footer}>

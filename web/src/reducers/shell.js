@@ -3,7 +3,6 @@ import { read } from "../client/localStorage";
 
 const initialState = {
   ...{
-    activeTab: 1,
     showLabels: false,
     darkMode: true,
     themeColor: "blue",
@@ -13,10 +12,6 @@ const initialState = {
 };
 
 const shellReducer = createReducer(initialState, {
-  ACTIVATE_TAB: (state, action) => {
-    state.activeTab = action.value;
-  },
-
   SET_DARKMODE: (state, action) => {
     state.darkMode = action.value;
   },

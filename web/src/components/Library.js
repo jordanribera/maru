@@ -17,7 +17,6 @@ import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 import { getInfo } from "../client/api";
-import { activateTab } from "../actions/shell";
 import { activeTheme } from "../client/theme";
 
 import TabPanel from "./TabPanel";
@@ -62,6 +61,7 @@ class Library extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeTab: 1,
       info: {},
     };
   }
@@ -80,7 +80,9 @@ class Library extends React.Component {
 
   render() {
     const handleTabChange = (event, newValue) => {
-      this.props.dispatch(activateTab(newValue));
+      let tempState = this.state;
+      tempState.activeTab = newValue;
+      this.setState(tempState);
     };
 
     const styles = themeStyles(activeTheme());
@@ -88,19 +90,19 @@ class Library extends React.Component {
     return (
       <Box style={styles.root}>
         <Box style={styles.tabPanelWrapper}>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={0}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={0}>
             <ArtistsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={1}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={1}>
             <AlbumsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={2}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={2}>
             <SongsTab filterOptions={this.state.info["filter_options"] || {}} />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={3}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={3}>
             <PlaylistsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={4}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={4}>
             <SettingsTab />
           </TabPanel>
         </Box>
@@ -108,7 +110,7 @@ class Library extends React.Component {
           <Tabs
             style={styles.tabs}
             orientation="vertical"
-            value={this.props.activeTab}
+            value={this.state.activeTab}
             onChange={handleTabChange}
             indicatorColor="primary"
             textColor="primary"

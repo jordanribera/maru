@@ -29,6 +29,7 @@ class Player extends React.Component {
       duration: 0,
       seeking: false,
     };
+    this.player = React.createRef();
   }
 
   player() {
@@ -38,10 +39,10 @@ class Player extends React.Component {
   controlCallbacks() {
     return {
       play: () => {
-        this.player().play();
+        this.player.current.play();
       },
       pause: () => {
-        this.player().pause();
+        this.player.current.pause();
       },
       next: () => {
         this.props.dispatch(advanceQueue());
@@ -59,13 +60,13 @@ class Player extends React.Component {
       timeUpdate: () => {
         if (!this.state.seeking) {
           let tempState = this.state;
-          tempState.currentTime = this.player().currentTime;
+          tempState.currentTime = this.player.current.currentTime;
           this.setState(tempState);
         }
       },
       durationChange: () => {
         let tempState = this.state;
-        tempState.duration = this.player().duration;
+        tempState.duration = this.player.current.duration;
         this.setState(tempState);
       },
       seeking: (event, value) => {
@@ -75,7 +76,7 @@ class Player extends React.Component {
       },
       seek: (event, value) => {
         console.log(`seeking to ${value}`);
-        this.player().currentTime = value;
+        this.player.current.currentTime = value;
         let tempState = this.state;
         tempState.seeking = false;
         this.setState(tempState);
@@ -97,6 +98,7 @@ class Player extends React.Component {
       <Paper square style={styles.root}>
         <audio
           id="ThePlayer"
+          ref={this.player}
           src={activeUrl}
           onPlay={this.controlCallbacks().onPlay}
           onEnded={this.controlCallbacks().onEnded}
