@@ -31,6 +31,7 @@ const themeStyles = (theme) => {
     },
     tabPanelWrapper: {
       flexGrow: "1",
+      minWidth: "512px",
       backgroundColor: theme.palette.background.default,
     },
     tabWrapper: {

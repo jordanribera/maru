@@ -11,8 +11,8 @@ import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import Slider from "@material-ui/core/Slider";
 import Box from "@material-ui/core/Box";
 
-import { advanceQueue } from "../actions/queue";
-import { setExpandArt } from "../actions/shell";
+import AlbumIcon from "@material-ui/icons/Album";
+
 import { activeTheme } from "../client/theme";
 
 const styles = {
@@ -21,20 +21,26 @@ const styles = {
     width: "100%",
     paddingBottom: "100%",
     backgroundColor: activeTheme().palette.background.default,
+    position: "relative",
   },
-  body: {
-    flexGrow: "1",
+  noArt: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   controls: {
     textAlign: "center",
   },
-  button: {},
+  button: {
+    height: "64px",
+    width: "64px",
+  },
   seekBar: {
     marginTop: "-16px",
-  },
-  title: {
-    marginTop: "-20px",
-    padding: "16px",
   },
 };
 
@@ -65,7 +71,11 @@ class TrackControls extends React.Component {
           <Box
             style={{ ...styles.art, ...art_style }}
             onClick={toggleExpandArt}
-          />
+          >
+            {!("artwork_url" in track && track.artwork_url) && (
+              <AlbumIcon color="disabled" style={styles.noArt} />
+            )}
+          </Box>
         </Collapse>
         <Box style={styles.controls}>
           <IconButton
@@ -80,7 +90,7 @@ class TrackControls extends React.Component {
             color="primary"
             onClick={this.props.callbacks.play}
           >
-            <PlayArrowIcon />
+            <PlayArrowIcon style={styles.button} />
           </IconButton>
           <IconButton
             style={styles.button}

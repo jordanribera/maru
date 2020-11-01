@@ -87,3 +87,15 @@ class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
         fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)
+
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    # TODO: when playlist hash set loading works, replace tracks with hashes
+    items = TrackSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+        model = Album
+        fields = ('name', 'items',)

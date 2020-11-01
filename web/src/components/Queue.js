@@ -3,24 +3,16 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
 import Checkbox from "@material-ui/core/Checkbox";
 import Divider from "@material-ui/core/Divider";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
-
-import ScheduleIcon from "@material-ui/icons/Schedule";
 
 import QueueContextMenu from "./QueueContextMenu";
 import QueueItem from "./QueueItem";
 
-import { getArtists, getAlbums, getTracks } from "../client/api";
 import { activeTheme } from "../client/theme";
 import { formatTime } from "../client/util";
 
@@ -39,7 +31,7 @@ class Queue extends React.Component {
     console.log(`selecting ${index}`);
     let tempState = this.state;
     let baseline = [];
-    if (multi) baseline = tempState.selected.filter((v) => v != index);
+    if (multi) baseline = tempState.selected.filter((v) => v !== index);
 
     if (tempState.selected.includes(index)) {
       tempState.selected = baseline;
@@ -92,14 +84,21 @@ class Queue extends React.Component {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: activeTheme().palette.background.default,
+      },
+      emptyState: {
+        padding: "32px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       },
       container: {
         flexGrow: "1",
-        backgroundColor: activeTheme().palette.background.default,
       },
       footer: {
         display: "flex",
         flexDirection: "row",
+        backgroundColor: activeTheme().palette.background.paper,
       },
       foot: {
         select: {
@@ -133,9 +132,21 @@ class Queue extends React.Component {
       },
     };
 
+    let menuSongs = this.selectedSongs();
+    let menuKeys = this.state.selected;
+    if (menuSongs.length < 1) {
+      menuSongs = this.targetQueue();
+      menuKeys = [...Array(this.targetQueue().length).keys()];
+    }
+
     return (
       <Box style={styles.root}>
         <Divider />
+        {this.targetQueue().length === 0 && (
+          <Typography color="textSecondary" style={styles.emptyState}>
+            the queue is empty
+          </Typography>
+        )}
         <TableContainer style={styles.container}>
           <Table>
             <TableBody style={styles.tableBody}>
@@ -155,6 +166,7 @@ class Queue extends React.Component {
             </TableBody>
           </Table>
         </TableContainer>
+        <Divider />
         <Box style={styles.footer}>
           <Divider />
           <Box style={styles.foot.select}>
@@ -164,16 +176,15 @@ class Queue extends React.Component {
             />
           </Box>
           <Box style={styles.foot.note}>
-            <Typography variant="caption">{this.selectionTitle()}</Typography>
+            <Typography variant="caption" color="textSecondary">
+              {this.selectionTitle()}
+            </Typography>
           </Box>
           <Box style={styles.foot.control}>
-            <QueueContextMenu
-              songs={this.selectedSongs()}
-              keys={this.state.selected}
-            />
+            <QueueContextMenu songs={menuSongs} keys={menuKeys} />
           </Box>
           <Box style={styles.foot.time}>
-            <Typography variant="caption">
+            <Typography variant="caption" color="textSecondary">
               {formatTime(this.selectionTime())}
             </Typography>
           </Box>

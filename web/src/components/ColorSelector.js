@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import AllOutIcon from "@material-ui/icons/AllOut";
 import { activeTheme, colorMap } from "../client/theme";
 
 const styles = {

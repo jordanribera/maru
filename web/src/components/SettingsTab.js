@@ -1,20 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/Accordion";
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
-import FormLabel from "@material-ui/core/FormLabel";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
 
@@ -22,11 +15,8 @@ import Brightness3Icon from "@material-ui/icons/Brightness3";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import HelpIcon from "@material-ui/icons/Help";
-import InfoIcon from "@material-ui/icons/Info";
 import InvertColorsIcon from "@material-ui/icons/InvertColors";
 import PinDropIcon from "@material-ui/icons/PinDrop";
-import QueueMusicIcon from "@material-ui/icons/QueueMusic";
-import SelectAllIcon from "@material-ui/icons/SelectAll";
 import SortIcon from "@material-ui/icons/Sort";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 
@@ -67,10 +57,6 @@ class SettingsTab extends React.Component {
 
     const handleColorChange = (colorKey) => {
       this.props.dispatch(setThemeColor(colorKey));
-    };
-
-    const setPostDragSelection = (e) => {
-      console.log(e);
     };
 
     return (
@@ -114,22 +100,15 @@ class SettingsTab extends React.Component {
                   </Typography>
                 </Box>
                 <LabeledSetting
-                  label="Queue behavior"
-                  description="Choose how queue progress is visualized..."
+                  label="Consumption"
+                  description="With repeat off, songs are removed when they end"
                   icon={<PinDropIcon style={styles.icon} />}
                 >
-                  <RadioGroup name="queueMode">
-                    <FormControlLabel
-                      value="stack"
-                      control={<Radio />}
-                      label="Shifting stack"
-                    />
-                    <FormControlLabel
-                      value="pointer"
-                      control={<Radio />}
-                      label="Moving pointer"
-                    />
-                  </RadioGroup>
+                  <FormControlLabel
+                    color="primary"
+                    control={<Checkbox />}
+                    label="I hunger"
+                  />
                 </LabeledSetting>
               </Paper>
             </Grid>

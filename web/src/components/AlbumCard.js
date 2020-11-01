@@ -7,8 +7,6 @@ import Typography from "@material-ui/core/Typography";
 
 import LibraryContextMenu from "./LibraryContextMenu";
 
-import { getArtists, getAlbums, getTracks } from "../client/api";
-
 const styles = {
   root: {
     display: "flex",
@@ -46,7 +44,7 @@ class AlbumCard extends React.Component {
     };
 
     return (
-      <Card style={styles.root} raised={true}>
+      <Card style={styles.root}>
         <Box style={{ ...styles.art, ...artStyle }}>
           <Box style={styles.control}>
             <LibraryContextMenu songs={this.props.album.tracks} />

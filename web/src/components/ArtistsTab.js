@@ -3,7 +3,7 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import ArtistCard from "./ArtistCard";
-import { getArtists, getAlbums, getTracks } from "../client/api";
+import { getArtists } from "../client/api";
 
 const styles = {
   root: {
@@ -20,7 +20,7 @@ class ArtistsTab extends React.Component {
   }
 
   componentDidMount() {
-    let artists = getArtists({}, (result) => {
+    getArtists({}, (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);

@@ -11,7 +11,7 @@ export const getArtists = (filters, callback) => {
     filterStrings.push(`${filter}=${filters[filter]}`);
   }
 
-  let artists = fetch(`${artistsEndpoint}?${filterStrings.join("&")}`)
+  fetch(`${artistsEndpoint}?${filterStrings.join("&")}`)
     .then((res) => res.json())
     .then((result) => {
       callback(result.results);
@@ -24,7 +24,7 @@ export const getAlbums = (filters, callback) => {
     filterStrings.push(`${filter}=${filters[filter]}`);
   }
 
-  let albums = fetch(`${albumsEndpoint}?${filterStrings.join("&")}`)
+  fetch(`${albumsEndpoint}?${filterStrings.join("&")}`)
     .then((res) => res.json())
     .then((result) => {
       callback(result.results);
@@ -37,7 +37,7 @@ export const getTracks = (filters, callback) => {
     filterStrings.push(`${filter}=${filters[filter]}`);
   }
 
-  let tracks = fetch(`${tracksEndpoint}?${filterStrings.join("&")}`)
+  fetch(`${tracksEndpoint}?${filterStrings.join("&")}`)
     .then((res) => res.json())
     .then((result) => {
       callback(result.results);

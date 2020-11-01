@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
-import Checkbox from "@material-ui/core/Checkbox";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
@@ -36,6 +35,7 @@ class SongRow extends React.Component {
       },
       column: {
         title: { position: "relative", width: "100%" },
+        text: { whiteSpace: "nowrap", paddingRight: "12px" },
       },
       art: {
         height: ROW_HEIGHT,
@@ -52,10 +52,6 @@ class SongRow extends React.Component {
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-      },
-      textCell: {
-        whiteSpace: "nowrap",
-        paddingRight: "12px",
       },
     };
 
@@ -88,16 +84,16 @@ class SongRow extends React.Component {
         <TableCell>
           {this.state.hover && <LibraryContextMenu songs={[track]} />}
         </TableCell>
-        <TableCell padding="none" style={styles.textCell}>
+        <TableCell padding="none" style={styles.column.text}>
           <Typography>{track.artist}</Typography>
         </TableCell>
-        <TableCell padding="none" style={styles.textCell}>
+        <TableCell padding="none" style={styles.column.text}>
           <Typography>{track.album}</Typography>
         </TableCell>
-        <TableCell padding="none" style={styles.textCell}>
+        <TableCell padding="none" style={styles.column.text}>
           <Typography>{track.year}</Typography>
         </TableCell>
-        <TableCell padding="none" align="right" style={styles.textCell}>
+        <TableCell padding="none" align="right" style={styles.column.text}>
           <Typography>{formatTime(track.length)}</Typography>
         </TableCell>
       </TableRow>
