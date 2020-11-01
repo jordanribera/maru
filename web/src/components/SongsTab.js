@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -15,6 +16,8 @@ import AvTimerIcon from "@material-ui/icons/AvTimer";
 
 import SongRow from "./SongRow";
 import LibraryContextMenu from "./LibraryContextMenu";
+import FilterMenu from "./FilterMenu";
+import { TEST_OPTIONS } from "./FilterMenu";
 
 import { getTracks } from "../client/api";
 
@@ -47,6 +50,7 @@ const styles = {
   },
   headerText: {
     fontWeight: "bold",
+    display: "inline-block",
   },
 };
 
@@ -56,13 +60,18 @@ class SongsTab extends React.Component {
     this.state = {
       results: [],
       selected: [],
+      filters: [],
     };
   }
 
   componentDidMount() {
     /* TODO: need to use filters, update results on filter change */
     /* TODO: need to load more pages when we scroll down */
-    getTracks({}, (result) => {
+    this.updateResults();
+  }
+
+  updateResults() {
+    getTracks(this.state.filters, (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
@@ -78,7 +87,6 @@ class SongsTab extends React.Component {
       tempState.selected = [];
     }
     this.setState(tempState);
-    console.log(this.state);
   }
 
   handleSelect(hash, multi = false) {
@@ -92,6 +100,24 @@ class SongsTab extends React.Component {
       tempState.selected = [...baseline, hash];
     }
     this.setState(tempState);
+  }
+
+  handleFilterSelect(field, key, selected) {
+    const filter = `${field}:${key}`;
+    let tempState = this.state;
+    tempState.filters = tempState.filters.filter((f) => f !== filter);
+    if (selected) tempState.filters.push(filter);
+    this.setState(tempState);
+    this.updateResults();
+    console.log(this.state.filters);
+  }
+
+  selectedFilterKeys(field) {
+    const fieldPrefix = `${field}:`;
+    const fieldFilters = this.state.filters.filter((f) =>
+      f.startsWith(fieldPrefix)
+    );
+    return fieldFilters.map((f) => f.substr(fieldPrefix.length));
   }
 
   selectedSongs() {
@@ -108,6 +134,13 @@ class SongsTab extends React.Component {
   }
 
   render() {
+    const artistFilterOptions = this.props.filterOptions["artist"] || [];
+    const albumFilterOptions = this.props.filterOptions["album"] || [];
+
+    const handleFilterSelect = (key, selected) => {
+      console.log(`selecting ${key}, ${selected}`);
+    };
+
     return (
       <Box style={styles.root}>
         <TableContainer style={styles.container} component={Paper}>
@@ -131,9 +164,23 @@ class SongsTab extends React.Component {
                 </TableCell>
                 <TableCell padding="none" style={styles.headerCell}>
                   <Typography style={styles.headerText}>Artist</Typography>
+                  <FilterMenu
+                    options={artistFilterOptions}
+                    selected={this.selectedFilterKeys("artist")}
+                    onSelect={(key, selected) =>
+                      this.handleFilterSelect("artist", key, selected)
+                    }
+                  />
                 </TableCell>
                 <TableCell padding="none" style={styles.headerCell}>
                   <Typography style={styles.headerText}>Album</Typography>
+                  <FilterMenu
+                    options={albumFilterOptions}
+                    selected={this.selectedFilterKeys("album")}
+                    onSelect={(key, selected) =>
+                      this.handleFilterSelect("album", key, selected)
+                    }
+                  />
                 </TableCell>
                 <TableCell padding="none" style={styles.headerCell}>
                   <Typography style={styles.headerText}>Year</Typography>
@@ -163,5 +210,9 @@ class SongsTab extends React.Component {
     );
   }
 }
+
+SongsTab.propTypes = {
+  filterOptions: PropTypes.object, // {field: [{ key: "slug", label: "Slug" }]}
+};
 
 export default SongsTab;

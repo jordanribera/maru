@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Queue from "./Queue";
 import TrackControls from "./TrackControls";
-import { getTracks } from "../client/api";
 import { advanceQueue, reverseQueue } from "../actions/queue";
 
 import { activeTheme } from "../client/theme";
@@ -32,12 +31,6 @@ class Player extends React.Component {
     };
   }
 
-  componentDidMount() {
-    getTracks({ artist: "radiohead" }, (result) => {
-      // this.props.dispatch(addItems(result));
-    });
-  }
-
   player() {
     return document.querySelector("#ThePlayer");
   }
@@ -56,7 +49,11 @@ class Player extends React.Component {
       previous: () => {
         this.props.dispatch(reverseQueue());
       },
+      onPlay: () => {
+        console.log("played");
+      },
       onEnded: () => {
+        console.log("ended");
         this.props.dispatch(advanceQueue());
       },
       timeUpdate: () => {
@@ -91,6 +88,9 @@ class Player extends React.Component {
     let activeUrl = "";
     if (activeTrack) {
       activeUrl = activeTrack.url;
+      document.title = `${activeTrack.title} - ${activeTrack.artist}`;
+    } else {
+      document.title = "Maru";
     }
 
     return (
@@ -98,6 +98,7 @@ class Player extends React.Component {
         <audio
           id="ThePlayer"
           src={activeUrl}
+          onPlay={this.controlCallbacks().onPlay}
           onEnded={this.controlCallbacks().onEnded}
           onTimeUpdate={this.controlCallbacks().timeUpdate}
           onDurationChange={this.controlCallbacks().durationChange}
@@ -109,7 +110,7 @@ class Player extends React.Component {
           currentTime={this.state.currentTime}
           duration={this.state.duration}
         />
-        <Queue />
+        <Queue showEnd={true} />
       </Paper>
     );
   }

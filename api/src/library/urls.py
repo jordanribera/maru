@@ -6,6 +6,7 @@ from library.views import AlbumView
 from library.views import TrackView
 from library.views import PlaylistView
 from library.views import MediaFileView
+from library.views import InfoView
 from rest_framework.routers import DefaultRouter
 
 search_router = DefaultRouter()
@@ -40,4 +41,5 @@ playlists = search_router.register(
 
 urlpatterns = [
     url(r'^', include(search_router.urls)),
+    url(r'^info', InfoView.as_view(), name='info'),
 ]

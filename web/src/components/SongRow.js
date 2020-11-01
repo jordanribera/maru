@@ -77,11 +77,11 @@ class SongRow extends React.Component {
           <Box style={{ ...artStyle, ...styles.art }} />
         </TableCell>
         <TableCell padding="none" style={styles.column.title}>
-          <Typography role="text" style={styles.title} ariaLabel={track.title}>
+          <Typography role="text" style={styles.title}>
             {track.title}
           </Typography>
         </TableCell>
-        <TableCell>
+        <TableCell padding="none">
           {this.state.hover && <LibraryContextMenu songs={[track]} />}
         </TableCell>
         <TableCell padding="none" style={styles.column.text}>

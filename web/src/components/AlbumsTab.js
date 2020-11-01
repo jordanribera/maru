@@ -23,7 +23,7 @@ class AlbumsTab extends React.Component {
   }
 
   componentDidMount() {
-    getAlbums({}, (result) => {
+    getAlbums([], (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
@@ -35,7 +35,7 @@ class AlbumsTab extends React.Component {
       <Box style={styles.root}>
         <Grid container spacing={2} justify="flex-start">
           {this.state.results.map((item, index) => (
-            <Grid item xs={6} sm={6} md={6} lg={4} xl={3} key={index}>
+            <Grid item xs={6} sm={6} md={4} lg={3} xl={2} key={index}>
               <AlbumCard album={item} />
             </Grid>
           ))}

@@ -31,8 +31,7 @@ const styles = {
     height: "32px",
     position: "absolute",
     top: 0,
-    right: 0,
-    paddingTop: "16px",
+    right: 16,
   },
 };
 

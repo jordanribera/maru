@@ -8,6 +8,8 @@ import Divider from "@material-ui/core/Divider";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 
 import QueueContextMenu from "./QueueContextMenu";
@@ -95,6 +97,9 @@ class Queue extends React.Component {
       container: {
         flexGrow: "1",
       },
+      end: {
+        padding: "4px",
+      },
       footer: {
         display: "flex",
         flexDirection: "row",
@@ -163,6 +168,13 @@ class Queue extends React.Component {
                   />
                 );
               })}
+              {this.props.showEnd && (
+                <TableRow>
+                  <TableCell padding="none" colSpan={3} style={styles.end}>
+                    <Divider />
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

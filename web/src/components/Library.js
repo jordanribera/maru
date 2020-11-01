@@ -15,6 +15,7 @@ import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import SettingsIcon from "@material-ui/icons/Settings";
 
+import { getInfo } from "../client/api";
 import { activateTab } from "../actions/shell";
 import { activeTheme } from "../client/theme";
 
@@ -57,6 +58,21 @@ const themeStyles = (theme) => {
 };
 
 class Library extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      info: {},
+    };
+  }
+
+  componentDidMount() {
+    getInfo((result) => {
+      let tempState = this.state;
+      tempState.info = result;
+      this.setState(tempState);
+    });
+  }
+
   tabLabel(label) {
     if (this.props.showLabels) return label;
   }
@@ -78,7 +94,7 @@ class Library extends React.Component {
             <AlbumsTab />
           </TabPanel>
           <TabPanel style={styles.panel} value={this.props.activeTab} index={2}>
-            <SongsTab />
+            <SongsTab filterOptions={this.state.info["filter_options"] || {}} />
           </TabPanel>
           <TabPanel style={styles.panel} value={this.props.activeTab} index={3}>
             <PlaylistsTab />
