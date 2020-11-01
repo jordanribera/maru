@@ -21,7 +21,11 @@ class Art extends React.Component {
     return (
       /* TODO: create a frame that will remain square and fill its parent */
       <Box style={styles.root} onResize={handleResize}>
-        Thing
+        <Box style={{ ...styles.art, ...artStyle }} onClick={toggleExpandArt}>
+          {!("artwork_url" in activeTrack && activeTrack.artwork_url) && (
+            <AlbumIcon color="disabled" style={styles.noArt} />
+          )}
+        </Box>
       </Box>
     );
   }

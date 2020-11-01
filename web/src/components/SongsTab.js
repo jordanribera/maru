@@ -21,39 +21,6 @@ import FilterMenu from "./FilterMenu";
 import { getTracks } from "../client/api";
 import { activeTheme } from "../client/theme";
 
-const styles = {
-  root: {
-    height: "100vh",
-    position: "relative",
-  },
-  container: {
-    height: "100%",
-    overflowY: "scroll",
-    backgroundColor: activeTheme().palette.background.default,
-  },
-  tableHead: {},
-  title: {
-    width: "100%",
-    minWidth: "100%",
-  },
-  columns: {
-    art: {
-      width: "48px",
-      marginLeft: "16px",
-    },
-  },
-  headerCell: {
-    whiteSpace: "nowrap",
-    paddingRight: "12px",
-    fontWeight: "bold",
-    backgroundColor: activeTheme().palette.background.paper,
-  },
-  headerText: {
-    fontWeight: "bold",
-    display: "inline-block",
-  },
-};
-
 class SongsTab extends React.Component {
   constructor(props) {
     super(props);
@@ -141,6 +108,39 @@ class SongsTab extends React.Component {
   }
 
   render() {
+    const styles = {
+      root: {
+        height: "100vh",
+        position: "relative",
+      },
+      container: {
+        height: "100%",
+        overflowY: "scroll",
+        backgroundColor: activeTheme().palette.background.default,
+      },
+      tableHead: {},
+      title: {
+        width: "100%",
+        minWidth: "512px",
+      },
+      columns: {
+        art: {
+          width: "48px",
+          marginLeft: "16px",
+        },
+      },
+      headerCell: {
+        whiteSpace: "nowrap",
+        paddingRight: "12px",
+        fontWeight: "bold",
+        backgroundColor: activeTheme().palette.background.paper,
+      },
+      headerText: {
+        fontWeight: "bold",
+        display: "inline-block",
+      },
+    };
+
     const artistFilterOptions = this.props.filterOptions["artist"] || [];
     const albumFilterOptions = this.props.filterOptions["album"] || [];
 

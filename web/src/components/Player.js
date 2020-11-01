@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import Box from "@material-ui/core/Box";
+import Collapse from "@material-ui/core/Collapse";
 import Paper from "@material-ui/core/Paper";
 import Queue from "./Queue";
-import TrackControls from "./TrackControls";
-import { advanceQueue, reverseQueue } from "../actions/queue";
+import PlayerControls from "./PlayerControls";
+import AlbumIcon from "@material-ui/icons/Album";
 
+import { advanceQueue, reverseQueue } from "../actions/queue";
 import { activeTheme } from "../client/theme";
 
 const styles = {
@@ -15,6 +18,21 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     borderRight: `1px solid ${activeTheme().palette.divider}`,
+  },
+  art: {
+    width: "100%",
+    paddingBottom: "100%",
+    backgroundColor: activeTheme().palette.background.default,
+    position: "relative",
+  },
+  noArt: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   queue: {
     backgroundColor: "silver",
@@ -28,12 +46,9 @@ class Player extends React.Component {
       currentTime: 0,
       duration: 0,
       seeking: false,
+      expandArt: true,
     };
     this.player = React.createRef();
-  }
-
-  player() {
-    return document.querySelector("#ThePlayer");
   }
 
   controlCallbacks() {
@@ -85,7 +100,7 @@ class Player extends React.Component {
   }
 
   render() {
-    const activeTrack = this.props.queue[0];
+    const activeTrack = this.props.queue[0] || {};
     let activeUrl = "";
     if (activeTrack) {
       activeUrl = activeTrack.url;
@@ -93,6 +108,17 @@ class Player extends React.Component {
     } else {
       document.title = "Maru";
     }
+
+    const artStyle = {
+      //backgroundImage: `url(${activeTrack.artwork_url})`,
+      backgroundSize: "100%",
+    };
+
+    const toggleExpandArt = () => {
+      let tempState = this.state;
+      tempState.expandArt = !this.state.expandArt;
+      this.setState(tempState);
+    };
 
     return (
       <Paper square style={styles.root}>
@@ -106,8 +132,21 @@ class Player extends React.Component {
           onDurationChange={this.controlCallbacks().durationChange}
           autoPlay
         />
-        <TrackControls
+        {/*}
+        <Collapse in={this.state.expandArt} collapsedHeight={16}>
+          <Box
+            style={{ ...styles.art, ...artStyle }}
+            onClick={toggleExpandArt}
+          >
+            {!("artwork_url" in activeTrack && activeTrack.artwork_url) && (
+              <AlbumIcon color="disabled" style={styles.noArt} />
+            )}
+          </Box>
+        </Collapse>
+        {*/}
+        <PlayerControls
           track={activeTrack}
+          player={this.player.current}
           callbacks={this.controlCallbacks()}
           currentTime={this.state.currentTime}
           duration={this.state.duration}

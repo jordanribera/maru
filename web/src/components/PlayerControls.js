@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Collapse from "@material-ui/core/Collapse";
+import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
@@ -16,35 +16,55 @@ import AlbumIcon from "@material-ui/icons/Album";
 import { activeTheme } from "../client/theme";
 
 const styles = {
-  root: {},
-  art: {
-    width: "100%",
-    paddingBottom: "100%",
-    backgroundColor: activeTheme().palette.background.default,
+  root: {
     position: "relative",
-  },
-  noArt: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    minHeight: "64px",
+    maxHeight: "64px",
   },
   controls: {
     textAlign: "center",
   },
   button: {
-    height: "64px",
-    width: "64px",
+    height: "56px",
+    width: "56px",
   },
   seekBar: {
-    marginTop: "-16px",
+    position: "absolute",
+    bottom: 4,
+    left: 0,
+    right: 0,
+    marginBottom: "-17px",
   },
 };
 
-class TrackControls extends React.Component {
+const StyleSlider = withStyles({
+  root: {
+    color: "primary",
+    height: 8,
+  },
+  thumb: {
+    height: 16,
+    width: 16,
+    border: "2px solid currentColor",
+    marginTop: -4,
+    marginLeft: -8,
+    "&:focus, &:hover, &$active": {
+      boxShadow: "inherit",
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: "calc(-50% + 4px)",
+  },
+  track: {
+    height: 8,
+  },
+  rail: {
+    height: 8,
+  },
+})(Slider);
+
+class PlayerControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,31 +72,16 @@ class TrackControls extends React.Component {
     };
   }
 
+  isPlayingz() {
+    return !Boolean(this.props.player && this.props.player.paused);
+  }
+
   render() {
     const track = this.props.track || {};
-    const art_style = {
-      backgroundImage: `url(${track.artwork_url})`,
-      backgroundSize: "100%",
-    };
-
-    const toggleExpandArt = () => {
-      let tempState = this.state;
-      tempState.expandArt = !this.state.expandArt;
-      this.setState(tempState);
-    };
+    const playing = !Boolean(this.props.player && this.props.player.paused);
 
     return (
       <Box style={styles.root}>
-        <Collapse in={this.state.expandArt} collapsedHeight={16}>
-          <Box
-            style={{ ...styles.art, ...art_style }}
-            onClick={toggleExpandArt}
-          >
-            {!("artwork_url" in track && track.artwork_url) && (
-              <AlbumIcon color="disabled" style={styles.noArt} />
-            )}
-          </Box>
-        </Collapse>
         <Box style={styles.controls}>
           <IconButton
             style={styles.button}
@@ -85,20 +90,24 @@ class TrackControls extends React.Component {
           >
             <SkipPreviousIcon />
           </IconButton>
-          <IconButton
-            style={styles.button}
-            color="primary"
-            onClick={this.props.callbacks.play}
-          >
-            <PlayArrowIcon style={styles.button} />
-          </IconButton>
-          <IconButton
-            style={styles.button}
-            color="primary"
-            onClick={this.props.callbacks.pause}
-          >
-            <PauseIcon />
-          </IconButton>
+          {!playing && (
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.play}
+            >
+              <PlayArrowIcon style={styles.button} />
+            </IconButton>
+          )}
+          {playing && (
+            <IconButton
+              style={styles.button}
+              color="primary"
+              onClick={this.props.callbacks.pause}
+            >
+              <PauseIcon style={styles.button} />
+            </IconButton>
+          )}
           <IconButton
             style={styles.button}
             color="primary"
@@ -107,7 +116,7 @@ class TrackControls extends React.Component {
             <SkipNextIcon />
           </IconButton>
         </Box>
-        <Slider
+        <StyleSlider
           style={styles.seekBar}
           value={this.props.currentTime}
           min={0}
@@ -120,16 +129,16 @@ class TrackControls extends React.Component {
   }
 }
 
-TrackControls.propTypes = {
+PlayerControls.propTypes = {
   track: PropTypes.object,
   callbacks: PropTypes.object,
+  player: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
   return {
     queue: state.queue.primary,
-    darkMode: state.shell.darkMode,
   };
 };
 
-export default connect(mapStateToProps)(TrackControls);
+export default connect(mapStateToProps)(PlayerControls);
