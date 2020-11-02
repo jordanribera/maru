@@ -10,6 +10,14 @@ the indexed content.
 ## Disclaimer
 This is a work in progress. API auth is not implemented yet; consider the project only suitable for testing and local use. Library import has only been tested against a small set of files. If you encounter problems please [open an issue](https://github.com/jordanribera/maru/issues). 
 
+## Enticing Images
+**Album View**
+![Album View](http://spiralpower.net/files/maru/maru_albums.png)
+
+**Library View**
+![Library View](http://spiralpower.net/files/maru/maru_songs.png)
+
+
 ## Setup
 Follow these steps to get a working API and web client:
 
