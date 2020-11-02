@@ -48,3 +48,19 @@ your library:
   - `docker-compose exec api ./manage.py import`
   - `docker-compose exec api ./manage.py import_artwork`
 
+## Known Issues / Coming Soon
+
+Library import untested:
+* Currently only imports `.mp3` and `.flac` files
+* Still finding new metadata edge cases that can break import
+
+Seeking is broken:
+* Fix coming soon
+
+Playlists:
+* Coming soon
+
+Listen history:
+* Coming soon
+* Record per-track and per-album listen count and thumbs up/down
+* Use `modified` field for recently listened
