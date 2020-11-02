@@ -15,7 +15,7 @@ This is a work in progress. API auth is not implemented yet; consider the projec
 ![Album View](http://spiralpower.net/files/maru/maru_albums.png)
 
 **Library View**
-![Library View](http://spiralpower.net/files/maru/maru_songs.png)
+![Library View](http://spiralpower.net/files/maru/maru_library.png)
 
 
 ## Setup
