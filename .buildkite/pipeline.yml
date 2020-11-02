@@ -1,38 +1,38 @@
 steps:
   - label: ":wrench: new prebuild"
-    command: ".buildkite/steps/dockerprebuild.sh"
+    command: ".buildkite/steps/dockerbuild.sh"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
-  - label: ":docker: prebuild images"
-    plugins:
-      - docker-login#v2.0.1:
-          username: jordanribera
-      - docker-compose#v3.7.0:
-          config: docker-compose.yml
-          push: api:index.docker.io/jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER
-      - docker-compose#v3.7.0:
-          config: docker-compose.yml
-          push: web:index.docker.io/jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER
+
   - wait
+
   - label: ":eslint: eslint"
     command: "npx eslint /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
+          image: "jordanribera/maru-web:${BUILDKITE_COMMIT:0:7}"
   - label: ":nail_care: prettier"
     command: "npx prettier -c /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-web:b$BUILDKITE_BUILD_NUMBER"
+          image: "jordanribera/maru-web:${BUILDKITE_COMMIT:0:7}"
   - label: ":nail_care: flake8"
     command: "flake8 /app/src"
     plugins:
       - docker-login#v2.0.1:
           username: jordanribera
       - docker#v3.7.0:
-          image: "jordanribera/maru-api:b$BUILDKITE_BUILD_NUMBER"
+          image: "jordanribera/maru-api:${BUILDKITE_COMMIT:0:7}"
+
+  - wait
+
+  - label: ":docker: push *:latest"
+    command: ".buildkite/steps/dockerpush.sh"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
