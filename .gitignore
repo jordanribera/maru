@@ -1,6 +1,9 @@
 # secrets & datasets
 media/*
 
+#static files
+api/static/*
+
 # node garbage
 node_modules/
 

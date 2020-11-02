@@ -39,7 +39,10 @@ class SongRow extends React.Component {
         text: {
           whiteSpace: "nowrap",
           paddingRight: "12px",
+          maxWidth: "256px",
           height: ROW_HEIGHT,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
         },
       },
       art: {
@@ -55,6 +58,10 @@ class SongRow extends React.Component {
         left: "12px",
         right: 0,
         whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
+      text: {
         overflow: "hidden",
         textOverflow: "ellipsis",
       },
@@ -85,16 +92,18 @@ class SongRow extends React.Component {
           {this.state.hover && <LibraryContextMenu songs={[track]} />}
         </TableCell>
         <TableCell padding="none" style={styles.column.text}>
-          <Typography>{track.artist}</Typography>
+          <Typography style={styles.text}>{track.artist}</Typography>
         </TableCell>
         <TableCell padding="none" style={styles.column.text}>
-          <Typography>{track.album}</Typography>
+          <Typography style={styles.text}>{track.album}</Typography>
         </TableCell>
         <TableCell padding="none" style={styles.column.text}>
-          <Typography>{track.year}</Typography>
+          <Typography style={styles.text}>{track.year}</Typography>
         </TableCell>
         <TableCell padding="none" align="right" style={styles.column.text}>
-          <Typography>{formatTime(track.length)}</Typography>
+          <Typography style={styles.text}>
+            {formatTime(track.length)}
+          </Typography>
         </TableCell>
       </TableRow>
     );

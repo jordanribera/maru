@@ -25,14 +25,14 @@ MIME_EXTENSIONS = {
 
 
 class Command(BaseCommand):
-    help = 'Import /media'
+    help = 'Import album artwork'
 
     def add_arguments(self, parser):
         pass
 
     def handle(self, *args, **kwargs):
         self.stdout.write('= = = = = = = = = = = = = = = =')
-        self.stdout.write('scanning media folder {}'.format(MEDIA_PATH))
+        self.stdout.write('scanning artwork folder {}'.format(MEDIA_PATH))
         self.stdout.write('= = = = = = = = = = = = = = = =')
 
         # catalog cover.jpg etc

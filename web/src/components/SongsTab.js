@@ -127,6 +127,9 @@ class SongsTab extends React.Component {
         art: {
           width: "48px",
           marginLeft: "16px",
+          backgroundColor: activeTheme().palette.background.paper,
+          borderRight: `solid 1px ${activeTheme().palette.divider}`,
+          textAlign: "center",
         },
       },
       headerCell: {
@@ -159,10 +162,7 @@ class SongsTab extends React.Component {
           <Table stickyHeader>
             <TableHead>
               <TableRow style={styles.tableHead}>
-                <TableCell
-                  padding="checkbox"
-                  style={{ ...styles.columns.art, ...styles.headerCell }}
-                >
+                <TableCell padding="none" style={styles.columns.art}>
                   <Checkbox
                     color="primary"
                     style={styles.multiCheck}

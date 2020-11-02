@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zi8f6ih21jct4c!1=$4vanta%g+f6x7*@q6lfv(k-8$34@2=ke'
+SECRET_KEY = 'fcw&xgj^%$cpwwcd7@36@(q)&z(4yco*r+h82)8gfc^n4-!@vl'  # replaced by setup
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'core',
     'library',
 ]
 
@@ -94,7 +95,7 @@ POSTGRES_DATABASE = {
 MARU_DATABASE = os.environ.get('MARU_DATABASE', 'sqlite')
 
 DATABASES = {
-    'default': POSTGRES_DATABASE if MARU_DATABASE is 'postgres' else SQLITE_DATABASE,
+    'default': POSTGRES_DATABASE if MARU_DATABASE == 'postgres' else SQLITE_DATABASE,
 }
 
 

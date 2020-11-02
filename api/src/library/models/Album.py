@@ -19,7 +19,7 @@ class Album(BaseModel):
     artwork = models.OneToOneField(
         'Artwork',
         related_name='album',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
     )
 

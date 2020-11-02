@@ -29,7 +29,7 @@ class TrackSerializer(serializers.ModelSerializer):
     year = serializers.IntegerField(source='album.year')
     length = serializers.DecimalField(
         source='media_file.length',
-        max_digits=5,
+        max_digits=6,
         decimal_places=2,
     )
     track = serializers.SerializerMethodField()
