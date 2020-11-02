@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Box from "@material-ui/core/Box";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 import LibraryContextMenu from "./LibraryContextMenu";
+import Art from "./Art";
 
 import { activeTheme } from "../client/theme";
 import { formatTime } from "../client/util";
@@ -35,7 +35,12 @@ class SongRow extends React.Component {
       },
       column: {
         title: { position: "relative", width: "100%" },
-        text: { whiteSpace: "nowrap", paddingRight: "12px" },
+        art: { height: ROW_HEIGHT },
+        text: {
+          whiteSpace: "nowrap",
+          paddingRight: "12px",
+          height: ROW_HEIGHT,
+        },
       },
       art: {
         height: ROW_HEIGHT,
@@ -55,11 +60,6 @@ class SongRow extends React.Component {
       },
     };
 
-    const artStyle = {
-      backgroundImage: `url(${track.artwork_url})`,
-      backgroundSize: "100%",
-    };
-
     const handleSelect = (event) => {
       const multi = window.event.ctrlKey || window.event.shiftKey;
       this.props.onSelect(track.sha1hash, multi);
@@ -73,15 +73,15 @@ class SongRow extends React.Component {
         onMouseLeave={() => this.setState({ hover: false })}
         onClick={handleSelect}
       >
-        <TableCell padding="none">
-          <Box style={{ ...artStyle, ...styles.art }} />
+        <TableCell padding="none" style={styles.column.art}>
+          <Art size={ROW_HEIGHT} url={track.artwork_url} />
         </TableCell>
         <TableCell padding="none" style={styles.column.title}>
-          <Typography role="text" style={styles.title} ariaLabel={track.title}>
+          <Typography role="text" style={styles.title} title={track.title}>
             {track.title}
           </Typography>
         </TableCell>
-        <TableCell>
+        <TableCell padding="none">
           {this.state.hover && <LibraryContextMenu songs={[track]} />}
         </TableCell>
         <TableCell padding="none" style={styles.column.text}>

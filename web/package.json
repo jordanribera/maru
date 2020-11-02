@@ -12,6 +12,7 @@
     "fontsource-roboto": "^3.0.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-measure": "^2.5.2",
     "react-redux": "^7.2.1",
     "react-scripts": "3.4.3"
   },

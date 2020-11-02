@@ -19,9 +19,7 @@ import QueueMusicIcon from "@material-ui/icons/QueueMusic";
 import { addItems, removeItems } from "../actions/queue";
 
 const styles = {
-  root: {
-    margin: "-16px",
-  },
+  root: {},
   button: {},
 };
 
@@ -73,7 +71,7 @@ class LibraryContextMenu extends React.Component {
           style={styles.button}
           onClick={handleClick}
         >
-          <MoreVertIcon />
+          <MoreVertIcon color={this.props.color} />
         </IconButton>
         <Menu
           style={styles.menu}

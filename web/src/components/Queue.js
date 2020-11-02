@@ -8,6 +8,8 @@ import Divider from "@material-ui/core/Divider";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 
 import QueueContextMenu from "./QueueContextMenu";
@@ -87,13 +89,18 @@ class Queue extends React.Component {
         backgroundColor: activeTheme().palette.background.default,
       },
       emptyState: {
-        padding: "32px",
+        height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        background: "none",
       },
       container: {
         flexGrow: "1",
+        overflowY: "scroll",
+      },
+      end: {
+        padding: "4px",
       },
       footer: {
         display: "flex",
@@ -120,7 +127,7 @@ class Queue extends React.Component {
           paddingBottom: "16px",
         },
         time: {
-          marginRight: "24px",
+          marginRight: "18px",
           width: "64px",
           display: "flex",
           alignItems: "center",
@@ -128,7 +135,7 @@ class Queue extends React.Component {
         },
       },
       tableBody: {
-        backgroundColor: activeTheme().palette.background.paper,
+        position: "relative",
       },
     };
 
@@ -142,29 +149,38 @@ class Queue extends React.Component {
     return (
       <Box style={styles.root}>
         <Divider />
-        {this.targetQueue().length === 0 && (
-          <Typography color="textSecondary" style={styles.emptyState}>
-            the queue is empty
-          </Typography>
-        )}
         <TableContainer style={styles.container}>
-          <Table>
-            <TableBody style={styles.tableBody}>
-              {this.targetQueue().map((song, index) => {
-                return (
-                  <QueueItem
-                    song={song}
-                    key={index}
-                    queuePosition={index}
-                    selected={this.state.selected.includes(index)}
-                    onSelect={(index, multi) => {
-                      this.handleSelect(index, multi);
-                    }}
-                  />
-                );
-              })}
-            </TableBody>
-          </Table>
+          {this.targetQueue().length === 0 && (
+            <Typography color="textSecondary" style={styles.emptyState}>
+              the queue is empty
+            </Typography>
+          )}
+          {this.targetQueue().length > 0 && (
+            <Table>
+              <TableBody style={styles.tableBody}>
+                {this.targetQueue().map((song, index) => {
+                  return (
+                    <QueueItem
+                      song={song}
+                      key={index}
+                      queuePosition={index}
+                      selected={this.state.selected.includes(index)}
+                      onSelect={(index, multi) => {
+                        this.handleSelect(index, multi);
+                      }}
+                    />
+                  );
+                })}
+                {this.props.showEnd && (
+                  <TableRow>
+                    <TableCell padding="none" colSpan={3} style={styles.end}>
+                      <Divider />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          )}
         </TableContainer>
         <Divider />
         <Box style={styles.footer}>
@@ -175,6 +191,7 @@ class Queue extends React.Component {
               onChange={(e) => this.handleMassSelect(e)}
             />
           </Box>
+          <Divider orientation="vertical" />
           <Box style={styles.foot.note}>
             <Typography variant="caption" color="textSecondary">
               {this.selectionTitle()}

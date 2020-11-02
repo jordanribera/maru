@@ -1,4 +1,5 @@
 import React from "react";
+import Measure from "react-measure";
 
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -19,28 +20,48 @@ class AlbumsTab extends React.Component {
     super(props);
     this.state = {
       results: [],
+      dimensions: {
+        height: -1,
+        width: -1,
+      },
     };
   }
 
   componentDidMount() {
-    getAlbums({}, (result) => {
+    getAlbums([], (result) => {
       let tempState = this.state;
       tempState.results = result;
       this.setState(tempState);
     });
   }
 
+  setDimensions(dimensions) {
+    let tempState = this.state;
+    tempState.dimensions = dimensions;
+    this.setState(tempState);
+  }
+
   render() {
+    let gridFactor = 6;
+    if (this.state.dimensions.width > 800) gridFactor = 4;
+    if (this.state.dimensions.width > 1280) gridFactor = 3;
+    if (this.state.dimensions.width > 1440) gridFactor = 2;
+    if (this.state.dimensions.width > 2560) gridFactor = 1;
+
     return (
-      <Box style={styles.root}>
-        <Grid container spacing={2} justify="flex-start">
-          {this.state.results.map((item, index) => (
-            <Grid item xs={6} sm={6} md={6} lg={4} xl={3} key={index}>
-              <AlbumCard album={item} />
+      <Measure bounds onResize={(rect) => this.setDimensions(rect.bounds)}>
+        {({ measureRef }) => (
+          <Box ref={measureRef} style={styles.root}>
+            <Grid container spacing={2} justify="flex-start">
+              {this.state.results.map((item, index) => (
+                <Grid item xs={gridFactor} key={index}>
+                  <AlbumCard album={item} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Box>
+          </Box>
+        )}
+      </Measure>
     );
   }
 }

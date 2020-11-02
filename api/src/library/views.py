@@ -1,4 +1,6 @@
 from django.db.models import Prefetch
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from library.serializers import MediaFileSerializer
 from library.models import MediaFile
@@ -65,3 +67,27 @@ class PlaylistView(ReadOnlyModelViewSet):
             )
         )
         return queryset
+
+
+class InfoView(APIView):
+    def get(self, request, format=None):
+        artists = Artist.objects.all()
+        albums = Album.objects.all()
+
+        return Response({
+            'counts': {
+                'artist': artists.count(),
+                'album': albums.count(),
+                'song': Track.objects.count(),
+            },
+            'filter_options': {
+                'artist': [
+                    {'key': artist.slug, 'label': artist.name}
+                    for artist in artists
+                ],
+                'album': [
+                    {'key': album.slug, 'label': album.name}
+                    for album in albums
+                ],
+            },
+        })

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
+import Paper from "@material-ui/core/Paper";
 import ArtistsTab from "./ArtistsTab";
 import AlbumsTab from "./AlbumsTab";
 import SongsTab from "./SongsTab";
@@ -15,7 +16,7 @@ import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import SettingsIcon from "@material-ui/icons/Settings";
 
-import { activateTab } from "../actions/shell";
+import { getInfo } from "../client/api";
 import { activeTheme } from "../client/theme";
 
 import TabPanel from "./TabPanel";
@@ -57,13 +58,31 @@ const themeStyles = (theme) => {
 };
 
 class Library extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 1,
+      info: {},
+    };
+  }
+
+  componentDidMount() {
+    getInfo((result) => {
+      let tempState = this.state;
+      tempState.info = result;
+      this.setState(tempState);
+    });
+  }
+
   tabLabel(label) {
     if (this.props.showLabels) return label;
   }
 
   render() {
     const handleTabChange = (event, newValue) => {
-      this.props.dispatch(activateTab(newValue));
+      let tempState = this.state;
+      tempState.activeTab = newValue;
+      this.setState(tempState);
     };
 
     const styles = themeStyles(activeTheme());
@@ -71,27 +90,27 @@ class Library extends React.Component {
     return (
       <Box style={styles.root}>
         <Box style={styles.tabPanelWrapper}>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={0}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={0}>
             <ArtistsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={1}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={1}>
             <AlbumsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={2}>
-            <SongsTab />
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={2}>
+            <SongsTab filterOptions={this.state.info["filter_options"] || {}} />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={3}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={3}>
             <PlaylistsTab />
           </TabPanel>
-          <TabPanel style={styles.panel} value={this.props.activeTab} index={4}>
+          <TabPanel style={styles.panel} value={this.state.activeTab} index={4}>
             <SettingsTab />
           </TabPanel>
         </Box>
-        <Box style={styles.tabWrapper}>
+        <Paper square style={styles.tabWrapper}>
           <Tabs
             style={styles.tabs}
             orientation="vertical"
-            value={this.props.activeTab}
+            value={this.state.activeTab}
             onChange={handleTabChange}
             indicatorColor="primary"
             textColor="primary"
@@ -123,7 +142,7 @@ class Library extends React.Component {
               label={this.tabLabel("Settings")}
             />
           </Tabs>
-        </Box>
+        </Paper>
       </Box>
     );
   }
