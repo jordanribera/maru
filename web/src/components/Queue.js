@@ -127,7 +127,7 @@ class Queue extends React.Component {
           paddingBottom: "16px",
         },
         time: {
-          marginRight: "24px",
+          marginRight: "18px",
           width: "64px",
           display: "flex",
           alignItems: "center",
@@ -191,6 +191,7 @@ class Queue extends React.Component {
               onChange={(e) => this.handleMassSelect(e)}
             />
           </Box>
+          <Divider orientation="vertical" />
           <Box style={styles.foot.note}>
             <Typography variant="caption" color="textSecondary">
               {this.selectionTitle()}

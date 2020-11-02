@@ -118,6 +118,7 @@ class FilterMenu extends React.Component {
                 </MenuItem>
               );
             }
+            return undefined;
           })}
         </Menu>
       </Box>

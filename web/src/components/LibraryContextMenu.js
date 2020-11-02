@@ -71,7 +71,7 @@ class LibraryContextMenu extends React.Component {
           style={styles.button}
           onClick={handleClick}
         >
-          <MoreVertIcon />
+          <MoreVertIcon color={this.props.color} />
         </IconButton>
         <Menu
           style={styles.menu}

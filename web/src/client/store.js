@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import shellReducer from "../reducers/shell";
 import queueReducer from "../reducers/queue";
-import { read, write } from "./localStorage";
+import { write } from "./localStorage";
 
 const store = configureStore({
   reducer: {

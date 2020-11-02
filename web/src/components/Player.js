@@ -5,10 +5,11 @@ import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
 import Paper from "@material-ui/core/Paper";
 import Queue from "./Queue";
+import Art from "./Art";
 import PlayerControls from "./PlayerControls";
-import AlbumIcon from "@material-ui/icons/Album";
 
 import { advanceQueue, reverseQueue } from "../actions/queue";
+import { setExpandArt } from "../actions/shell";
 import { activeTheme } from "../client/theme";
 
 const styles = {
@@ -96,6 +97,12 @@ class Player extends React.Component {
         tempState.seeking = false;
         this.setState(tempState);
       },
+      volume: (event, value) => {
+        this.player.current.volume = value / 100;
+      },
+      expandArt: () => {
+        this.props.dispatch(setExpandArt(!this.props.expandArt));
+      },
     };
   }
 
@@ -109,17 +116,6 @@ class Player extends React.Component {
       document.title = "Maru";
     }
 
-    const artStyle = {
-      //backgroundImage: `url(${activeTrack.artwork_url})`,
-      backgroundSize: "100%",
-    };
-
-    const toggleExpandArt = () => {
-      let tempState = this.state;
-      tempState.expandArt = !this.state.expandArt;
-      this.setState(tempState);
-    };
-
     return (
       <Paper square style={styles.root}>
         <audio
@@ -130,20 +126,17 @@ class Player extends React.Component {
           onEnded={this.controlCallbacks().onEnded}
           onTimeUpdate={this.controlCallbacks().timeUpdate}
           onDurationChange={this.controlCallbacks().durationChange}
+          volume={this.props.volume / 100}
           autoPlay
         />
-        {/*}
-        <Collapse in={this.state.expandArt} collapsedHeight={16}>
-          <Box
-            style={{ ...styles.art, ...artStyle }}
-            onClick={toggleExpandArt}
-          >
-            {!("artwork_url" in activeTrack && activeTrack.artwork_url) && (
-              <AlbumIcon color="disabled" style={styles.noArt} />
-            )}
-          </Box>
-        </Collapse>
-        {*/}
+        <Box
+          style={{ flexGrow: 1 }}
+          onClick={() => this.controlCallbacks().expandArt()}
+        >
+          <Collapse in={this.props.expandArt} collapsedHeight={0}>
+            <Art fit="width" url={activeTrack.artwork_url} />
+          </Collapse>
+        </Box>
         <PlayerControls
           track={activeTrack}
           player={this.player.current}
@@ -161,6 +154,8 @@ const mapStateToProps = (state) => {
   return {
     queue: state.queue.primary,
     darkMode: state.shell.darkMode,
+    expandArt: state.shell.expandArt,
+    volume: state.shell.volume,
   };
 };
 

@@ -24,7 +24,7 @@ const styles = {
 class ArtistCard extends React.Component {
   render() {
     return (
-      <Card style={styles.root} raised={true}>
+      <Card style={styles.root}>
         <Box style={styles.art} />
         <Box style={styles.name}>{this.props.artist.name}</Box>
       </Card>

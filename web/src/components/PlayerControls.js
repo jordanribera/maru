@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
@@ -11,18 +13,33 @@ import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import Slider from "@material-ui/core/Slider";
 import Box from "@material-ui/core/Box";
 
-import AlbumIcon from "@material-ui/icons/Album";
-
-import { activeTheme } from "../client/theme";
+import VolumeMenu from "./VolumeMenu";
 
 const styles = {
   root: {
     position: "relative",
     minHeight: "64px",
     maxHeight: "64px",
+    display: "flex",
+  },
+  zone: {
+    left: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    center: {
+      flexGrow: 1,
+      display: "flex",
+      justifyContent: "center",
+    },
+    right: {
+      display: "flex",
+      justifyContent: "center",
+    },
   },
   controls: {
     textAlign: "center",
+    backgroundColor: "orange",
   },
   button: {
     height: "56px",
@@ -70,19 +87,21 @@ class PlayerControls extends React.Component {
     this.state = {
       expandArt: true,
     };
-  }
-
-  isPlayingz() {
-    return !Boolean(this.props.player && this.props.player.paused);
+    this.slider = React.createRef();
   }
 
   render() {
-    const track = this.props.track || {};
     const playing = !Boolean(this.props.player && this.props.player.paused);
 
     return (
       <Box style={styles.root}>
-        <Box style={styles.controls}>
+        <Box style={styles.zone.left}>
+          <VolumeMenu
+            color="primary"
+            onChangeCommitted={this.props.callbacks.volume}
+          />
+        </Box>
+        <Box style={styles.zone.center}>
           <IconButton
             style={styles.button}
             color="primary"
@@ -116,7 +135,17 @@ class PlayerControls extends React.Component {
             <SkipNextIcon />
           </IconButton>
         </Box>
+        <Box style={styles.zone.right}>
+          <IconButton
+            style={styles.button}
+            color="primary"
+            onClick={this.props.callbacks.expandArt}
+          >
+            {this.props.expandArt ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+          </IconButton>
+        </Box>
         <StyleSlider
+          ref={this.slider}
           style={styles.seekBar}
           value={this.props.currentTime}
           min={0}
@@ -137,6 +166,7 @@ PlayerControls.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    expandArt: state.shell.expandArt,
     queue: state.queue.primary,
   };
 };

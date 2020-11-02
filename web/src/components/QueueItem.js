@@ -1,15 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Box from "@material-ui/core/Box";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Typography from "@material-ui/core/Typography";
 
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import Art from "./Art";
 
 import { activeTheme } from "../client/theme";
 import { formatTime } from "../client/util";
+
+const ROW_HEIGHT = 64;
 
 class QueueItem extends React.Component {
   constructor(props) {
@@ -31,26 +33,15 @@ class QueueItem extends React.Component {
   render() {
     const styles = {
       root: {},
-      art: {
-        height: "64px",
-        width: "64px",
-        padding: "0px",
-        margin: "-16px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexShrink: 1,
-        backgroundColor: "green",
-      },
       activeArrow: {
         height: "42px",
         width: "42px",
         opacity: 0.75,
       },
       title: {
-        display: "block",
+        display: "flex",
+        alignItems: "center",
         position: "absolute",
-        lineHeight: "64px",
         top: 0,
         bottom: 0,
         left: "12px",
@@ -60,7 +51,7 @@ class QueueItem extends React.Component {
         textOverflow: "ellipsis",
       },
       column: {
-        art: { width: "64px" },
+        art: { width: ROW_HEIGHT },
         title: { position: "relative" },
         time: { width: "64px" },
       },
@@ -69,11 +60,6 @@ class QueueItem extends React.Component {
         hover: { backgroundColor: activeTheme().palette.action.hover },
         selected: { backgroundColor: activeTheme().palette.action.selected },
       },
-    };
-
-    const artStyle = {
-      backgroundImage: `url(${this.props.song.artwork_url})`,
-      backgroundSize: "100%",
     };
 
     const activeStyle =
@@ -87,15 +73,15 @@ class QueueItem extends React.Component {
         onMouseLeave={() => this.setState({ hover: false })}
         onClick={() => this.handleSelect()}
       >
-        <TableCell style={styles.column.art}>
-          <Box style={{ ...styles.art, ...artStyle }}>
+        <TableCell padding="none" style={styles.column.art}>
+          <Art size={ROW_HEIGHT} url={this.props.song.artwork_url}>
             {this.props.queuePosition === 0 && (
               <PlayArrowIcon
                 htmlColor={activeTheme().palette.text.main}
                 style={styles.activeArrow}
               />
             )}
-          </Box>
+          </Art>
         </TableCell>
         <TableCell style={styles.column.title} align="left">
           <Typography
