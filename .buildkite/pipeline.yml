@@ -1,4 +1,9 @@
 steps:
+  - label: ":wrench: new prebuild"
+    command: ".buildkite/steps/dockerprebuild.sh"
+    plugins:
+      - docker-login#v2.0.1:
+          username: jordanribera
   - label: ":docker: prebuild images"
     plugins:
       - docker-login#v2.0.1:

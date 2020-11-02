@@ -3,7 +3,6 @@ version: '3'
 services:
   web:
     image: jordanribera/maru-web
-    build: ./web
     stdin_open: true
     ports:
       - "3000:3000"
@@ -12,33 +11,14 @@ services:
       - ./web:/app
   api:
     image: jordanribera/maru-api
-    build: ./api
     env_file:
       - .env
     ports:
       - "8000:8000"
-    # depends_on: # uncomment for postgres
-    #   - db
     volumes:
       - ./api:/app
       - ./media:/media
       - ./api/static:/static
-  # celery:
-  #   build: ./api
-  #   command: celery -A core worker
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - redis
-  #   volumes:
-  #     - ./api:/app
-  #     - ./media:/media
-  # db:
-  #   image: postgres
-  #   env_file:
-  #     - .env
-  # redis:
-  #   image: redis:alpine
   nginx:
     image: nginx:latest
     ports:
