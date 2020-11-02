@@ -12,7 +12,7 @@ This is a work in progress. API auth is not implemented yet; consider the projec
 
 ## Enticing Images
 **Album View**
-![Album View](http://spiralpower.net/files/maru/maru_albums.png)
+![Album View](http://spiralpower.net/files/maru/maru_album.png)
 
 **Library View**
 ![Library View](http://spiralpower.net/files/maru/maru_library.png)
@@ -49,6 +49,10 @@ your library:
   - `docker-compose exec api ./manage.py import_artwork`
 
 ## Known Issues / Coming Soon
+
+API authentication:
+* Somewhat important
+* Coming soon
 
 Library import untested:
 * Currently only imports `.mp3` and `.flac` files
