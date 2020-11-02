@@ -5,7 +5,7 @@ import re
 import fileinput
 
 SETTINGS_PATH = '/app/src/core/settings.py'
-SECRET_KEY_PATTERN = r'SECRET KEY ='
+SECRET_KEY_PATTERN = r'SECRET_KEY ='
 
 
 class Command(BaseCommand):
@@ -17,20 +17,26 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # generate secret key and insert into settings.py
         fresh_key = get_random_secret_key()
-        self.stdout.write('using secret key: [ {} ]'.format(fresh_key))
+        self.stdout.write('using secret key:  {}'.format(fresh_key))
 
         for line in fileinput.input(SETTINGS_PATH, inplace=True):
             if re.match(SECRET_KEY_PATTERN, line):
+                self.stdout.write('')
+                self.stdout.write('old key:')
                 self.stdout.write(line)
-                print(line, end='')
-                print('foooo', end='')
+
+                fresh_line = 'SECRET_KEY = \'{}\''.format(fresh_key)
+                self.stdout.write('new key:')
+                self.stdout.write(fresh_line)
+
+                print(fresh_line)
             else:
                 print(line, end='')
 
         # create a user
 
         # collect static files for API browsing
-        # management.call_command('collectstatic')
+        management.call_command('collectstatic')
 
         # scan the library
         # management.call_command('import')
