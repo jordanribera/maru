@@ -162,10 +162,7 @@ class SongsTab extends React.Component {
           <Table stickyHeader>
             <TableHead>
               <TableRow style={styles.tableHead}>
-                <TableCell
-                  padding="none"
-                  style={styles.columns.art}
-                >
+                <TableCell padding="none" style={styles.columns.art}>
                   <Checkbox
                     color="primary"
                     style={styles.multiCheck}

@@ -64,7 +64,6 @@ class SongRow extends React.Component {
       text: {
         overflow: "hidden",
         textOverflow: "ellipsis",
-
       },
     };
 
@@ -102,7 +101,9 @@ class SongRow extends React.Component {
           <Typography style={styles.text}>{track.year}</Typography>
         </TableCell>
         <TableCell padding="none" align="right" style={styles.column.text}>
-          <Typography style={styles.text}>{formatTime(track.length)}</Typography>
+          <Typography style={styles.text}>
+            {formatTime(track.length)}
+          </Typography>
         </TableCell>
       </TableRow>
     );
