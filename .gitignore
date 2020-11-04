@@ -1,5 +1,6 @@
 # secrets & datasets
 media/*
+artwork/*
 
 #static files
 api/static/*

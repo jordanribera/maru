@@ -45,5 +45,4 @@ class Command(BaseCommand):
         management.call_command('purge')  # refine this once we have userdata
 
         # scan the library
-        management.call_command('import')
-        management.call_command('import_artwork')
+        management.call_command('scan')

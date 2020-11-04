@@ -82,11 +82,15 @@ class AlbumSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
-    artwork_url = serializers.CharField(source='artwork.url')
+    artwork_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Album
         fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)
+
+    def get_artwork_url(self, obj):
+        if obj.artwork:
+            return obj.artwork.url
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
