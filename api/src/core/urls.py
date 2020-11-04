@@ -20,6 +20,7 @@ from django.urls import re_path
 from library.models import Artwork
 
 from core.views import FileMaskView
+from core.views import StaticFakerView
 
 v1_urls = [
     path('library/', include('library.urls')),
@@ -36,6 +37,11 @@ urlpatterns = [
         r'media/(?P<hash>\b[0-9a-f]{5,40}\b)$',
         FileMaskView.as_view(),
         name="file_mask"
+    ),
+    re_path(
+        r'static/(?P<path>[^\s]+)$',
+        StaticFakerView.as_view(),
+        name="static_faker"
     ),
     path('api/v1/', include(v1_urls)),
 ]
