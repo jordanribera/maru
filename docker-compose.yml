@@ -22,6 +22,7 @@ services:
       - ./media:/media
       - ./artwork:/artwork
       - ./api/static:/static
+      - ./db:/db
   # db:
   #   image: postgres
   #   env_file:

@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4$zg=$#sy7a62duqeu&yv#-qj+ah=eazim^)^vz3tpgzj75d!u'  # replaced by setup
+SECRET_KEY = '*tgon6_s8a!&7h@cajqs53$g-v2#cr%rt0crdv3bs*2d%qh@^8'  # replaced by setup
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,46 +76,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-SQLITE_DATABASE = {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
-}
-
-POSTGRES_DATABASE = {
-    'ENGINE': 'django.db.backends.postgresql',
-    'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-    'PORT': os.environ.get('POSTGRES_PORT', 5432),
-    'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
-    'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-    'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
-}
-
-MARU_DATABASE = os.environ.get('MARU_DATABASE', 'sqlite')
-
-DATABASES = {
-    'default': POSTGRES_DATABASE if MARU_DATABASE == 'postgres' else SQLITE_DATABASE,
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator' },
+    { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator' },
+    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' },
+    { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator' },
 ]
 
 
@@ -133,11 +101,30 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
-ELASTICSEARCH_DSL={
-    'default': {
-        'hosts': 'elasticsearch:9200',
-    },
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+SQLITE_DATABASE = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': '/db/library.sqlite3',
 }
+
+POSTGRES_DATABASE = {
+    'ENGINE': 'django.db.backends.postgresql',
+    'HOST': os.environ.get('POSTGRES_HOST', 'db'),
+    'PORT': os.environ.get('POSTGRES_PORT', 5432),
+    'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+    'USER': os.environ.get('POSTGRES_USER', 'postgres'),
+    'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+}
+
+MARU_DATABASE = os.environ.get('MARU_DATABASE', 'sqlite')
+
+DATABASES = {
+    'default': POSTGRES_DATABASE if MARU_DATABASE == 'postgres' else SQLITE_DATABASE,
+}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (),

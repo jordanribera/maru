@@ -134,7 +134,7 @@ class Player extends React.Component {
           onClick={() => this.controlCallbacks().expandArt()}
         >
           <Collapse in={this.props.expandArt} collapsedHeight={0}>
-            <Art fit="width" url={activeTrack.artwork_url} />
+            <Art fit="width" url={activeTrack.artwork} />
           </Collapse>
         </Box>
         <PlayerControls

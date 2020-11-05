@@ -11,4 +11,4 @@ class Artist(BaseModel):
         ordering = ('name',)
 
     def __str__(self):
-        return '{} (#{})'.format(self.name, self.slug)
+        return self.name

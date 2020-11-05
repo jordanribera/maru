@@ -1,4 +1,5 @@
 # secrets & datasets
+db/*
 media/*
 artwork/*
 

@@ -81,7 +81,7 @@ class SongRow extends React.Component {
         onClick={handleSelect}
       >
         <TableCell padding="none" style={styles.column.art}>
-          <Art size={ROW_HEIGHT} url={track.artwork_url} />
+          <Art size={ROW_HEIGHT} url={track.artwork} />
         </TableCell>
         <TableCell padding="none" style={styles.column.title}>
           <Typography role="text" style={styles.title} title={track.title}>

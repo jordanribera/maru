@@ -20,7 +20,7 @@ class MediaFile(BaseModel):
     )
 
     def __str__(self):
-        return self.filename
+        return self.sha1hash
 
     def __init__(self, *args, **kwargs):
         super(MediaFile, self).__init__(*args, **kwargs)
@@ -28,11 +28,14 @@ class MediaFile(BaseModel):
 
     @property
     def tags(self):
+        mfile = mutagen.File(self.path)
         if not self._tags:
-            self._tags = {
-                key: value
-                for (key, value,) in mutagen.File(self.path).tags.items()
-            }
+            self._tags = dict()
+            if mfile.tags:
+                self._tags = {
+                    key: value
+                    for (key, value,) in mfile.tags.items()
+                }
         return self._tags
 
     def waterfall(self, keys):
@@ -55,24 +58,28 @@ class MediaFile(BaseModel):
 
     @property
     def artist(self):
-        artist_keys = ['artist', 'ARTIST', 'TPE1']
+        artist_keys = ['artist', 'ARTIST', 'TPE1', '©ART']
         return self.waterfall(artist_keys)
 
     @property
     def album(self):
-        album_keys = ['album', 'ALBUM', 'TALB']
+        album_keys = ['album', 'ALBUM', 'TALB', '©alb']
         return self.waterfall(album_keys)
 
     @property
     def title(self):
-        title_keys = ['title', 'TITLE', 'TIT2']
+        title_keys = ['title', 'TITLE', 'TIT2', '©nam']
         return self.waterfall(title_keys) or self.filename
 
     @property
     def year(self):
-        year_keys = ['date', 'DATE', 'TDRC']
+        year_keys = ['date', 'DATE', 'TDRC', '©day']
         raw = self.waterfall(year_keys)
-        return date_parser.parse(raw).year
+        if raw:
+            try:
+                return date_parser.parse(raw).year
+            except Exception:
+                return None
 
     @property
     def length(self):
@@ -80,35 +87,43 @@ class MediaFile(BaseModel):
 
     @property
     def tracknumber(self):
-        value = self.waterfall(['tracknumber', 'TRCK'])
+        value = self.waterfall(['tracknumber', 'TRCK', 'trkn'])
+        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+            return value.replace('(', '').replace(')', '').split(', ')[0]
         if value and '/' in value:
             return value.split('/')[0]
-        return value or 1
+        return value
 
     @property
     def tracktotal(self):
-        value = self.waterfall(['tracktotal', 'TRCK', 'tracknumber'])
+        value = self.waterfall(['tracktotal', 'TRCK', 'tracknumber', 'trkn'])
+        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+            return value.replace('(', '').replace(')', '').split(', ')[1]
         if value and '/' in value:
             return value.split('/')[1]
         return value
 
     @property
     def discnumber(self):
-        value = self.waterfall(['discnumber', 'TPOS'])
+        value = self.waterfall(['discnumber', 'TPOS', 'disk'])
+        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+            return value.replace('(', '').replace(')', '').split(', ')[0]
         if value and '/' in value:
             return value.split('/')[0]
-        return value or 1
+        return value
 
     @property
     def disctotal(self):
         value = self.waterfall(['disctotal', 'TPOS', 'discnumber'])
+        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+            return value.replace('(', '').replace(')', '').split(', ')[1]
         if value and '/' in value:
             return value.split('/')[1]
-        return value or 1
+        return value
 
     @property
     def genre(self):
-        return self.waterfall(['genre', 'GENRE', 'TCON'])
+        return self.waterfall(['genre', 'GENRE', 'TCON', '©gen'])
 
     @property
     def artwork(self):
@@ -123,7 +138,7 @@ class MediaFile(BaseModel):
             return None
 
         return {
-            'mime': picture.mime,
+            'mime': picture.mime.lower(),
             'data': picture.data,
         }
 

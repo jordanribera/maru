@@ -19,10 +19,10 @@ class Track(BaseModel):
     # album_artist = models.CharField(max_length=128)
     # composer = models.CharField(max_length=128)
 
-    tracknumber = models.IntegerField()
-    tracktotal = models.IntegerField()
-    discnumber = models.IntegerField(default=1)
-    disctotal = models.IntegerField(default=1)
+    tracknumber = models.IntegerField(null=True)
+    tracktotal = models.IntegerField(null=True)
+    discnumber = models.IntegerField(null=True)
+    disctotal = models.IntegerField(null=True)
     genre = models.CharField(max_length=128, null=True)
 
     class Meta:

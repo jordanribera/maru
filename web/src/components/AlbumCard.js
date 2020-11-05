@@ -42,7 +42,7 @@ class AlbumCard extends React.Component {
   render() {
     return (
       <Card style={styles.root}>
-        <Art fit="width" url={this.props.album.artwork_url}></Art>
+        <Art fit="width" url={this.props.album.cover}></Art>
         <Box style={styles.tab}>
           <Box style={styles.info}>
             <Typography style={styles.info}>{this.props.album.name}</Typography>
