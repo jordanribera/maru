@@ -1,4 +1,5 @@
 FROM node:alpine
+ENV PUBLIC_URL=/public
 
 RUN mkdir -p /app
 WORKDIR /app

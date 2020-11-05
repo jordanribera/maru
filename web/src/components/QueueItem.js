@@ -74,7 +74,7 @@ class QueueItem extends React.Component {
         onClick={() => this.handleSelect()}
       >
         <TableCell padding="none" style={styles.column.art}>
-          <Art size={ROW_HEIGHT} url={this.props.song.artwork_url}>
+          <Art size={ROW_HEIGHT} url={this.props.song.artwork}>
             {this.props.queuePosition === 0 && (
               <PlayArrowIcon
                 htmlColor={activeTheme().palette.text.main}

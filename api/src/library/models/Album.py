@@ -15,16 +15,16 @@ class Album(BaseModel):
         related_name='albums',
         on_delete=models.CASCADE
     )
-    year = models.IntegerField()
-    artwork = models.OneToOneField(
-        'Artwork',
-        related_name='album',
-        on_delete=models.SET_NULL,
-        null=True,
-    )
+    year = models.IntegerField(null=True)
 
     class Meta:
         ordering = ('artist__name', 'year', 'name',)
 
     def __str__(self):
-        return '{} (#{})'.format(self.name, self.slug)
+        return self.name
+
+    @property
+    def cover(self):
+        prime = self.artwork.filter(rel='folder_cover').first()
+        if prime:
+            return prime.artwork

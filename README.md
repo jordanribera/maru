@@ -1,14 +1,16 @@
 # Maru [![Build status](https://badge.buildkite.com/93665fc87856b435a73715c4f49a9af1f59eee1836a4c66f46.svg)](https://buildkite.com/spiralpower/maru)
 Maru is a host-it-yourself music streaming platform. Simply mount your music
 library as a docker volume and it will index and present the metadata in a
-searchable API. Your library remains untouched*. (*: Album artwork is currently
-extracted into the library)
+searchable API. Your library remains untouched.
 
 Along with this API, a web client (and soon Android) is provided for streaming
 the indexed content.
 
 ## Disclaimer
-This is a work in progress. API auth is not implemented yet; consider the project only suitable for testing and local use. Library import has only been tested against a small set of files. If you encounter problems please [open an issue](https://github.com/jordanribera/maru/issues). 
+This is a work in progress. API auth is not implemented yet; consider the
+project only suitable for testing and local use. Library import has only been
+tested against a small set of files. If you encounter problems please
+[open an issue](https://github.com/jordanribera/maru/issues).
 
 ## Enticing Images
 **Album View**
@@ -43,10 +45,10 @@ Start up the containers by running `docker-compose up -d`
 
 **Indexing**
 
-Once the containers are up and running, run the following commands to index
+Once the containers are up and running, run the following command to index
 your library:
-  - `docker-compose exec api ./manage.py import`
-  - `docker-compose exec api ./manage.py import_artwork`
+  - `docker-compose exec api ./manage.py setup`
+
 
 ## Known Issues / Coming Soon
 

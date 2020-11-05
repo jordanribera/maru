@@ -38,7 +38,7 @@ class TrackSerializer(serializers.ModelSerializer):
     # revamp this to support multiple file sources per track
     sha1hash = serializers.CharField(source='media_file.sha1hash')
     url = serializers.CharField(source='media_file.url')
-    artwork_url = serializers.SerializerMethodField()
+    artwork = serializers.SerializerMethodField()
     content_type = serializers.CharField(source='media_file.content_type')
 
     class Meta:
@@ -54,7 +54,7 @@ class TrackSerializer(serializers.ModelSerializer):
             'genre',
             'sha1hash',
             'url',
-            'artwork_url',
+            'artwork',
             'content_type',
         )
 
@@ -70,9 +70,9 @@ class TrackSerializer(serializers.ModelSerializer):
             'total': obj.disctotal,
         }
 
-    def get_artwork_url(self, obj):
-        if obj.album.artwork:
-            return obj.album.artwork.url
+    def get_artwork(self, obj):
+        if obj.album.cover:
+            return obj.album.cover.url
 
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -82,11 +82,22 @@ class AlbumSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
-    artwork_url = serializers.CharField(source='artwork.url')
+    cover = serializers.SerializerMethodField()
+    artwork = serializers.SerializerMethodField()
 
     class Meta:
         model = Album
-        fields = ('name', 'artist', 'year', 'tracks', 'artwork_url',)
+        fields = ('name', 'artist', 'year', 'tracks', 'cover', 'artwork',)
+
+    def get_cover(self, obj):
+        if obj.cover:
+            return obj.cover.url
+
+    def get_artwork(self, obj):
+        return [
+            a.artwork.url
+            for a in obj.artwork.filter(rel='folder_cover').all()
+        ]
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
