@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import include
 from django.urls import path
 from django.urls import re_path
+from rest_framework.authtoken import views as auth_views
 
 from library.models import Artwork
 
@@ -24,6 +25,7 @@ from core.views import StaticFakerView
 
 v1_urls = [
     path('library/', include('library.urls')),
+    path('auth/', auth_views.obtain_auth_token),
 ]
 
 urlpatterns = [

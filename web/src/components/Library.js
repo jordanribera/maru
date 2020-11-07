@@ -17,6 +17,7 @@ import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 import { getInfo } from "../client/api";
+import API from "../client/api";
 import { activeTheme } from "../client/theme";
 
 import TabPanel from "./TabPanel";
@@ -60,6 +61,10 @@ const themeStyles = (theme) => {
 class Library extends React.Component {
   constructor(props) {
     super(props);
+    this.api = new API({
+      host: this.props.api.host,
+      token: this.props.api.token,
+    });
     this.state = {
       activeTab: 1,
       info: {},
@@ -67,7 +72,7 @@ class Library extends React.Component {
   }
 
   componentDidMount() {
-    getInfo((result) => {
+    this.api.getInfo().then((result) => {
       let tempState = this.state;
       tempState.info = result;
       this.setState(tempState);
@@ -91,13 +96,16 @@ class Library extends React.Component {
       <Box style={styles.root}>
         <Box style={styles.tabPanelWrapper}>
           <TabPanel style={styles.panel} value={this.state.activeTab} index={0}>
-            <ArtistsTab />
+            <ArtistsTab api={this.api} />
           </TabPanel>
           <TabPanel style={styles.panel} value={this.state.activeTab} index={1}>
-            <AlbumsTab />
+            <AlbumsTab api={this.api} />
           </TabPanel>
           <TabPanel style={styles.panel} value={this.state.activeTab} index={2}>
-            <SongsTab filterOptions={this.state.info["filter_options"] || {}} />
+            <SongsTab
+              api={this.api}
+              filterOptions={this.state.info["filter_options"] || {}}
+            />
           </TabPanel>
           <TabPanel style={styles.panel} value={this.state.activeTab} index={3}>
             <PlaylistsTab />
@@ -153,6 +161,7 @@ const mapStateToProps = (state) => {
     activeTab: state.shell.activeTab,
     showLabels: state.shell.showLabels,
     darkMode: state.shell.darkMode,
+    api: state.api,
   };
 };
 

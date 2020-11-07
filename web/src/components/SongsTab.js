@@ -18,7 +18,7 @@ import SongRow from "./SongRow";
 import LibraryContextMenu from "./LibraryContextMenu";
 import FilterMenu from "./FilterMenu";
 
-import { getTracks } from "../client/api";
+import API from "../client/api";
 import { activeTheme } from "../client/theme";
 
 class SongsTab extends React.Component {
@@ -38,9 +38,9 @@ class SongsTab extends React.Component {
   }
 
   updateResults() {
-    getTracks(this.state.filters, (result) => {
+    this.props.api.getSongs(this.state.filters).then((response) => {
       let tempState = this.state;
-      tempState.results = result;
+      tempState.results = response.results || [];
       this.setState(tempState);
     });
   }
@@ -228,6 +228,7 @@ class SongsTab extends React.Component {
 
 SongsTab.propTypes = {
   filterOptions: PropTypes.object, // {field: [{ key: "slug", label: "Slug" }]}
+  api: PropTypes.object,
 };
 
 export default SongsTab;

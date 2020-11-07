@@ -18,10 +18,13 @@ import HelpIcon from "@material-ui/icons/Help";
 import InvertColorsIcon from "@material-ui/icons/InvertColors";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import SortIcon from "@material-ui/icons/Sort";
+import LinkIcon from "@material-ui/icons/Link";
+import LinkOffIcon from "@material-ui/icons/LinkOff";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 
 import ColorSelector from "./ColorSelector";
 import LabeledSetting from "./LabeledSetting";
+import TokenGetter from "./TokenGetter";
 
 import { setDarkMode, setThemeColor } from "../actions/shell";
 
@@ -74,6 +77,19 @@ class SettingsTab extends React.Component {
                     Information
                   </Typography>
                 </Box>
+                <LabeledSetting
+                  label="Connect"
+                  description="Connect to API..."
+                  icon={
+                    this.props.apiToken ? (
+                      <LinkIcon style={{ height: "42px", width: "42px" }} />
+                    ) : (
+                      <LinkOffIcon style={{ height: "42px", width: "42px" }} />
+                    )
+                  }
+                >
+                  <TokenGetter />
+                </LabeledSetting>
                 <LabeledSetting
                   label="GitHub"
                   description="Link to GitHub..."
@@ -233,6 +249,7 @@ const mapStateToProps = (state) => {
   return {
     darkMode: state.shell.darkMode,
     themeColor: state.shell.themeColor,
+    apiToken: state.api.token,
   };
 };
 
