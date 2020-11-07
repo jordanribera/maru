@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Measure from "react-measure";
 
 import Box from "@material-ui/core/Box";
@@ -28,9 +29,15 @@ class AlbumsTab extends React.Component {
   }
 
   componentDidMount() {
-    getAlbums([], (result) => {
+    /* TODO: need to use filters, update results on filter change */
+    /* TODO: need to load more pages when we scroll down */
+    if (this.props.api) this.updateResults();
+  }
+
+  updateResults() {
+    this.props.api.getAlbums(this.state.filters).then((response) => {
       let tempState = this.state;
-      tempState.results = result;
+      tempState.results = response.results || [];
       this.setState(tempState);
     });
   }
@@ -65,5 +72,9 @@ class AlbumsTab extends React.Component {
     );
   }
 }
+
+AlbumsTab.propTypes = {
+  api: PropTypes.object,
+};
 
 export default AlbumsTab;

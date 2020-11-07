@@ -1,6 +1,8 @@
 from django.db.models import Prefetch
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import authentication
+from rest_framework import permissions
 
 from library.serializers import MediaFileSerializer
 from library.models import MediaFile
@@ -17,16 +19,25 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 
 class MediaFileView(ReadOnlyModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = MediaFileSerializer
     queryset = MediaFile.objects.all()
 
 
 class ArtistView(ReadOnlyModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 
 
 class AlbumView(ReadOnlyModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = AlbumSerializer
 
     def get_queryset(self):
@@ -40,6 +51,9 @@ class AlbumView(ReadOnlyModelViewSet):
 
 
 class TrackView(ReadOnlyModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = TrackSerializer
 
     def get_queryset(self):
@@ -57,6 +71,9 @@ class TrackView(ReadOnlyModelViewSet):
 
 
 class PlaylistView(ReadOnlyModelViewSet):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     serializer_class = PlaylistSerializer
 
     def get_queryset(self):
@@ -70,6 +87,9 @@ class PlaylistView(ReadOnlyModelViewSet):
 
 
 class InfoView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, format=None):
         artists = Artist.objects.all()
         albums = Album.objects.all()

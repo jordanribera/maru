@@ -8,8 +8,8 @@ import { activeTheme, colorMap } from "../client/theme";
 
 const styles = {
   root: {
+    height: "256px",
     width: "256px",
-    paddingBottom: "100%",
     position: "relative",
   },
   wrapper: {

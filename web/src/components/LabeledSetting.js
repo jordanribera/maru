@@ -32,7 +32,9 @@ const styles = {
     width: "48px",
     marginRight: "8px",
   },
-  content: {},
+  content: {
+    width: "100%",
+  },
 };
 
 class LabeledSetting extends React.Component {

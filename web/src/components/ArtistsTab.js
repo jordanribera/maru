@@ -20,9 +20,15 @@ class ArtistsTab extends React.Component {
   }
 
   componentDidMount() {
-    getArtists([], (result) => {
+    /* TODO: need to use filters, update results on filter change */
+    /* TODO: need to load more pages when we scroll down */
+    if (this.props.api) this.updateResults();
+  }
+
+  updateResults() {
+    this.props.api.getArtists(this.state.filters).then((response) => {
       let tempState = this.state;
-      tempState.results = result;
+      tempState.results = response.results || [];
       this.setState(tempState);
     });
   }
