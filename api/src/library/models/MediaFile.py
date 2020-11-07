@@ -88,7 +88,7 @@ class MediaFile(BaseModel):
     @property
     def tracknumber(self):
         value = self.waterfall(['tracknumber', 'TRCK', 'trkn'])
-        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+        if value and ', ' in value:  # itunes m4a format is ['(1, 7)']
             return value.replace('(', '').replace(')', '').split(', ')[0]
         if value and '/' in value:
             return value.split('/')[0]
@@ -97,7 +97,7 @@ class MediaFile(BaseModel):
     @property
     def tracktotal(self):
         value = self.waterfall(['tracktotal', 'TRCK', 'tracknumber', 'trkn'])
-        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+        if value and ', ' in value:  # itunes m4a format is ['(1, 7)']
             return value.replace('(', '').replace(')', '').split(', ')[1]
         if value and '/' in value:
             return value.split('/')[1]
@@ -106,7 +106,7 @@ class MediaFile(BaseModel):
     @property
     def discnumber(self):
         value = self.waterfall(['discnumber', 'TPOS', 'disk'])
-        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+        if value and ', ' in value:  # itunes m4a format is ['(1, 7)']
             return value.replace('(', '').replace(')', '').split(', ')[0]
         if value and '/' in value:
             return value.split('/')[0]
@@ -115,7 +115,7 @@ class MediaFile(BaseModel):
     @property
     def disctotal(self):
         value = self.waterfall(['disctotal', 'TPOS', 'discnumber'])
-        if value and ', ' in value:  # itunes m4a format is [(1, 7)]
+        if value and ', ' in value:  # itunes m4a format is ['(1, 7)']
             return value.replace('(', '').replace(')', '').split(', ')[1]
         if value and '/' in value:
             return value.split('/')[1]
