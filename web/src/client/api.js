@@ -47,6 +47,9 @@ export const getInfo = (callback) => {
 };
 
 const ENDPOINTS = {
+  util: {
+    auth: template`${"root"}/auth/`,
+  },
   library: {
     artists: template`${"root"}/library/artists/${"filters"}`,
     albums: template`${"root"}/library/artists/${"filters"}`,
@@ -58,6 +61,34 @@ export class API {
   constructor({ host, token }) {
     this.host = host;
     this.token = token;
+  }
+
+  authHeader() {
+    if (this.token) {
+      return { 'Authorization': 'Token {}'.format(this.token) }
+    }
+    return {}
+  }
+
+  async postData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        ...{ 'Content-Type': 'application/json' },
+        ...this.authHeader(),
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+
+  getToken(username, password) {
+    this.postData()
   }
 
   getSongs(filters, callback) {
