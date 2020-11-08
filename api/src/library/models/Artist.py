@@ -5,7 +5,7 @@ from core.models import BaseModel
 
 class Artist(BaseModel):
     name = models.CharField(max_length=128)
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', unique=True)
 
     class Meta:
         ordering = ('name',)

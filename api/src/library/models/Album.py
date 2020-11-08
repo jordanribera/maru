@@ -8,7 +8,7 @@ class Album(BaseModel):
     name = models.CharField(max_length=128)
     slug = AutoSlugField(
         populate_from='name',
-        unique_with='artist',
+        unique=True,
     )
     artist = models.ForeignKey(
         Artist,

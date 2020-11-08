@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -25,6 +26,8 @@ class SongsTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
+      count: 0,
       results: [],
       selected: [],
       filters: [],
@@ -34,15 +37,28 @@ class SongsTab extends React.Component {
   componentDidMount() {
     /* TODO: need to use filters, update results on filter change */
     /* TODO: need to load more pages when we scroll down */
-    this.updateResults();
+    this.fetchMore();
   }
 
-  updateResults() {
-    this.props.api.getSongs(this.state.filters).then((response) => {
+  fetchMore() {
+    if (!this.state.loading) {
       let tempState = this.state;
-      tempState.results = response.results || [];
+      tempState.loading = true;
       this.setState(tempState);
-    });
+
+      this.props.api
+        .getSongs([
+          ...this.state.filters,
+          ...[`offset:${this.state.results.length}`],
+        ])
+        .then((response) => {
+          let tempState = this.state;
+          tempState.count = response.count || 0;
+          tempState.results = [...tempState.results, ...response.results];
+          tempState.loading = false;
+          this.setState(tempState);
+        });
+    }
   }
 
   handleMassSelect(event) {
@@ -74,8 +90,10 @@ class SongsTab extends React.Component {
     let tempState = this.state;
     tempState.filters = tempState.filters.filter((f) => f !== filter);
     if (selected) tempState.filters.push(filter);
+    tempState.results = [];
+    tempState.count = 0;
     this.setState(tempState);
-    this.updateResults();
+    this.fetchMore();
     console.log(this.state.filters);
   }
 
@@ -103,7 +121,11 @@ class SongsTab extends React.Component {
   handleScroll(e) {
     const t = e.currentTarget;
     if (t.scrollHeight - t.scrollTop < 1.25 * t.clientHeight) {
-      console.log("less than 2x left, load some.");
+      if (this.state.results.length < this.state.count) {
+        console.log("less than 2x left, and items remain. load some.");
+        console.log(`${this.state.results.length} / ${this.state.count}`);
+        this.fetchMore();
+      }
     }
   }
 
@@ -137,6 +159,11 @@ class SongsTab extends React.Component {
         paddingRight: "12px",
         fontWeight: "bold",
         backgroundColor: activeTheme().palette.background.paper,
+      },
+      loadingWrapper: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       },
       headerText: {
         fontWeight: "bold",
@@ -218,6 +245,15 @@ class SongsTab extends React.Component {
                   />
                 );
               })}
+              {this.state.loading && (
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Box style={styles.loadingWrapper}>
+                      <CircularProgress />
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

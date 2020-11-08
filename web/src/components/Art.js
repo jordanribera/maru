@@ -86,7 +86,6 @@ class Art extends React.Component {
 Art.propTypes = {
   url: PropTypes.string,
   fit: PropTypes.oneOf(["height", "width"]),
-  size: PropTypes.number,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
