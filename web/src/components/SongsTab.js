@@ -120,10 +120,9 @@ class SongsTab extends React.Component {
 
   handleScroll(e) {
     const t = e.currentTarget;
-    if (t.scrollHeight - t.scrollTop < 1.25 * t.clientHeight) {
+    if (t.scrollHeight - t.scrollTop < t.scrollHeight / 2) {
       if (this.state.results.length < this.state.count) {
-        console.log("less than 2x left, and items remain. load some.");
-        console.log(`${this.state.results.length} / ${this.state.count}`);
+        console.log(`${this.state.results.length} / ${this.state.count} load`);
         this.fetchMore();
       }
     }

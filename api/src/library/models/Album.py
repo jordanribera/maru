@@ -28,3 +28,6 @@ class Album(BaseModel):
         prime = self.artwork.filter(rel='folder_cover').first()
         if prime:
             return prime.artwork
+        extracted = self.artwork.filter(rel='extracted').first()
+        if extracted:
+            return extracted.artwork

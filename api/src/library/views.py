@@ -1,8 +1,9 @@
 from django.db.models import Prefetch
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import authentication
 from rest_framework import permissions
+from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from library.serializers import MediaFileSerializer
 from library.models import MediaFile
@@ -34,11 +35,16 @@ class ArtistView(ReadOnlyModelViewSet):
     queryset = Artist.objects.all()
 
 
+class AlbumPagination(LimitOffsetPagination):
+    page_size = 24
+
+
 class AlbumView(ReadOnlyModelViewSet):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     serializer_class = AlbumSerializer
+    pagination_class = AlbumPagination
 
     def get_queryset(self):
         queryset = Album.objects.all()
