@@ -27,14 +27,17 @@ class MediaFile(BaseModel):
         self._tags = {}
 
     @property
+    def mfile(self):
+        return mutagen.File(self.path)
+
+    @property
     def tags(self):
-        mfile = mutagen.File(self.path)
         if not self._tags:
             self._tags = dict()
-            if mfile.tags:
+            if self.mfile.tags:
                 self._tags = {
                     key: value
-                    for (key, value,) in mfile.tags.items()
+                    for (key, value,) in self.mfile.tags.items()
                 }
         return self._tags
 
@@ -127,12 +130,11 @@ class MediaFile(BaseModel):
 
     @property
     def artwork(self):
-        mfile = mutagen.File(self.path)
         picture = None
-        if hasattr(mfile, 'pictures') and len(mfile.pictures) > 0:
-            picture = mfile.pictures[0]
+        if hasattr(self.mfile, 'pictures') and len(self.mfile.pictures) > 0:
+            picture = self.mfile.pictures[0]
         else:
-            picture = mfile.get('APIC') or mfile.get('APIC:')
+            picture = self.mfile.get('APIC') or self.mfile.get('APIC:')
 
         if not picture:
             return None

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.functions import Lower
 from core.models import BaseModel
 from library.models import Artist
 from library.models import Album
@@ -27,9 +28,9 @@ class Track(BaseModel):
 
     class Meta:
         ordering = (
-            'artist__name',
+            Lower('artist__name'),
             'album__year',
-            'album__name',
+            Lower('album__name'),
             'discnumber',
             'tracknumber',
         )

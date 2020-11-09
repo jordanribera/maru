@@ -56,7 +56,8 @@ class Art extends React.Component {
     const url = this.props.url || "";
     const artStyle = {
       backgroundImage: `url(${url})`,
-      backgroundSize: "100%",
+      backgroundSize: "cover, cover",
+      backgroundPosition: "center",
     };
 
     return (

@@ -184,7 +184,7 @@ class Command(BaseCommand):
                     link, new_link = AlbumArtwork.objects.get_or_create(
                         album=song.album,
                         artwork=art,
-                        rel=relationship,
+                        defaults={'rel': relationship},
                     )
                     if new_link:
                         self.stdout.write('  {} link: {} {}'.format(
