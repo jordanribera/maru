@@ -1,5 +1,6 @@
 import os.path
 from django.db import models
+from mutagen.id3 import PictureType
 
 from core.models import BaseModel
 
@@ -9,6 +10,30 @@ ARTWORK_RELATIONSHIPS = [
     ('folder_misc', 'Misc in folder'),
     ('embedded', 'Embedded'),
     ('unknown', 'Unknown'),
+]
+
+ARTWORK_TYPES = [
+    (PictureType.OTHER, 'Other'),
+    (PictureType.FILE_ICON, 'File Icon'),  # I wonder if I'll ever see one
+    (PictureType.OTHER_FILE_ICON, 'Other File Icon'),
+    (PictureType.COVER_FRONT, 'Front Cover'),
+    (PictureType.COVER_BACK, 'Back Cover'),
+    (PictureType.LEAFLET_PAGE, 'Leaflet Page'),
+    (PictureType.MEDIA, 'Media'),
+    (PictureType.LEAD_ARTIST, 'Lead Artist'),
+    (PictureType.ARTIST, 'Artist'),
+    (PictureType.CONDUCTOR, 'Conductor'),
+    (PictureType.BAND, 'Band'),
+    (PictureType.COMPOSER, 'Composer'),
+    (PictureType.LYRICIST, 'Lyricist'),
+    (PictureType.RECORDING_LOCATION, 'Recording Location'),
+    (PictureType.DURING_RECORDING, 'During Recording'),
+    (PictureType.DURING_PERFORMANCE, 'During Performance'),
+    (PictureType.SCREEN_CAPTURE, 'Screen Capture'),
+    (PictureType.FISH, 'Fish'),  # what??
+    (PictureType.ILLUSTRATION, 'Illustration'),
+    (PictureType.BAND_LOGOTYPE, 'Band Logo'),
+    (PictureType.PUBLISHER_LOGOTYPE, 'Publisher Logo'),
 ]
 
 

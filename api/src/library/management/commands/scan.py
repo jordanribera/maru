@@ -10,7 +10,7 @@ from django.core.management.base import BaseCommand
 from library.models import Artist
 from library.models import Artwork
 from library.models import AlbumArtwork
-from library.models import SongArtwork
+# from library.models import SongArtwork
 from library.models import Album
 from library.models import Track
 from library.models import MediaFile
@@ -27,7 +27,7 @@ MEDIA_FILE = re.compile(
 )
 
 ART = {
-    'names': ['cover', 'artwork', 'album', 'folder'],
+    'names': ['cover', 'artwork', 'album', 'front', 'folder'],
     'extensions': ['jpg', 'jpeg', 'png'],
 }
 COVER_FILE = re.compile(
@@ -184,7 +184,7 @@ class Command(BaseCommand):
                     link, new_link = AlbumArtwork.objects.get_or_create(
                         album=song.album,
                         artwork=art,
-                        rel=relationship,
+                        defaults={'rel': relationship},
                     )
                     if new_link:
                         self.stdout.write('  {} link: {} {}'.format(
@@ -201,10 +201,10 @@ class Command(BaseCommand):
                     'jpg',
                 )
             )
-            link, new_link = SongArtwork.objects.get_or_create(
-                song=song,
+            link, new_link = AlbumArtwork.objects.get_or_create(
+                album=song.album,
                 artwork=extracted,
-                rel='extracted',
+                defaults={'rel': 'extracted'},
             )
             if new_link:
                 self.stdout.write('  {} link: {} {}'.format(
