@@ -14,10 +14,10 @@ tested against a small set of files. If you encounter problems please
 
 ## Enticing Images
 **Album View**
-![Album View](http://spiralpower.net/files/maru/maru_album.png)
+![Album View](http://old.spiralpower.net/files/maru/maru_album.png)
 
 **Library View**
-![Library View](http://spiralpower.net/files/maru/maru_library.png)
+![Library View](http://old.spiralpower.net/files/maru/maru_library.png)
 
 
 ## Setup
